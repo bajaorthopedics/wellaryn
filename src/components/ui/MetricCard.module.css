@@ -1,0 +1,70 @@
+.card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  transition: all var(--duration-normal) var(--ease-out);
+}
+
+.card:hover {
+  border-color: var(--border-default);
+  transform: translateY(-1px);
+}
+
+.label {
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-secondary);
+}
+
+.valueRow {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-sm);
+}
+
+.value {
+  font-size: var(--font-size-3xl);
+  font-weight: 800;
+  color: var(--text-primary);
+  line-height: 1;
+}
+
+.unit {
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.trendRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.trendArrow {
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+}
+
+.trendUp {
+  color: var(--color-green);
+}
+
+.trendDown {
+  color: var(--color-red);
+}
+
+.trendFlat {
+  color: var(--text-muted);
+}
+
+.change {
+  font-size: var(--font-size-xs);
+  font-weight: 500;
+}

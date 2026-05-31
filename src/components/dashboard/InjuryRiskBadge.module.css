@@ -1,0 +1,100 @@
+.badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-xl);
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  transition: all var(--duration-normal) var(--ease-out);
+}
+
+.badge:hover {
+  border-color: var(--border-accent);
+  transform: translateY(-2px);
+}
+
+.header {
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-secondary);
+}
+
+.percentWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.percent {
+  font-size: var(--font-size-4xl);
+  font-weight: 800;
+  line-height: 1;
+  transition: color var(--duration-normal) var(--ease-out);
+}
+
+.percentSymbol {
+  font-size: var(--font-size-xl);
+  font-weight: 600;
+  opacity: 0.7;
+}
+
+.label {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  padding: 4px 14px;
+  border-radius: var(--radius-full);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Color variants */
+.optimal .percent { color: var(--color-green); }
+.optimal .label {
+  color: var(--color-green);
+  background: hsla(152, 68%, 52%, 0.12);
+}
+
+.moderate .percent { color: var(--color-yellow); }
+.moderate .label {
+  color: var(--color-yellow);
+  background: hsla(45, 93%, 58%, 0.12);
+}
+
+.high .percent { color: var(--color-red); }
+.high .label {
+  color: var(--color-red);
+  background: hsla(0, 72%, 56%, 0.12);
+}
+
+.detraining .percent { color: var(--color-yellow); }
+.detraining .label {
+  color: var(--color-yellow);
+  background: hsla(45, 93%, 58%, 0.12);
+}
+
+/* Pulsing glow for high risk */
+.high .percentWrapper {
+  animation: pulseRed 2s ease-in-out infinite;
+}
+
+@keyframes pulseRed {
+  0%, 100% {
+    filter: drop-shadow(0 0 0px transparent);
+  }
+  50% {
+    filter: drop-shadow(0 0 20px var(--color-red-glow));
+  }
+}
+
+.acwr {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  margin-top: calc(-1 * var(--space-xs));
+}

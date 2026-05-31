@@ -1,0 +1,107 @@
+.container {
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  transition: all var(--duration-normal) var(--ease-out);
+}
+
+.container:hover {
+  border-color: var(--border-accent);
+}
+
+.title {
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-secondary);
+  margin-bottom: var(--space-md);
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-md);
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-md);
+  border-left: 3px solid transparent;
+  background: var(--bg-surface);
+  transition: all var(--duration-fast) var(--ease-out);
+}
+
+.item:hover {
+  background: var(--bg-elevated);
+  transform: translateX(2px);
+}
+
+.icon {
+  font-size: var(--font-size-lg);
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.text {
+  font-size: var(--font-size-sm);
+  color: var(--text-primary);
+  line-height: 1.5;
+  flex: 1;
+}
+
+.priorityDot {
+  width: 6px;
+  height: 6px;
+  border-radius: var(--radius-full);
+  flex-shrink: 0;
+  margin-top: 7px;
+}
+
+/* Priority colors */
+.critical {
+  border-left-color: var(--color-red);
+}
+
+.critical .priorityDot {
+  background: var(--color-red);
+  box-shadow: 0 0 6px var(--color-red-glow);
+}
+
+.high {
+  border-left-color: hsl(25, 95%, 55%);
+}
+
+.high .priorityDot {
+  background: hsl(25, 95%, 55%);
+  box-shadow: 0 0 6px hsla(25, 95%, 55%, 0.4);
+}
+
+.medium {
+  border-left-color: var(--color-yellow);
+}
+
+.medium .priorityDot {
+  background: var(--color-yellow);
+}
+
+.low {
+  border-left-color: var(--color-green);
+}
+
+.low .priorityDot {
+  background: var(--color-green);
+}
+
+.empty {
+  color: var(--text-muted);
+  font-size: var(--font-size-sm);
+  text-align: center;
+  padding: var(--space-xl);
+}
