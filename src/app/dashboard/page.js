@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { t } from '@/lib/i18n';
 import { generateMockUser } from '@/lib/mock-data';
-import { calculateReadiness, calculateInjuryRisk, generateRecommendations } from '@/lib/readiness';
+import { calculateReadiness, calculateInjuryRisk } from '@/lib/readiness';
 import ReadinessGauge from '@/components/dashboard/ReadinessGauge';
 import InjuryRiskBadge from '@/components/dashboard/InjuryRiskBadge';
 import RecommendationList from '@/components/dashboard/RecommendationList';
@@ -36,42 +36,41 @@ export default function DashboardPage() {
 
   useEffect(() => {
     const mockUser = generateMockUser();
-    const { today, hrvHistory, rhrHistory, sleepHistory, trainingHistory, user } = mockUser;
+    const { user, today, hrvHistory, rhrHistory, sleepHistory, loadHistory,
+            hrvChartData, sleepChartData, trainingChartData } = mockUser;
 
-    const readiness = calculateReadiness(
-      {
-        rmssd: today.hrv.rmssd,
-        rhr: today.rhr.rhr,
-        sleepHours: today.sleep.total,
-        sleepNeed: user.settings.sleepNeed,
-        stress: today.stress,
-        mood: today.mood,
-      },
-      {
-        rmssdHistory: hrvHistory.map((h) => h.rmssd),
-        rhrHistory: rhrHistory.map((h) => h.rhr),
-        sleepHistory: sleepHistory.map((h) => h.total),
-      }
-    );
-
-    const injuryRisk = calculateInjuryRisk(
-      trainingHistory.map((t) => t.load)
-    );
-
-    const recommendations = generateRecommendations(readiness, injuryRisk, {
+    // Build inputs matching the new readiness API shapes
+    const todayInput = {
+      rmssd: today.hrv.rmssd,
+      rhr: today.rhr.rhr,
       sleepHours: today.sleep.total,
       sleepNeed: user.settings.sleepNeed,
       stress: today.stress,
-    });
+      mood: today.mood,
+    };
 
-    const yesterdayRHR = rhrHistory.length >= 2 ? rhrHistory[rhrHistory.length - 2].rhr : today.rhr.rhr;
+    const historyInput = {
+      rmssdHistory: hrvHistory,
+      rhrHistory: rhrHistory,
+      sleepHistory: sleepHistory,
+      loadHistory: loadHistory,
+    };
+
+    const readiness = calculateReadiness(todayInput, historyInput);
+    const injuryRisk = calculateInjuryRisk(loadHistory);
+
+    // RHR change vs yesterday (use chart data which has the objects)
+    const rhrChartArr = mockUser.rhrChartData || [];
+    const yesterdayRHR = rhrChartArr.length >= 2
+      ? rhrChartArr[rhrChartArr.length - 2].rhr
+      : today.rhr.rhr;
     const rhrChange = yesterdayRHR > 0
       ? Math.round(((today.rhr.rhr - yesterdayRHR) / yesterdayRHR) * 100)
       : 0;
 
     setData({
-      user, today, readiness, injuryRisk, recommendations,
-      hrvHistory, sleepHistory, trainingHistory, rhrChange,
+      user, today, readiness, injuryRisk,
+      hrvChartData, sleepChartData, trainingChartData, rhrChange,
     });
   }, []);
 
@@ -84,7 +83,8 @@ export default function DashboardPage() {
     );
   }
 
-  const { user, today, readiness, injuryRisk, recommendations, hrvHistory, sleepHistory, trainingHistory, rhrChange } = data;
+  const { user, today, readiness, injuryRisk,
+          hrvChartData, sleepChartData, trainingChartData, rhrChange } = data;
 
   return (
     <div className={styles.page} id="dashboard-overview">
@@ -95,6 +95,18 @@ export default function DashboardPage() {
         </h1>
         <p className={styles.date}>{formatDate(lang)}</p>
       </header>
+
+      {/* Confidence badge — only shown when not 'complete' */}
+      {readiness.confidence !== 'complete' && (
+        <div className={styles.confidenceBadge} id="confidence-badge">
+          <span className={styles.confidenceIcon}>⚠️</span>
+          <span className={styles.confidenceText}>
+            {readiness.confidence === 'calibrating'
+              ? t('dashboard.confidence.calibrating', lang)
+              : t('dashboard.confidence.low', lang)}
+          </span>
+        </div>
+      )}
 
       {/* Bento Grid */}
       <div className={styles.grid}>
@@ -109,28 +121,28 @@ export default function DashboardPage() {
 
         <InjuryRiskBadge
           risk={injuryRisk.risk}
-          riskPercent={injuryRisk.riskPercent}
-          label={injuryRisk.label[lang] || injuryRisk.label.en}
+          label={injuryRisk.label}
+          factor={injuryRisk.factor}
           acwr={injuryRisk.acwr}
         />
 
         <RecommendationList
-          recommendations={recommendations}
+          recommendations={readiness.recommendations}
           lang={lang}
         />
 
         {/* Row 2: Charts */}
         <div className={styles.span2}>
-          <HRVChart data={hrvHistory} />
+          <HRVChart data={hrvChartData} />
         </div>
 
         <div className={styles.span2}>
-          <SleepChart data={sleepHistory} />
+          <SleepChart data={sleepChartData} />
         </div>
 
         {/* Row 3: Training Load + Quick Stats */}
         <div className={styles.span2}>
-          <TrainingLoadChart data={trainingHistory} />
+          <TrainingLoadChart data={trainingChartData} />
         </div>
 
         <div className={styles.span2}>
@@ -169,3 +181,4 @@ export default function DashboardPage() {
     </div>
   );
 }
+

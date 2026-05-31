@@ -94,7 +94,8 @@ const translations = {
     dailyReadiness: { en: 'Daily Readiness', es: 'Preparación Diaria' },
     live: { en: 'Live', es: 'En Vivo' },
     moderateRisk: { en: '⚠️ Moderate Risk', es: '⚠️ Riesgo Moderado' },
-    injuryRisk: { en: '🔴 Injury Risk: 72%', es: '🔴 Riesgo de Lesión: 72%' },
+    riskLabel: { en: '⚠️ Elevated Overload Risk', es: '⚠️ Riesgo Elevado de Sobrecarga' },
+    riskFactor: { en: 'Training load is 25% above your average', es: 'Tu carga está 25% sobre tu promedio' },
     recommendations: { en: 'Recommendations', es: 'Recomendaciones' },
     recs: {
       en: [
@@ -167,8 +168,8 @@ const translations = {
         },
         {
           icon: '🩺', title: 'Doctor',
-          desc: 'Access clinical-grade biomarker data, return-to-play protocols, and rehabilitation tracking in real time.',
-          features: ['Clinical biomarker trends', 'Return-to-play protocols', 'Rehabilitation progress', 'Risk factor analysis'],
+          desc: 'Access biomarker trends and return-to-play insights for clinical review — informational support that the physician interprets.',
+          features: ['Biomarker trend reports', 'Return-to-play insights for clinical review', 'Rehabilitation progress tracking', 'Risk factor analysis to support clinical judgment'],
         },
       ],
       es: [
@@ -184,8 +185,8 @@ const translations = {
         },
         {
           icon: '🩺', title: 'Médico',
-          desc: 'Accede a datos de biomarcadores de grado clínico, protocolos de regreso al deporte y seguimiento de rehabilitación en tiempo real.',
-          features: ['Tendencias de biomarcadores', 'Protocolos de regreso al deporte', 'Progreso de rehabilitación', 'Análisis de factores de riesgo'],
+          desc: 'Accede a tendencias de biomarcadores e información de regreso al deporte para revisión clínica — soporte informativo que el médico interpreta.',
+          features: ['Informes de tendencias de biomarcadores', 'Información de regreso al deporte para revisión clínica', 'Seguimiento del progreso de rehabilitación', 'Análisis de factores de riesgo como apoyo al juicio clínico'],
         },
       ],
     },
@@ -195,14 +196,14 @@ const translations = {
   stats: {
     items: {
       en: [
-        { number: '72%', desc: 'of sports injuries are preventable with proper monitoring and load management' },
-        { number: '3.5M', desc: 'injuries per year in amateur athletes — most of them avoidable' },
-        { number: '< 15%', desc: 'of athletes use data-driven prevention tools — the rest rely on gut feeling' },
+        { number: '1.7×', desc: 'higher injury risk with <8h sleep', source: 'Milewski 2014, J Pediatr Orthop' },
+        { number: '2-4×', desc: 'injury risk from training load spikes', source: 'Gabbett 2016, Br J Sports Med' },
+        { number: '< 15%', desc: 'of athletes use data-driven prevention tools — the rest rely on gut feeling', source: '' },
       ],
       es: [
-        { number: '72%', desc: 'de las lesiones deportivas son prevenibles con monitoreo y manejo de carga adecuados' },
-        { number: '3.5M', desc: 'de lesiones por año en atletas amateur — la mayoría evitables' },
-        { number: '< 15%', desc: 'de los atletas usan herramientas de prevención basadas en datos — el resto confía en la intuición' },
+        { number: '1.7×', desc: 'mayor riesgo de lesión con <8h de sueño', source: 'Milewski 2014, J Pediatr Orthop' },
+        { number: '2-4×', desc: 'riesgo de lesión por picos de carga', source: 'Gabbett 2016, Br J Sports Med' },
+        { number: '< 15%', desc: 'de los atletas usan herramientas de prevención basadas en datos — el resto confía en la intuición', source: '' },
       ],
     },
   },
@@ -234,6 +235,10 @@ const translations = {
     privacy: { en: 'Privacy', es: 'Privacidad' },
     terms: { en: 'Terms', es: 'Términos' },
     contact: { en: 'Contact', es: 'Contacto' },
+    disclaimer: {
+      en: 'Wellaryn is a wellness and performance tool. It does not diagnose, treat, or prevent diseases. It does not replace professional medical advice.',
+      es: 'Wellaryn es una herramienta de bienestar y rendimiento. No diagnostica, trata ni previene enfermedades. No sustituye el consejo médico profesional.',
+    },
   },
 
   // ===================== DASHBOARD =====================
@@ -277,6 +282,24 @@ const translations = {
     },
     chronicAvg: { en: 'Chronic Avg', es: 'Promedio Crónico' },
     loading: { en: 'Loading...', es: 'Cargando...' },
+    confidence: {
+      calibrating: { en: 'Calibrating — limited precision', es: 'Calibrando — precisión limitada' },
+      low: { en: 'Low confidence — missing data', es: 'Baja confianza — faltan datos' },
+    },
+    risk: {
+      factor_prefix: { en: 'Why:', es: 'Por qué:' },
+      acwr_label: { en: 'ACWR', es: 'ACWR' },
+    },
+    disclaimer: {
+      en: 'Wellaryn provides wellness and fitness insights, not medical advice. Consult a healthcare professional before making changes to your training program.',
+      es: 'Wellaryn ofrece información de bienestar y rendimiento, no consejo médico. Consulta a un profesional de salud antes de modificar tu programa de entrenamiento.',
+    },
+    bands: {
+      ready: { en: 'Ready', es: 'Listo' },
+      moderate: { en: 'Moderate', es: 'Moderado' },
+      low: { en: 'Low', es: 'Bajo' },
+      risk: { en: 'Rest', es: 'Descanso' },
+    },
   },
 
   // ===================== LANGUAGE TOGGLE =====================

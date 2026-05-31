@@ -735,12 +735,18 @@
   align-items: center;
   gap: var(--space-sm);
   padding: 0.5rem 1.25rem;
-  background: hsla(0, 72%, 56%, 0.12);
-  border: 1px solid hsla(0, 72%, 56%, 0.25);
+  background: hsla(40, 90%, 55%, 0.12);
+  border: 1px solid hsla(40, 90%, 55%, 0.25);
   border-radius: var(--radius-full);
   font-size: var(--font-size-sm);
   font-weight: 600;
-  color: var(--color-red);
+  color: var(--color-yellow);
+}
+
+.riskFactor {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  margin-top: var(--space-xs);
 }
 
 .demoRecs {
@@ -930,6 +936,14 @@
   line-height: 1.5;
 }
 
+.statSource {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  margin-top: var(--space-xs);
+  font-style: italic;
+  opacity: 0.7;
+}
+
 /* --- Final CTA --- */
 .finalCta {
   padding: var(--space-4xl) 0;
@@ -1018,6 +1032,20 @@
 .footer {
   padding: var(--space-2xl) 0;
   border-top: 1px solid var(--border-subtle);
+}
+
+.footerDisclaimer {
+  text-align: center;
+  max-width: 640px;
+  margin: 0 auto var(--space-xl);
+  padding: 0 var(--space-xl);
+}
+
+.footerDisclaimer p {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  line-height: 1.6;
+  opacity: 0.7;
 }
 
 .footerInner {

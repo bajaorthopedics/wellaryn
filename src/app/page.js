@@ -319,7 +319,8 @@ export default function Home() {
               </div>
 
               <div className={styles.demoRiskBadge}>
-                <div className={styles.riskBadgeInner}>{demo.injuryRisk}</div>
+                <div className={styles.riskBadgeInner}>{demo.riskLabel}</div>
+                <div className={styles.riskFactor}>{demo.riskFactor}</div>
               </div>
 
               <div className={styles.demoRecs}>
@@ -396,6 +397,9 @@ export default function Home() {
                     {stat.number}
                   </div>
                   <p className={styles.statDesc}>{stat.desc}</p>
+                  {stat.source && (
+                    <p className={styles.statSource}>{stat.source}</p>
+                  )}
                 </div>
               ))}
             </div>
@@ -442,6 +446,9 @@ export default function Home() {
 
       {/* ===================== FOOTER ===================== */}
       <footer className={styles.footer}>
+        <div className={styles.footerDisclaimer}>
+          <p>{footer.disclaimer}</p>
+        </div>
         <div className={styles.footerInner}>
           <div className={styles.footerLeft}>
             <span className={styles.footerLogo}>

@@ -1,0 +1,22 @@
+.disclaimer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  padding: var(--space-lg) var(--space-xl);
+  margin-top: var(--space-2xl);
+  text-align: center;
+}
+
+.icon {
+  font-size: var(--font-size-sm);
+  flex-shrink: 0;
+  opacity: 0.6;
+}
+
+.text {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  line-height: 1.5;
+  max-width: 600px;
+}

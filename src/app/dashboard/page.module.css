@@ -20,6 +20,28 @@
   margin-top: var(--space-xs);
 }
 
+.confidenceBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: var(--space-xs) var(--space-md);
+  margin-bottom: var(--space-lg);
+  background: hsla(45, 93%, 58%, 0.08);
+  border: 1px solid hsla(45, 93%, 58%, 0.2);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-xs);
+}
+
+.confidenceIcon {
+  font-size: var(--font-size-sm);
+}
+
+.confidenceText {
+  color: var(--color-yellow);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
 /* Bento Grid */
 .grid {
   display: grid;

@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test": "node --experimental-vm-modules node_modules/.bin/jest --no-cache"
   },
   "dependencies": {
     "next": "16.2.6",
@@ -15,7 +16,12 @@
     "recharts": "^3.8.1"
   },
   "devDependencies": {
+    "@babel/core": "^7.29.7",
+    "@babel/preset-env": "^7.29.7",
+    "@jest/globals": "^30.4.1",
+    "babel-jest": "^30.4.1",
     "eslint": "^9",
-    "eslint-config-next": "16.2.6"
+    "eslint-config-next": "16.2.6",
+    "jest": "^30.4.2"
   }
 }

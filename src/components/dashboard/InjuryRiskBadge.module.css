@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--space-md);
+  gap: var(--space-sm);
   padding: var(--space-xl);
   background: var(--glass-bg);
   backdrop-filter: blur(var(--glass-blur));
@@ -25,62 +25,85 @@
   color: var(--text-secondary);
 }
 
-.percentWrapper {
-  position: relative;
+.riskDisplay {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  gap: var(--space-xs);
+  padding: var(--space-sm) 0;
 }
 
-.percent {
-  font-size: var(--font-size-4xl);
-  font-weight: 800;
+.riskIcon {
+  font-size: var(--font-size-3xl);
   line-height: 1;
-  transition: color var(--duration-normal) var(--ease-out);
 }
 
-.percentSymbol {
-  font-size: var(--font-size-xl);
-  font-weight: 600;
-  opacity: 0.7;
-}
-
-.label {
+.riskLabel {
   font-size: var(--font-size-sm);
-  font-weight: 600;
+  font-weight: 700;
   padding: 4px 14px;
   border-radius: var(--radius-full);
   text-transform: uppercase;
   letter-spacing: 0.05em;
+  text-align: center;
+}
+
+.factorWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-md);
+  background: hsla(0, 0%, 100%, 0.03);
+  width: 100%;
+  text-align: center;
+}
+
+.factorPrefix {
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.factorText {
+  font-size: var(--font-size-xs);
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+.acwr {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  margin-top: var(--space-xs);
 }
 
 /* Color variants */
-.optimal .percent { color: var(--color-green); }
-.optimal .label {
+.optimal .riskIcon { filter: none; }
+.optimal .riskLabel {
   color: var(--color-green);
   background: hsla(152, 68%, 52%, 0.12);
 }
 
-.moderate .percent { color: var(--color-yellow); }
-.moderate .label {
+.moderate .riskLabel {
   color: var(--color-yellow);
   background: hsla(45, 93%, 58%, 0.12);
 }
 
-.high .percent { color: var(--color-red); }
-.high .label {
+.high .riskLabel {
   color: var(--color-red);
   background: hsla(0, 72%, 56%, 0.12);
 }
 
-.detraining .percent { color: var(--color-yellow); }
-.detraining .label {
-  color: var(--color-yellow);
-  background: hsla(45, 93%, 58%, 0.12);
+.detraining .riskLabel {
+  color: hsl(210, 70%, 60%);
+  background: hsla(210, 70%, 60%, 0.12);
 }
 
 /* Pulsing glow for high risk */
-.high .percentWrapper {
+.high .riskDisplay {
   animation: pulseRed 2s ease-in-out infinite;
 }
 
@@ -91,10 +114,4 @@
   50% {
     filter: drop-shadow(0 0 20px var(--color-red-glow));
   }
-}
-
-.acwr {
-  font-size: var(--font-size-xs);
-  color: var(--text-muted);
-  margin-top: calc(-1 * var(--space-xs));
 }
