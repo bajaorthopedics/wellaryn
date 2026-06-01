@@ -110,20 +110,29 @@ export default function RegisterPage() {
         return;
       }
 
-      // Create the account
-      const data = await signUp(email, password);
+      // Create the account (also creates profile row)
+      const data = await signUp(email, password, displayName.trim());
 
-      // If sign-up succeeded, update profile with display name and consent timestamps
+      // If sign-up succeeded, save consent timestamps
       if (data?.user) {
-        await updateProfile({
-          display_name: displayName.trim(),
-          terms_accepted_at: new Date().toISOString(),
-          privacy_accepted_at: new Date().toISOString(),
-          invitation_code: invitationCode.trim(),
-        });
+        try {
+          await updateProfile({
+            terms_accepted: true,
+            terms_accepted_at: new Date().toISOString(),
+            privacy_accepted: true,
+            privacy_accepted_at: new Date().toISOString(),
+            invitation_code: invitationCode.trim(),
+          });
+        } catch (profileErr) {
+          console.error('Profile update error (non-blocking):', profileErr);
+        }
 
         // Increment invitation code usage
-        await incrementInvitationUses(codeData.id, codeData.current_uses);
+        try {
+          await incrementInvitationUses(codeData.id, codeData.current_uses);
+        } catch (codeErr) {
+          console.error('Code increment error (non-blocking):', codeErr);
+        }
       }
 
       router.push('/onboarding');

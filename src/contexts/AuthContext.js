@@ -25,12 +25,12 @@ export function AuthProvider({ children }) {
       .from('profiles')
       .select('*')
       .eq('id', userId)
-      .single();
+      .maybeSingle(); // Use maybeSingle instead of single — returns null if not found, no error
 
-    if (error && error.code !== 'PGRST116') {
+    if (error) {
       console.error('Error fetching profile:', error);
     }
-    return data;
+    return data; // null if profile doesn't exist yet
   }
 
   // Listen to auth state changes
@@ -62,12 +62,37 @@ export function AuthProvider({ children }) {
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Sign up with email
-  async function signUp(email, password) {
+  async function signUp(email, password, displayName) {
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
+      options: {
+        data: { display_name: displayName }, // stored in raw_user_meta_data
+      },
     });
     if (error) throw error;
+
+    // After signup, create the profile row immediately
+    if (data?.user) {
+      const { error: profileError } = await supabase
+        .from('profiles')
+        .insert({
+          id: data.user.id,
+          email: email,
+          display_name: displayName || email.split('@')[0],
+        });
+
+      if (profileError) {
+        console.error('Profile creation error:', profileError);
+        // Don't throw — user is created, profile can be created later in onboarding
+      } else {
+        // Refresh profile in state
+        const p = await fetchProfile(data.user.id);
+        setProfile(p);
+      }
+      setUser(data.user);
+    }
+
     return data;
   }
 
@@ -101,7 +126,7 @@ export function AuthProvider({ children }) {
     setProfile(null);
   }
 
-  // Update user profile
+  // Update user profile (create if doesn't exist)
   async function updateProfile(updates) {
     if (!user) throw new Error('Not authenticated');
 
@@ -113,7 +138,7 @@ export function AuthProvider({ children }) {
         updated_at: new Date().toISOString(),
       })
       .select()
-      .single();
+      .maybeSingle();
 
     if (error) throw error;
     setProfile(data);

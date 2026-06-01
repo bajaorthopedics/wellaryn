@@ -16,7 +16,7 @@ export default function ProtectedRoute({ children }) {
       return;
     }
 
-    if (profile && !profile.onboarding_completed) {
+    if (!profile || !profile.onboarding_completed) {
       router.replace('/onboarding');
       return;
     }
