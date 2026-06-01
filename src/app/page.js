@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
+import Link from 'next/link';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { t, getSection } from '@/lib/i18n';
 import styles from './page.module.css';
@@ -459,9 +460,9 @@ export default function Home() {
             </span>
           </div>
           <ul className={styles.footerLinks}>
-            <li><a href="#" className={styles.footerLink}>{footer.privacy}</a></li>
-            <li><a href="#" className={styles.footerLink}>{footer.terms}</a></li>
-            <li><a href="#" className={styles.footerLink}>{footer.contact}</a></li>
+            <li><Link href="/legal/privacy" className={styles.footerLink}>{footer.privacy}</Link></li>
+            <li><Link href="/legal/terms" className={styles.footerLink}>{footer.terms}</Link></li>
+            <li><a href="mailto:hello@wellaryn.com" className={styles.footerLink}>{footer.contact}</a></li>
           </ul>
         </div>
       </footer>

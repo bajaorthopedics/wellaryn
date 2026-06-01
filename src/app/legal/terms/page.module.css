@@ -1,0 +1,83 @@
+/* Wellaryn — Legal Pages Styles */
+
+.legalPage {
+  min-height: 100vh;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  padding: 2rem 1.5rem 4rem;
+}
+
+.legalContainer {
+  max-width: 780px;
+  margin: 0 auto;
+}
+
+.backLink {
+  display: inline-block;
+  color: var(--accent);
+  text-decoration: none;
+  font-size: 0.9rem;
+  margin-bottom: 2rem;
+  transition: opacity 0.2s;
+}
+
+.backLink:hover {
+  opacity: 0.8;
+}
+
+.legalTitle {
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.02em;
+}
+
+.lastUpdated {
+  color: var(--text-muted, rgba(255, 255, 255, 0.45));
+  font-size: 0.85rem;
+  margin-bottom: 3rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.legalSection {
+  margin-bottom: 2.5rem;
+}
+
+.sectionTitle {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.8rem;
+  letter-spacing: -0.01em;
+}
+
+.sectionBody {
+  color: var(--text-secondary, rgba(255, 255, 255, 0.7));
+  font-size: 0.92rem;
+  line-height: 1.75;
+}
+
+.sectionBody p {
+  margin-bottom: 1rem;
+}
+
+.sectionBody strong {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .legalTitle {
+    font-size: 1.6rem;
+  }
+
+  .legalPage {
+    padding: 1.5rem 1rem 3rem;
+  }
+
+  .sectionBody {
+    font-size: 0.88rem;
+  }
+}
