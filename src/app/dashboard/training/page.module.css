@@ -139,6 +139,16 @@
   color: var(--text-primary);
 }
 
+.acwrScoreBadge {
+  margin-top: var(--space-xs);
+  font-size: var(--font-size-xs);
+  color: var(--text-secondary);
+  padding: var(--space-xs) var(--space-md);
+  background: var(--bg-elevated);
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border-subtle);
+}
+
 /* Summary card */
 .summaryCard {
   background: var(--glass-bg);

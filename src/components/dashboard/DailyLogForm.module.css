@@ -83,29 +83,72 @@
   padding: var(--space-lg) var(--space-xl) var(--space-xl);
   display: flex;
   flex-direction: column;
-  gap: var(--space-xl);
+  gap: var(--space-md);
 }
 
-/* Sections */
+/* ─── Collapsible Sections ─── */
 .section {
   display: flex;
   flex-direction: column;
-  gap: var(--space-md);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  transition: border-color var(--duration-fast) var(--ease-out);
+}
+
+.section:hover {
+  border-color: var(--border-default);
 }
 
 .sectionHeader {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: var(--space-sm);
   font-size: var(--font-size-sm);
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: var(--accent);
+  padding: var(--space-md) var(--space-lg);
+  cursor: pointer;
+  width: 100%;
+  background: var(--bg-elevated);
+  border: none;
+  text-align: left;
+  transition: background var(--duration-fast) var(--ease-out);
+}
+
+.sectionHeader:hover {
+  background: var(--bg-hover);
+}
+
+.sectionLeft {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
 }
 
 .sectionIcon {
   font-size: var(--font-size-base);
+}
+
+.chevron {
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+  transition: transform var(--duration-fast) var(--ease-out);
+}
+
+.chevronOpen {
+  transform: rotate(180deg);
+}
+
+.sectionContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  padding: var(--space-md) var(--space-lg) var(--space-lg);
+  animation: slideDown 0.25s var(--ease-out) both;
 }
 
 /* Input rows */
@@ -136,6 +179,13 @@
   font-style: italic;
 }
 
+.invertedNote {
+  font-weight: 400;
+  color: var(--text-muted);
+  font-style: italic;
+  font-size: var(--font-size-xs);
+}
+
 .inputWrapper {
   position: relative;
   display: flex;
@@ -163,6 +213,15 @@
 
 .input::placeholder {
   color: var(--text-muted);
+}
+
+/* Time input styling */
+.input[type="time"] {
+  padding-right: var(--space-md);
+}
+
+.input[type="time"]::-webkit-calendar-picker-indicator {
+  filter: invert(0.5);
 }
 
 .inputUnit {
@@ -263,7 +322,7 @@
   font-size: var(--font-size-sm);
   font-weight: 700;
   color: var(--accent);
-  min-width: 2.5rem;
+  min-width: 4rem;
   text-align: right;
 }
 
@@ -303,6 +362,26 @@
   cursor: pointer;
   border: none;
   box-shadow: 0 0 8px var(--accent-glow);
+}
+
+/* Inverted sliders (higher = worse) — tint thumb orange-red */
+.sliderInverted::-webkit-slider-thumb {
+  background: var(--color-yellow);
+  box-shadow: 0 0 8px var(--color-yellow-glow);
+}
+
+.sliderInverted::-moz-range-thumb {
+  background: var(--color-yellow);
+  box-shadow: 0 0 8px var(--color-yellow-glow);
+}
+
+/* Slider scale (emoji labels at ends) */
+.sliderScale {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  padding: 0 2px;
 }
 
 /* Training load live calc */
@@ -345,6 +424,56 @@
 @keyframes slideDown {
   from { opacity: 0; transform: translateY(-8px); }
   to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── Chip / Pill Selectors ─── */
+.chipLabel {
+  font-size: var(--font-size-xs);
+  font-weight: 500;
+  color: var(--text-secondary);
+  margin-bottom: var(--space-xs);
+}
+
+.chipGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: 0.375rem 0.875rem;
+  font-size: var(--font-size-xs);
+  font-weight: 500;
+  color: var(--text-secondary);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--ease-out);
+  white-space: nowrap;
+}
+
+.chip:hover {
+  border-color: var(--border-default);
+  color: var(--text-primary);
+}
+
+.chipActive {
+  background: hsla(152, 68%, 52%, 0.12);
+  border-color: var(--accent);
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.chipWide {
+  padding: 0.5rem 1rem;
+}
+
+.chipIcon {
+  font-size: var(--font-size-base);
 }
 
 /* Footer actions */
@@ -444,6 +573,10 @@
 
   .inputRow {
     flex-direction: column;
+  }
+
+  .chipGrid {
+    gap: var(--space-xs);
   }
 }
 

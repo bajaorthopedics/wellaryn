@@ -5,9 +5,10 @@ import Link from 'next/link';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { generateMockUser } from '@/lib/mock-data';
-import { calculateACWR, getACWRRiskLevel } from '@/lib/acwr';
+import { calculateWellarynScore } from '@/lib/wellaryn-score';
 import {
   fetchDailyMetrics,
+  metricsToWellarynInput,
   metricsToChartData,
 } from '@/lib/supabase/data-service';
 import TrainingLoadChart from '@/components/charts/TrainingLoadChart';
@@ -19,8 +20,8 @@ const labels = {
   subtitle:     { en: 'History and workload analysis', es: 'Historial y análisis de carga' },
   back:         { en: '← Dashboard',               es: '← Panel' },
   acwrTitle:    { en: 'Acute:Chronic Ratio',        es: 'Ratio Aguda:Crónica' },
-  acuteLoad:    { en: 'Acute (7d)',                 es: 'Aguda (7d)' },
-  chronicLoad:  { en: 'Chronic (28d)',              es: 'Crónica (28d)' },
+  acuteLoad:    { en: 'Acute (3d)',                 es: 'Aguda (3d)' },
+  chronicLoad:  { en: 'Chronic (14d)',              es: 'Crónica (14d)' },
   summary:      { en: 'Summary',                    es: 'Resumen' },
   totalLoad:    { en: 'Total Load',                 es: 'Carga Total' },
   avgRpe:       { en: 'Avg RPE',                    es: 'RPE Promedio' },
@@ -42,6 +43,7 @@ const labels = {
   zoneCaution:  { en: 'Caution',                    es: 'Precaución' },
   zoneDanger:   { en: 'Danger',                     es: 'Peligro' },
   zoneDetraining: { en: 'Detraining',               es: 'Desentrenamiento' },
+  trainingLoadScore: { en: 'Training Load Score',   es: 'Puntaje de Carga' },
 };
 
 const typeLabels = {
@@ -53,19 +55,19 @@ const typeLabels = {
   other:    { en: 'Other', es: 'Otro' },
 };
 
-function getACWRZone(acwr) {
-  if (acwr === null) return { class: styles.zoneDetraining, key: 'zoneDetraining' };
-  if (acwr < 0.8) return { class: styles.zoneDetraining, key: 'zoneDetraining' };
-  if (acwr <= 1.3) return { class: styles.zoneOptimal, key: 'zoneOptimal' };
-  if (acwr <= 1.5) return { class: styles.zoneCaution, key: 'zoneCaution' };
+function getACWRZone(ratio) {
+  if (ratio === null || ratio === undefined) return { class: styles.zoneDetraining, key: 'zoneDetraining' };
+  if (ratio < 0.8) return { class: styles.zoneDetraining, key: 'zoneDetraining' };
+  if (ratio <= 1.3) return { class: styles.zoneOptimal, key: 'zoneOptimal' };
+  if (ratio <= 1.5) return { class: styles.zoneCaution, key: 'zoneCaution' };
   return { class: styles.zoneDanger, key: 'zoneDanger' };
 }
 
-function getACWRColor(acwr) {
-  if (acwr === null) return styles.colorBlue;
-  if (acwr < 0.8) return styles.colorBlue;
-  if (acwr <= 1.3) return styles.colorGreen;
-  if (acwr <= 1.5) return styles.colorYellow;
+function getACWRColor(ratio) {
+  if (ratio === null || ratio === undefined) return styles.colorBlue;
+  if (ratio < 0.8) return styles.colorBlue;
+  if (ratio <= 1.3) return styles.colorGreen;
+  if (ratio <= 1.5) return styles.colorYellow;
   return styles.colorRed;
 }
 
@@ -86,7 +88,8 @@ export default function TrainingPage() {
   const { user, profile } = useAuth();
   const [metrics, setMetrics] = useState([]);
   const [chartData, setChartData] = useState([]);
-  const [acwrResult, setAcwrResult] = useState(null);
+  const [trainingLoadDetails, setTrainingLoadDetails] = useState(null);
+  const [trainingLoadScore, setTrainingLoadScore] = useState(null);
   const [showLogForm, setShowLogForm] = useState(false);
   const [loading, setLoading] = useState(true);
 
@@ -101,7 +104,7 @@ export default function TrainingPage() {
 
         if (data && data.length > 0) {
           setMetrics(data);
-          const charts = metricsToChartData(data);
+
           // Use more data for training chart (28+ days)
           const trainingData = data
             .filter(m => m.training_load != null)
@@ -109,9 +112,14 @@ export default function TrainingPage() {
             .map(m => ({ date: m.date, load: m.training_load, type: m.training_type }));
           setChartData(trainingData);
 
-          const loadHistory = data.filter(m => m.training_load != null).map(m => m.training_load);
-          const result = calculateACWR(loadHistory);
-          setAcwrResult(result);
+          // Calculate Wellaryn Score for training load details
+          const input = metricsToWellarynInput(data, profile);
+          if (input) {
+            const wellarynResult = calculateWellarynScore(input);
+            setTrainingLoadDetails(wellarynResult.trainingLoadDetails);
+            setTrainingLoadScore(wellarynResult.subScores.trainingLoad);
+          }
+
           setLoading(false);
           return;
         }
@@ -146,8 +154,28 @@ export default function TrainingPage() {
         .map(m => ({ date: m.date, load: m.training_load, type: m.training_type }));
       setChartData(trainingData);
 
-      const result = calculateACWR(mock.loadHistory);
-      setAcwrResult(result);
+      // Build mock Wellaryn input for training details
+      const mockInput = {
+        recovery: { sleepHours: 7.5, sleepQuality: 7, hasRecoveryEntry: false },
+        readiness: { hasCheckin: false },
+        trainingLoad: {
+          sessions: mockMetrics
+            .filter(m => m.training_load > 0)
+            .slice(-14)
+            .map(m => ({
+              date: m.date,
+              durationMinutes: m.training_duration || 0,
+              intensity: m.training_rpe || 0,
+            })),
+          today: new Date(),
+        },
+        injuryRisk: { hasCheckin: false },
+        lifestyle: { hasCheckin: false },
+        distinctDays: 14,
+      };
+      const mockResult = calculateWellarynScore(mockInput);
+      setTrainingLoadDetails(mockResult.trainingLoadDetails);
+      setTrainingLoadScore(mockResult.subScores.trainingLoad);
     } catch (err) {
       console.error('Error generating mock training data:', err);
     }
@@ -173,9 +201,9 @@ export default function TrainingPage() {
     );
   }
 
-  // ACWR zone
-  const acwr = acwrResult?.acwr;
-  const zone = getACWRZone(acwr);
+  // ACWR data from trainingLoadDetails
+  const ratio = trainingLoadDetails?.ratio ?? null;
+  const zone = getACWRZone(ratio);
 
   // Training log: last 14 days
   const logEntries = metrics.slice(-14).reverse();
@@ -204,22 +232,31 @@ export default function TrainingPage() {
         {/* ACWR Gauge Card */}
         <div className={styles.acwrCard}>
           <span className={styles.acwrLabel}>{L('acwrTitle')}</span>
-          <span className={`${styles.acwrValue} ${getACWRColor(acwr)}`}>
-            {acwr !== null ? acwr.toFixed(2) : '—'}
+          <span className={`${styles.acwrValue} ${getACWRColor(ratio)}`}>
+            {ratio !== null ? ratio.toFixed(2) : '—'}
           </span>
           <span className={`${styles.acwrZone} ${zone.class}`}>
             {L(zone.key)}
           </span>
           <div className={styles.acwrLoads}>
             <div className={styles.acwrLoadItem}>
-              <span className={styles.acwrLoadValue}>{acwrResult?.acuteLoad ?? '—'}</span>
+              <span className={styles.acwrLoadValue}>
+                {trainingLoadDetails?.acuteLoad != null ? Math.round(trainingLoadDetails.acuteLoad) : '—'}
+              </span>
               <span>{L('acuteLoad')}</span>
             </div>
             <div className={styles.acwrLoadItem}>
-              <span className={styles.acwrLoadValue}>{acwrResult?.chronicLoad ?? '—'}</span>
+              <span className={styles.acwrLoadValue}>
+                {trainingLoadDetails?.chronicLoad != null ? Math.round(trainingLoadDetails.chronicLoad) : '—'}
+              </span>
               <span>{L('chronicLoad')}</span>
             </div>
           </div>
+          {trainingLoadScore != null && (
+            <div className={styles.acwrScoreBadge}>
+              {L('trainingLoadScore')}: <strong>{trainingLoadScore}</strong>/100
+            </div>
+          )}
         </div>
 
         {/* Summary Card */}
