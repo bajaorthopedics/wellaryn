@@ -221,9 +221,9 @@ export default function OnboardingPage() {
         sport,
         role,
         age: age ? parseInt(age, 10) : null,
-        weight_kg: weight ? parseFloat(weight) : null,
-        height_cm: height ? parseFloat(height) : null,
-        sleep_need_hours: sleepNeed,
+        weight: weight ? parseFloat(weight) : null,
+        height: height ? parseFloat(height) : null,
+        sleep_need: sleepNeed,
       });
       setStep(2);
     } catch (err) {
@@ -240,9 +240,8 @@ export default function OnboardingPage() {
     try {
       const now = new Date().toISOString();
       await updateProfile({
+        health_data_consent: true,
         health_data_consent_at: now,
-        health_data_consent_read: true,
-        health_data_consent_processing: true,
         onboarding_completed: true,
         onboarding_completed_at: now,
       });
