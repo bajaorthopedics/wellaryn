@@ -37,13 +37,31 @@ function createMockClient() {
     signOut: async () => ({ error: null }),
     exchangeCodeForSession: async () => noopResponse,
   };
+  // Build a chainable mock query builder — any method call returns itself,
+  // and terminal methods (single, maybeSingle) resolve to noopResponse.
+  function mockQueryBuilder() {
+    const builder = {
+      select: () => builder,
+      eq: () => builder,
+      gte: () => builder,
+      lte: () => builder,
+      order: () => builder,
+      limit: () => builder,
+      single: async () => noopResponse,
+      maybeSingle: async () => noopResponse,
+      then: (resolve) => resolve(noopResponse), // makes await work on the builder itself
+    };
+    return builder;
+  }
+
   return {
     auth: mockAuth,
     from: () => ({
-      select: () => ({ eq: () => ({ single: async () => noopResponse, data: null, error: null }), data: null, error: null }),
+      select: () => mockQueryBuilder(),
       insert: async () => noopResponse,
-      upsert: () => ({ select: () => ({ single: async () => noopResponse }) }),
-      update: () => ({ eq: async () => noopResponse }),
+      upsert: () => mockQueryBuilder(),
+      update: () => mockQueryBuilder(),
+      delete: () => mockQueryBuilder(),
     }),
   };
 }
