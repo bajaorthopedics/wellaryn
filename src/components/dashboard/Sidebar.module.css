@@ -169,6 +169,31 @@
   text-transform: capitalize;
 }
 
+/* Sign Out button */
+.signOutBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  margin: 0 var(--space-lg) var(--space-lg);
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-subtle);
+  background: transparent;
+  color: var(--text-muted);
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  font-family: var(--font-family);
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--ease-out);
+}
+
+.signOutBtn:hover {
+  border-color: var(--danger, hsl(0, 70%, 55%));
+  color: var(--danger, hsl(0, 70%, 55%));
+  background: hsla(0, 70%, 55%, 0.08);
+}
+
 /* Mobile */
 @media (max-width: 768px) {
   .sidebar {

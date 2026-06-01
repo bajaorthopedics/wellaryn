@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useAuth } from '@/contexts/AuthContext';
 import { t } from '@/lib/i18n';
 import { generateMockUser } from '@/lib/mock-data';
 import { calculateReadiness, calculateInjuryRisk } from '@/lib/readiness';
@@ -32,6 +33,7 @@ function formatDate(lang) {
 
 export default function DashboardPage() {
   const { lang } = useLanguage();
+  const { profile } = useAuth();
   const [data, setData] = useState(null);
 
   useEffect(() => {
@@ -91,7 +93,7 @@ export default function DashboardPage() {
       {/* Header */}
       <header className={styles.header}>
         <h1 className={styles.greeting}>
-          {getGreeting(lang)}, {user.displayName.split(' ')[0]}
+          {getGreeting(lang)}, {(profile?.display_name || user.displayName).split(' ')[0]}
         </h1>
         <p className={styles.date}>{formatDate(lang)}</p>
       </header>

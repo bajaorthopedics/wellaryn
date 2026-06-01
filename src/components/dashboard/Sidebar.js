@@ -1,14 +1,17 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useAuth } from '@/contexts/AuthContext';
 import { t } from '@/lib/i18n';
 import styles from './Sidebar.module.css';
 
 export default function Sidebar({ isOpen, onClose }) {
   const pathname = usePathname();
+  const router = useRouter();
   const { lang, toggleLang } = useLanguage();
+  const { profile, signOut } = useAuth();
 
   const navItems = [
     { icon: '📊', label: t('dashboard.nav.overview', lang), href: '/dashboard' },
@@ -16,6 +19,28 @@ export default function Sidebar({ isOpen, onClose }) {
     { icon: '🏋️', label: t('dashboard.nav.training', lang), href: '/dashboard/training' },
     { icon: '👤', label: t('dashboard.nav.profile', lang), href: '/dashboard/profile' },
   ];
+
+  // Compute avatar initials from display name
+  const displayName = profile?.display_name || 'User';
+  const initials = displayName
+    .split(' ')
+    .map((w) => w[0])
+    .join('')
+    .toUpperCase()
+    .slice(0, 2);
+
+  const roleName = profile?.role
+    ? profile.role.charAt(0).toUpperCase() + profile.role.slice(1)
+    : (lang === 'en' ? 'Athlete' : 'Atleta');
+
+  async function handleSignOut() {
+    try {
+      await signOut();
+      router.replace('/auth/login');
+    } catch (err) {
+      console.error('Sign out error:', err);
+    }
+  }
 
   return (
     <aside
@@ -61,14 +86,21 @@ export default function Sidebar({ isOpen, onClose }) {
 
       {/* User area */}
       <div className={styles.userArea}>
-        <div className={styles.avatar} aria-hidden="true">JM</div>
+        <div className={styles.avatar} aria-hidden="true">{initials}</div>
         <div className={styles.userInfo}>
-          <div className={styles.userName}>Juan Martínez</div>
-          <div className={styles.userRole}>
-            {lang === 'en' ? 'Athlete' : 'Atleta'}
-          </div>
+          <div className={styles.userName}>{displayName}</div>
+          <div className={styles.userRole}>{roleName}</div>
         </div>
       </div>
+
+      {/* Sign Out */}
+      <button
+        className={styles.signOutBtn}
+        onClick={handleSignOut}
+        id="sign-out-btn"
+      >
+        {lang === 'en' ? 'Sign Out' : 'Cerrar Sesión'}
+      </button>
     </aside>
   );
 }

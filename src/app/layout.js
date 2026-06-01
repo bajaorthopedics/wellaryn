@@ -1,5 +1,6 @@
 import "./globals.css";
 import { LanguageProvider } from "@/contexts/LanguageContext";
+import { AuthProvider } from "@/contexts/AuthContext";
 
 export const metadata = {
   title: "Wellaryn — Train Smarter. Prevent Injuries.",
@@ -25,7 +26,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className="noise-overlay">
       <body>
-        <LanguageProvider>{children}</LanguageProvider>
+        <LanguageProvider>
+          <AuthProvider>{children}</AuthProvider>
+        </LanguageProvider>
       </body>
     </html>
   );
