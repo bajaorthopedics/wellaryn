@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { t, getSection } from '@/lib/i18n';
 import styles from './page.module.css';
@@ -12,6 +13,7 @@ import styles from './page.module.css';
 
 export default function Home() {
   const { lang, toggleLang } = useLanguage();
+  const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [email, setEmail] = useState('');
@@ -121,7 +123,7 @@ export default function Home() {
             </li>
           </ul>
 
-          <button id="nav-cta" className={`btn btn-primary ${styles.navCta}`} onClick={() => scrollTo('final-cta')}>
+          <button id="nav-cta" className={`btn btn-primary ${styles.navCta}`} onClick={() => router.push('/auth/register')}>
             {nav.getEarlyAccess}
           </button>
 
@@ -154,7 +156,7 @@ export default function Home() {
         <button className={styles.mobileNavLink} onClick={() => scrollTo('how-it-works')}>{nav.howItWorks}</button>
         <button className={styles.mobileNavLink} onClick={() => scrollTo('sports')}>{nav.sports}</button>
         <button className={styles.mobileNavLink} onClick={() => scrollTo('final-cta')}>{nav.pricing}</button>
-        <button className="btn btn-primary btn-lg" onClick={() => scrollTo('final-cta')}>{nav.getEarlyAccess}</button>
+        <button className="btn btn-primary btn-lg" onClick={() => router.push('/auth/register')}>{nav.getEarlyAccess}</button>
         <button className={styles.langToggle} onClick={toggleLang}>{t('langToggle', lang)}</button>
       </div>
 
@@ -181,7 +183,7 @@ export default function Home() {
               <p className={styles.heroSubtitle}>{hero.subtitle}</p>
 
               <div className={styles.heroCtas}>
-                <button id="hero-cta-primary" className="btn btn-primary btn-lg" onClick={() => scrollTo('final-cta')}>
+                <button id="hero-cta-primary" className="btn btn-primary btn-lg" onClick={() => router.push('/auth/register')}>
                   {hero.ctaPrimary}
                 </button>
                 <button id="hero-cta-secondary" className="btn btn-secondary btn-lg" onClick={() => scrollTo('how-it-works')}>
@@ -419,25 +421,16 @@ export default function Home() {
               </h2>
               <p>{finalCta.subtitle}</p>
 
-              {!submitted ? (
-                <form id="early-access-form" className={styles.ctaForm} onSubmit={handleSubmit}>
-                  <input
-                    id="email-input"
-                    type="email"
-                    className={styles.ctaInput}
-                    placeholder={finalCta.emailPlaceholder}
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                    aria-label="Email address"
-                  />
-                  <button id="submit-btn" type="submit" className="btn btn-primary btn-lg">
-                    {finalCta.joinWaitlist}
-                  </button>
-                </form>
-              ) : (
-                <div className={styles.ctaSuccess}>{finalCta.success}</div>
-              )}
+              <div className={styles.ctaForm}>
+                <button
+                  id="submit-btn"
+                  className="btn btn-primary btn-lg"
+                  onClick={() => router.push('/auth/register')}
+                  style={{ width: '100%', maxWidth: '400px', padding: '1rem 2rem', fontSize: '1.125rem' }}
+                >
+                  {finalCta.joinWaitlist}
+                </button>
+              </div>
 
               <p className={styles.ctaPrivacy}>{finalCta.privacy}</p>
             </div>
