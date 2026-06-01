@@ -1,5 +1,5 @@
 /**
- * Wellaryn — Daily Readiness Score v1
+ * Wellaryn — Wellaryn Score v1
  *
  * Rules-based engine — transparent, auditable, no ML.
  * Based on evidence from sports medicine literature.
@@ -161,10 +161,10 @@ function calculateRHRScore(rhr, baseline) {
   };
 }
 
-// --- Main Readiness Score ---
+// --- Main Wellaryn Score ---
 
 /**
- * Calculate the Daily Readiness Score (0-100)
+ * Calculate the Wellaryn Score (0-100)
  *
  * @param {Object} today - Today's metrics
  * @param {number} today.rmssd - HRV rMSSD (ms)

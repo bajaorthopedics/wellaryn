@@ -85,13 +85,13 @@ const t = {
   },
   consentPurposeList: {
     en: [
-      'Calculate your daily Readiness Score and injury risk assessment',
+      'Calculate your daily Wellaryn Score and injury risk assessment',
       'Build and maintain personal baselines for accurate comparisons',
       'Generate personalized training and recovery recommendations',
       'Detect trends and early warning signs of overtraining or injury risk',
     ],
     es: [
-      'Calcular tu Puntuación de Disponibilidad diaria y evaluación de riesgo de lesión',
+      'Calcular tu Wellaryn Score diario y evaluación de riesgo de lesión',
       'Crear y mantener líneas base personales para comparaciones precisas',
       'Generar recomendaciones personalizadas de entrenamiento y recuperación',
       'Detectar tendencias y señales tempranas de sobreentrenamiento o riesgo de lesión',

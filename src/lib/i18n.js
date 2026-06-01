@@ -24,7 +24,7 @@ const translations = {
     },
     ctaPrimary: { en: 'Get Early Access', es: 'Acceso Anticipado' },
     ctaSecondary: { en: 'See How It Works', es: 'Ver Cómo Funciona' },
-    gaugeLabel: { en: 'Readiness', es: 'Preparación' },
+    gaugeLabel: { en: 'Wellaryn Score', es: 'Wellaryn Score' },
     gaugeStatus: { en: '● Ready to train', es: '● Listo para entrenar' },
   },
 
@@ -91,7 +91,7 @@ const translations = {
       en: "A real-time snapshot of your body's readiness to perform — backed by science.",
       es: 'Una foto en tiempo real de la preparación de tu cuerpo — respaldada por ciencia.',
     },
-    dailyReadiness: { en: 'Daily Readiness', es: 'Preparación Diaria' },
+    dailyReadiness: { en: 'Wellaryn Score', es: 'Wellaryn Score' },
     live: { en: 'Live', es: 'En Vivo' },
     moderateRisk: { en: '⚠️ Moderate Risk', es: '⚠️ Riesgo Moderado' },
     riskLabel: { en: '⚠️ Elevated Overload Risk', es: '⚠️ Riesgo Elevado de Sobrecarga' },
@@ -245,7 +245,7 @@ const translations = {
   dashboard: {
     nav: {
       overview: { en: 'Overview', es: 'Resumen' },
-      readiness: { en: 'Readiness', es: 'Preparación' },
+      readiness: { en: 'Wellaryn Score', es: 'Wellaryn Score' },
       training: { en: 'Training', es: 'Entrenamiento' },
       profile: { en: 'Profile', es: 'Perfil' },
     },
@@ -255,7 +255,7 @@ const translations = {
       evening: { en: 'Good evening', es: 'Buenas noches' },
     },
     widgets: {
-      readinessScore: { en: 'Readiness Score', es: 'Score de Preparación' },
+      readinessScore: { en: 'Wellaryn Score', es: 'Wellaryn Score' },
       injuryRisk: { en: 'Injury Risk', es: 'Riesgo de Lesión' },
       recommendations: { en: 'Recommendations', es: 'Recomendaciones' },
       hrvTrend: { en: 'HRV Trend (7 days)', es: 'Tendencia VFC (7 días)' },
