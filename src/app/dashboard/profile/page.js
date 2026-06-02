@@ -13,6 +13,11 @@ const OuraConnect = dynamic(
   { ssr: false, loading: () => <div style={{ padding: '1rem', color: 'var(--text-muted)', fontSize: '0.875rem' }}>Loading…</div> }
 );
 
+const WhoopConnect = dynamic(
+  () => import('@/components/dashboard/WhoopConnect'),
+  { ssr: false, loading: () => <div style={{ padding: '1rem', color: 'var(--text-muted)', fontSize: '0.875rem' }}>Loading…</div> }
+);
+
 const labels = {
   title:          { en: 'Profile & Settings',      es: 'Perfil y Configuración' },
   subtitle:       { en: 'Manage your account',      es: 'Administra tu cuenta' },
@@ -300,6 +305,7 @@ export default function ProfilePage() {
           {L('wearables')}
         </div>
         <OuraConnect lang={lang} />
+        <WhoopConnect lang={lang} />
       </div>
 
       {/* Account Info */}

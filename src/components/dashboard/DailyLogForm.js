@@ -59,6 +59,7 @@ const labels = {
   cancel:           { en: 'Cancel',                 es: 'Cancelar' },
   optional:         { en: 'optional',               es: 'opcional' },
   ouraSource:       { en: 'Oura',                    es: 'Oura' },
+  whoopSource:      { en: 'WHOOP',                   es: 'WHOOP' },
 };
 
 const trainingTypes = [
@@ -356,10 +357,11 @@ export default function DailyLogForm({ isOpen, onClose, onSaved, existingData, l
 
   const L = (key) => labels[key]?.[lang] || labels[key]?.en || key;
 
-  // Oura source detection for badge display
-  const isOuraSource = existingData?.source === 'oura';
-  const OuraBadge = () => isOuraSource ? (
-    <span className={styles.ouraBadge}>{L('ouraSource')}</span>
+  // Wearable source detection for badge display
+  const isWearableSource = ['oura', 'whoop'].includes(existingData?.source);
+  const sourceLabel = existingData?.source === 'whoop' ? L('whoopSource') : L('ouraSource');
+  const OuraBadge = () => isWearableSource ? (
+    <span className={styles.ouraBadge}>{sourceLabel}</span>
   ) : null;
 
   return (
