@@ -35,30 +35,59 @@ export function AuthProvider({ children }) {
 
   // Listen to auth state changes
   useEffect(() => {
-    // Check initial session
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setUser(session?.user ?? null);
-      if (session?.user) {
-        fetchProfile(session.user.id).then(setProfile);
+    let mounted = true;
+
+    // Safety timeout — never hang more than 5 seconds
+    const timeout = setTimeout(() => {
+      if (mounted && loading) {
+        console.warn('Auth loading timeout — forcing loaded state');
+        setLoading(false);
       }
-      setLoading(false);
-    });
+    }, 5000);
+
+    // Check initial session
+    supabase.auth.getSession()
+      .then(({ data: { session } }) => {
+        if (!mounted) return;
+        setUser(session?.user ?? null);
+        if (session?.user) {
+          fetchProfile(session.user.id)
+            .then(p => { if (mounted) setProfile(p); })
+            .catch(err => console.error('Profile fetch error:', err))
+            .finally(() => { if (mounted) setLoading(false); });
+        } else {
+          setLoading(false);
+        }
+      })
+      .catch(err => {
+        console.error('Session check error:', err);
+        if (mounted) setLoading(false);
+      });
 
     // Subscribe to changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
+        if (!mounted) return;
         setUser(session?.user ?? null);
         if (session?.user) {
-          const p = await fetchProfile(session.user.id);
-          setProfile(p);
+          try {
+            const p = await fetchProfile(session.user.id);
+            if (mounted) setProfile(p);
+          } catch (err) {
+            console.error('Profile fetch error:', err);
+          }
         } else {
           setProfile(null);
         }
-        setLoading(false);
+        if (mounted) setLoading(false);
       }
     );
 
-    return () => subscription.unsubscribe();
+    return () => {
+      mounted = false;
+      clearTimeout(timeout);
+      subscription.unsubscribe();
+    };
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Sign up with email
