@@ -58,6 +58,7 @@ const labels = {
   saving:           { en: 'Saving…',                es: 'Guardando…' },
   cancel:           { en: 'Cancel',                 es: 'Cancelar' },
   optional:         { en: 'optional',               es: 'opcional' },
+  ouraSource:       { en: 'Oura',                    es: 'Oura' },
 };
 
 const trainingTypes = [
@@ -355,6 +356,12 @@ export default function DailyLogForm({ isOpen, onClose, onSaved, existingData, l
 
   const L = (key) => labels[key]?.[lang] || labels[key]?.en || key;
 
+  // Oura source detection for badge display
+  const isOuraSource = existingData?.source === 'oura';
+  const OuraBadge = () => isOuraSource ? (
+    <span className={styles.ouraBadge}>{L('ouraSource')}</span>
+  ) : null;
+
   return (
     <div className={styles.overlay} onClick={(e) => e.target === e.currentTarget && onClose()} id="daily-log-overlay">
       <div className={styles.modal} role="dialog" aria-modal="true" id="daily-log-modal">
@@ -376,7 +383,7 @@ export default function DailyLogForm({ isOpen, onClose, onSaved, existingData, l
           <Section icon="🌙" title={L('sleep')} expanded={expanded.sleep} onToggle={() => toggleSection('sleep')}>
             <div className={styles.inputRow}>
               <div className={styles.inputGroup}>
-                <label className={styles.label} htmlFor="log-sleep">{L('sleepTotal')}</label>
+                <label className={styles.label} htmlFor="log-sleep">{L('sleepTotal')} <OuraBadge /></label>
                 <div className={styles.inputWrapper}>
                   <input
                     id="log-sleep"
@@ -396,7 +403,7 @@ export default function DailyLogForm({ isOpen, onClose, onSaved, existingData, l
 
             <div className={styles.sliderGroup}>
               <div className={styles.sliderHeader}>
-                <label className={styles.label} htmlFor="log-sleep-quality">{L('sleepQuality')}</label>
+                <label className={styles.label} htmlFor="log-sleep-quality">{L('sleepQuality')} <OuraBadge /></label>
                 <span className={styles.sliderValue}>{sleepQuality}/10</span>
               </div>
               <input
@@ -413,7 +420,7 @@ export default function DailyLogForm({ isOpen, onClose, onSaved, existingData, l
 
             <div className={styles.inputRow}>
               <div className={styles.inputGroup}>
-                <label className={styles.label} htmlFor="log-bedtime">{L('bedtime')}</label>
+                <label className={styles.label} htmlFor="log-bedtime">{L('bedtime')} <OuraBadge /></label>
                 <input
                   id="log-bedtime"
                   className={styles.input}
@@ -423,7 +430,7 @@ export default function DailyLogForm({ isOpen, onClose, onSaved, existingData, l
                 />
               </div>
               <div className={styles.inputGroup}>
-                <label className={styles.label} htmlFor="log-waketime">{L('wakeTime')}</label>
+                <label className={styles.label} htmlFor="log-waketime">{L('wakeTime')} <OuraBadge /></label>
                 <input
                   id="log-waketime"
                   className={styles.input}
@@ -559,7 +566,7 @@ export default function DailyLogForm({ isOpen, onClose, onSaved, existingData, l
           <Section icon="💓" title={L('biometrics')} expanded={expanded.biometrics} onToggle={() => toggleSection('biometrics')}>
             <div className={styles.inputRow}>
               <div className={styles.inputGroup}>
-                <label className={styles.label} htmlFor="log-hrv">{L('hrv')}</label>
+                <label className={styles.label} htmlFor="log-hrv">{L('hrv')} <OuraBadge /></label>
                 <div className={styles.inputWrapper}>
                   <input
                     id="log-hrv"
@@ -575,7 +582,7 @@ export default function DailyLogForm({ isOpen, onClose, onSaved, existingData, l
                 </div>
               </div>
               <div className={styles.inputGroup}>
-                <label className={styles.label} htmlFor="log-rhr">{L('rhr')}</label>
+                <label className={styles.label} htmlFor="log-rhr">{L('rhr')} <OuraBadge /></label>
                 <div className={styles.inputWrapper}>
                   <input
                     id="log-rhr"
@@ -821,7 +828,7 @@ export default function DailyLogForm({ isOpen, onClose, onSaved, existingData, l
           <Section icon="👟" title={`${L('activity')} (${L('optional')})`} expanded={expanded.activity} onToggle={() => toggleSection('activity')}>
             <div className={styles.inputRow}>
               <div className={styles.inputGroup}>
-                <label className={styles.label} htmlFor="log-steps">{L('steps')}</label>
+                <label className={styles.label} htmlFor="log-steps">{L('steps')} <OuraBadge /></label>
                 <div className={styles.inputWrapper}>
                   <input
                     id="log-steps"
@@ -835,7 +842,7 @@ export default function DailyLogForm({ isOpen, onClose, onSaved, existingData, l
                 </div>
               </div>
               <div className={styles.inputGroup}>
-                <label className={styles.label} htmlFor="log-calories">{L('calories')}</label>
+                <label className={styles.label} htmlFor="log-calories">{L('calories')} <OuraBadge /></label>
                 <div className={styles.inputWrapper}>
                   <input
                     id="log-calories"

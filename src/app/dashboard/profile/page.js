@@ -1,10 +1,11 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, Suspense } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useAuth } from '@/contexts/AuthContext';
+import OuraConnect from '@/components/dashboard/OuraConnect';
 import styles from './page.module.css';
 
 const labels = {
@@ -31,6 +32,7 @@ const labels = {
   terms:          { en: 'Terms of Service',         es: 'Términos de Servicio' },
   dangerZone:     { en: 'Danger Zone',              es: 'Zona de Peligro' },
   signOut:        { en: 'Sign Out',                 es: 'Cerrar Sesión' },
+  wearables:      { en: 'Wearables',                es: 'Dispositivos' },
   save:           { en: 'Save Changes',             es: 'Guardar Cambios' },
   saving:         { en: 'Saving…',                  es: 'Guardando…' },
   saved:          { en: '✓ Profile saved successfully', es: '✓ Perfil guardado exitosamente' },
@@ -284,6 +286,17 @@ export default function ProfilePage() {
         >
           {saving ? L('saving') : L('save')}
         </button>
+      </div>
+
+      {/* Wearables */}
+      <div className={styles.section}>
+        <div className={styles.sectionTitle}>
+          <span className={styles.sectionIcon}>⌚</span>
+          {L('wearables')}
+        </div>
+        <Suspense fallback={<div className={styles.loadingText}>{lang === 'es' ? 'Cargando…' : 'Loading…'}</div>}>
+          <OuraConnect lang={lang} />
+        </Suspense>
       </div>
 
       {/* Account Info */}

@@ -1,0 +1,306 @@
+/* ============================================
+   OuraConnect — Wearable Connection Card
+   ============================================ */
+
+.container {
+  position: relative;
+}
+
+/* Header */
+.header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  margin-bottom: var(--space-lg);
+}
+
+.iconWrap {
+  flex-shrink: 0;
+}
+
+.ringIcon {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  border-radius: var(--radius-full);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  transition: all var(--duration-normal) var(--ease-out);
+}
+
+.ringConnected {
+  border-color: hsla(152, 68%, 52%, 0.4);
+  box-shadow: 0 0 16px hsla(152, 68%, 52%, 0.15);
+}
+
+.ringSyncing {
+  animation: ringPulse 1.2s ease-in-out infinite;
+}
+
+@keyframes ringPulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.08); opacity: 0.7; }
+}
+
+.headerText {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.deviceName {
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.connectedBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  color: var(--color-green);
+}
+
+/* Loading state */
+.loadingState {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-md) 0;
+}
+
+.miniSpinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--border-subtle);
+  border-top-color: var(--accent);
+  border-radius: var(--radius-full);
+  animation: spin 0.8s linear infinite;
+}
+
+.loadingText {
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+}
+
+/* Disconnected state */
+.disconnectedState {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.description {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.connectBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  padding: 0.75rem 1.75rem;
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  color: var(--text-inverse);
+  background: var(--accent);
+  border: none;
+  border-radius: var(--radius-full);
+  box-shadow: 0 0 20px var(--accent-glow);
+  cursor: pointer;
+  transition: all var(--duration-normal) var(--ease-out);
+  align-self: flex-start;
+}
+
+.connectBtn:hover {
+  background: var(--accent-hover);
+  box-shadow: 0 0 30px var(--accent-glow), 0 4px 15px var(--accent-glow);
+  transform: translateY(-1px);
+}
+
+/* Connected state */
+.connectedState {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.syncInfo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-sm) var(--space-md);
+  background: var(--bg-elevated);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-subtle);
+}
+
+.syncLabel {
+  font-size: var(--font-size-xs);
+  font-weight: 500;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.syncValue {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* Sync success message */
+.syncSuccess {
+  padding: var(--space-sm) var(--space-md);
+  background: hsla(152, 68%, 52%, 0.08);
+  border: 1px solid hsla(152, 68%, 52%, 0.2);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  color: var(--color-green);
+  animation: fadeSlideIn 0.3s var(--ease-out) both;
+}
+
+/* Actions row */
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.syncBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  padding: 0.625rem 1.5rem;
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--text-inverse);
+  background: var(--accent);
+  border: none;
+  border-radius: var(--radius-full);
+  box-shadow: 0 0 16px var(--accent-glow);
+  cursor: pointer;
+  transition: all var(--duration-normal) var(--ease-out);
+}
+
+.syncBtn:hover:not(:disabled) {
+  background: var(--accent-hover);
+  box-shadow: 0 0 24px var(--accent-glow);
+  transform: translateY(-1px);
+}
+
+.syncBtn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.syncSpinner {
+  width: 14px;
+  height: 14px;
+  border: 2px solid hsla(0, 0%, 0%, 0.2);
+  border-top-color: var(--text-inverse);
+  border-radius: var(--radius-full);
+  animation: spin 0.7s linear infinite;
+}
+
+.disconnectBtn {
+  padding: 0.5rem 1rem;
+  font-size: var(--font-size-xs);
+  font-weight: 500;
+  color: var(--text-muted);
+  background: transparent;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--ease-out);
+}
+
+.disconnectBtn:hover {
+  color: var(--color-red);
+  border-color: hsla(0, 72%, 56%, 0.3);
+  background: hsla(0, 72%, 56%, 0.06);
+}
+
+/* Error state */
+.errorState {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.errorText {
+  font-size: var(--font-size-sm);
+  color: var(--color-red);
+  font-weight: 500;
+}
+
+/* Toast */
+.toast {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: var(--space-sm) var(--space-xl);
+  border-radius: var(--radius-lg);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  z-index: 200;
+  box-shadow: var(--shadow-lg);
+  animation: toastIn 0.4s var(--ease-out) both, toastOut 0.4s var(--ease-out) 3.5s both;
+}
+
+.toastSuccess {
+  background: var(--bg-elevated);
+  color: var(--color-green);
+  border: 1px solid hsla(152, 68%, 52%, 0.3);
+}
+
+.toastError {
+  background: var(--bg-elevated);
+  color: var(--color-red);
+  border: 1px solid hsla(0, 72%, 56%, 0.3);
+}
+
+/* Animations */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes fadeSlideIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes toastIn {
+  from { opacity: 0; transform: translateX(-50%) translateY(20px); }
+  to { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+@keyframes toastOut {
+  from { opacity: 1; transform: translateX(-50%) translateY(0); }
+  to { opacity: 0; transform: translateX(-50%) translateY(20px); }
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .syncBtn,
+  .disconnectBtn {
+    width: 100%;
+    justify-content: center;
+  }
+}

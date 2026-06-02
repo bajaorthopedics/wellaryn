@@ -593,3 +593,20 @@
   background: var(--border-default);
   border-radius: var(--radius-full);
 }
+
+/* Oura sync badge */
+.ouraBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.1rem 0.4rem;
+  font-size: 0.6rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-green);
+  background: hsla(152, 68%, 52%, 0.1);
+  border: 1px solid hsla(152, 68%, 52%, 0.25);
+  border-radius: var(--radius-full);
+  vertical-align: middle;
+  margin-left: 2px;
+}
