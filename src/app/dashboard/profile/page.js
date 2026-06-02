@@ -1,12 +1,17 @@
 'use client';
 
-import { useState, useEffect, useCallback, Suspense } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import dynamic from 'next/dynamic';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useAuth } from '@/contexts/AuthContext';
-import OuraConnect from '@/components/dashboard/OuraConnect';
 import styles from './page.module.css';
+
+const OuraConnect = dynamic(
+  () => import('@/components/dashboard/OuraConnect'),
+  { ssr: false, loading: () => <div style={{ padding: '1rem', color: 'var(--text-muted)', fontSize: '0.875rem' }}>Loading…</div> }
+);
 
 const labels = {
   title:          { en: 'Profile & Settings',      es: 'Perfil y Configuración' },
@@ -294,9 +299,7 @@ export default function ProfilePage() {
           <span className={styles.sectionIcon}>⌚</span>
           {L('wearables')}
         </div>
-        <Suspense fallback={<div className={styles.loadingText}>{lang === 'es' ? 'Cargando…' : 'Loading…'}</div>}>
-          <OuraConnect lang={lang} />
-        </Suspense>
+        <OuraConnect lang={lang} />
       </div>
 
       {/* Account Info */}
