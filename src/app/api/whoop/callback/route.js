@@ -7,17 +7,15 @@ export async function GET(request) {
   const code = searchParams.get('code');
   const error = searchParams.get('error');
 
-  const host = request.headers.get('x-forwarded-host') || request.headers.get('host') || new URL(request.url).host;
-  const protocol = request.headers.get('x-forwarded-proto') || 'https';
-  const origin = `${protocol}://${host}`;
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || `https://${request.headers.get('host')}`;
 
   if (error || !code) {
-    return NextResponse.redirect(`${origin}/dashboard/profile?whoop=error`);
+    return NextResponse.redirect(`${siteUrl}/dashboard/profile?whoop=error`);
   }
 
   const clientId = process.env.WHOOP_CLIENT_ID;
   const clientSecret = process.env.WHOOP_CLIENT_SECRET;
-  const redirectUri = `${origin}/api/whoop/callback`;
+  const redirectUri = `${siteUrl}/api/whoop/callback`;
 
   try {
     // Exchange authorization code for tokens
@@ -35,7 +33,7 @@ export async function GET(request) {
 
     if (!tokenRes.ok) {
       console.error('WHOOP token exchange failed:', await tokenRes.text());
-      return NextResponse.redirect(`${origin}/dashboard/profile?whoop=error`);
+      return NextResponse.redirect(`${siteUrl}/dashboard/profile?whoop=error`);
     }
 
     const tokens = await tokenRes.json();
@@ -55,7 +53,7 @@ export async function GET(request) {
 
     const { data: { session } } = await supabase.auth.getSession();
     if (!session) {
-      return NextResponse.redirect(`${origin}/dashboard/profile?whoop=error`);
+      return NextResponse.redirect(`${siteUrl}/dashboard/profile?whoop=error`);
     }
 
     const expiresAt = new Date(Date.now() + (tokens.expires_in || 86400) * 1000).toISOString();
@@ -70,9 +68,9 @@ export async function GET(request) {
       connected_at: new Date().toISOString(),
     }, { onConflict: 'user_id,provider' });
 
-    return NextResponse.redirect(`${origin}/dashboard/profile?whoop=connected`);
+    return NextResponse.redirect(`${siteUrl}/dashboard/profile?whoop=connected`);
   } catch (err) {
     console.error('WHOOP callback error:', err);
-    return NextResponse.redirect(`${origin}/dashboard/profile?whoop=error`);
+    return NextResponse.redirect(`${siteUrl}/dashboard/profile?whoop=error`);
   }
 }

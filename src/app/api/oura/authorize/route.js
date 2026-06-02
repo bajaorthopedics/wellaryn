@@ -27,9 +27,8 @@ export async function GET(request) {
       return NextResponse.json({ error: 'Oura not configured' }, { status: 500 });
     }
 
-    const host = request.headers.get('x-forwarded-host') || request.headers.get('host') || new URL(request.url).host;
-    const protocol = request.headers.get('x-forwarded-proto') || 'https';
-    const redirectUri = `${protocol}://${host}/api/oura/callback`;
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || `https://${request.headers.get('host')}`;
+    const redirectUri = `${siteUrl}/api/oura/callback`;
     const scopes = 'daily heartrate workout personal session';
     const state = session.user.id;
 
