@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { getSupabaseBrowser } from '@/lib/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
@@ -26,7 +26,16 @@ const labels = {
   errorToast:       { en: '✕ Failed to connect Oura Ring', es: '✕ Error al conectar Oura Ring' },
 };
 
+/** Wrapper with Suspense so useSearchParams doesn't block the page */
 export default function OuraConnect({ lang = 'en' }) {
+  return (
+    <Suspense fallback={<div className={styles.loadingState}><div className={styles.miniSpinner} /><span className={styles.loadingText}>{lang === 'es' ? 'Cargando…' : 'Loading…'}</span></div>}>
+      <OuraConnectInner lang={lang} />
+    </Suspense>
+  );
+}
+
+function OuraConnectInner({ lang = 'en' }) {
   const { user } = useAuth();
   const searchParams = useSearchParams();
 
