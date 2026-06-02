@@ -27,7 +27,9 @@ export async function GET(request) {
       return NextResponse.json({ error: 'WHOOP not configured' }, { status: 500 });
     }
 
-    const redirectUri = `${new URL(request.url).origin}/api/whoop/callback`;
+    const host = request.headers.get('x-forwarded-host') || request.headers.get('host') || new URL(request.url).host;
+    const protocol = request.headers.get('x-forwarded-proto') || 'https';
+    const redirectUri = `${protocol}://${host}/api/whoop/callback`;
     const scopes = 'read:recovery read:cycles read:workout read:sleep read:profile read:body_measurement';
     const state = session.user.id;
 

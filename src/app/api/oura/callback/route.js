@@ -3,9 +3,13 @@ import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
 
 export async function GET(request) {
-  const { searchParams, origin } = new URL(request.url);
+  const { searchParams } = new URL(request.url);
   const code = searchParams.get('code');
   const error = searchParams.get('error');
+
+  const host = request.headers.get('x-forwarded-host') || request.headers.get('host') || new URL(request.url).host;
+  const protocol = request.headers.get('x-forwarded-proto') || 'https';
+  const origin = `${protocol}://${host}`;
 
   if (error || !code) {
     return NextResponse.redirect(`${origin}/dashboard/profile?oura=error`);
