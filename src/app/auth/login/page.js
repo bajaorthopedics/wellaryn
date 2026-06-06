@@ -43,17 +43,15 @@ export default function LoginPage() {
     setLoading(true);
 
     try {
-      await signIn(email, password);
+      const result = await signIn(email, password);
 
-      // Check if onboarding is completed
-      if (profile?.onboarding_completed) {
-        router.push('/dashboard');
-      } else {
-        router.push('/onboarding');
-      }
+      // signIn succeeded — wait briefly for AuthContext to update profile
+      // then redirect based on onboarding status
+      setTimeout(() => {
+        router.replace('/dashboard');
+      }, 300);
     } catch (err) {
       setError(err.message || t.invalidCredentials[lang]);
-    } finally {
       setLoading(false);
     }
   }
@@ -112,6 +110,9 @@ export default function LoginPage() {
                 required
                 autoComplete="current-password"
               />
+              <Link href="/auth/forgot-password" className={styles.switchLink} style={{ fontSize: 'var(--font-size-xs)', marginTop: '0.5rem', display: 'inline-block' }}>
+                {lang === 'es' ? '¿Olvidaste tu contraseña?' : 'Forgot password?'}
+              </Link>
             </div>
 
             <button
