@@ -66,20 +66,18 @@ export function AuthProvider({ children }) {
 
     // Subscribe to changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
+      (event, session) => {
         if (!mounted) return;
         setUser(session?.user ?? null);
         if (session?.user) {
-          try {
-            const p = await fetchProfile(session.user.id);
-            if (mounted) setProfile(p);
-          } catch (err) {
-            console.error('Profile fetch error:', err);
-          }
+          fetchProfile(session.user.id)
+            .then(p => { if (mounted) setProfile(p); })
+            .catch(err => console.error('Profile fetch error:', err))
+            .finally(() => { if (mounted) setLoading(false); });
         } else {
           setProfile(null);
+          if (mounted) setLoading(false);
         }
-        if (mounted) setLoading(false);
       }
     );
 
