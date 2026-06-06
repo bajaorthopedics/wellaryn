@@ -49,7 +49,7 @@ export default function LoginPage() {
           lang === 'es'
             ? 'Tiempo de espera agotado. Verifica tu conexión e intenta de nuevo.'
             : 'Request timed out. Check your connection and try again.'
-        )), 10000)
+        )), 30000)
       );
 
       await Promise.race([signIn(email, password), timeoutPromise]);
