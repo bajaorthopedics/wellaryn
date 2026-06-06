@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -32,33 +32,6 @@ export default function ResetPasswordPage() {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState('');
-  const [ready, setReady] = useState(false);
-
-  // Supabase handles the token exchange via the URL hash automatically
-  useEffect(() => {
-    const supabase = getSupabaseBrowser();
-    
-    // Listen for PASSWORD_RECOVERY event
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event) => {
-      if (event === 'PASSWORD_RECOVERY') {
-        setReady(true);
-      }
-    });
-
-    // Also check if we already have a session (user clicked the link)
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      if (session) {
-        setReady(true);
-      }
-    });
-
-    // Fallback: if hash contains tokens, we're in recovery mode
-    if (typeof window !== 'undefined' && window.location.hash.includes('access_token')) {
-      setTimeout(() => setReady(true), 1000);
-    }
-
-    return () => subscription.unsubscribe();
-  }, []);
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -165,7 +138,7 @@ export default function ResetPasswordPage() {
               <button
                 type="submit"
                 className={styles.submitButton}
-                disabled={loading || !ready}
+                disabled={loading}
               >
                 {loading ? t.saving[lang] : t.save[lang]}
               </button>
