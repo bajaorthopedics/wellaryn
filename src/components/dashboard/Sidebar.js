@@ -13,12 +13,20 @@ export default function Sidebar({ isOpen, onClose }) {
   const { lang, toggleLang } = useLanguage();
   const { profile, signOut } = useAuth();
 
-  const navItems = [
-    { icon: '📊', label: t('dashboard.nav.overview', lang), href: '/dashboard' },
-    { icon: '💪', label: t('dashboard.nav.readiness', lang), href: '/dashboard/readiness' },
-    { icon: '🏋️', label: t('dashboard.nav.training', lang), href: '/dashboard/training' },
-    { icon: '👤', label: t('dashboard.nav.profile', lang), href: '/dashboard/profile' },
-  ];
+  const isCoachOrDoctor = profile?.role === 'coach' || profile?.role === 'doctor';
+
+  const navItems = isCoachOrDoctor
+    ? [
+        { icon: '👥', label: t('dashboard.nav.team', lang), href: '/dashboard/team' },
+        { icon: '📊', label: t('dashboard.nav.overview', lang), href: '/dashboard' },
+        { icon: '👤', label: t('dashboard.nav.profile', lang), href: '/dashboard/profile' },
+      ]
+    : [
+        { icon: '📊', label: t('dashboard.nav.overview', lang), href: '/dashboard' },
+        { icon: '💪', label: t('dashboard.nav.readiness', lang), href: '/dashboard/readiness' },
+        { icon: '🏋️', label: t('dashboard.nav.training', lang), href: '/dashboard/training' },
+        { icon: '👤', label: t('dashboard.nav.profile', lang), href: '/dashboard/profile' },
+      ];
 
   // Compute avatar initials from display name
   const displayName = profile?.display_name || 'User';

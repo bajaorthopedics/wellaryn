@@ -1,0 +1,494 @@
+/* ============================================
+   Athlete Detail Page — Coach/Doctor View
+   Premium dark glassmorphism design
+   ============================================ */
+
+.page {
+  animation: fadeIn 0.5s var(--ease-out) both;
+}
+
+/* ─── Header ─── */
+.header {
+  margin-bottom: var(--space-2xl);
+}
+
+.backLink {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--accent);
+  text-decoration: none;
+  margin-bottom: var(--space-lg);
+  transition: all var(--duration-fast) var(--ease-out);
+}
+
+.backLink:hover {
+  color: var(--accent-hover);
+  transform: translateX(-4px);
+}
+
+.headerRow {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-lg);
+  flex-wrap: wrap;
+}
+
+.headerInfo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+}
+
+.athleteName {
+  font-size: var(--font-size-3xl);
+  font-weight: 800;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.sportBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.75rem;
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  color: var(--accent);
+  background: var(--accent-subtle);
+  border: 1px solid var(--border-accent);
+  border-radius: var(--radius-full);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.readOnlyBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: var(--space-xs) var(--space-md);
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  color: var(--text-secondary);
+  background: hsla(225, 15%, 20%, 0.5);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-full);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.date {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  margin-top: var(--space-xs);
+}
+
+/* ─── Role Banner ─── */
+.roleBanner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-lg);
+  margin-bottom: var(--space-lg);
+  background: hsla(225, 15%, 14%, 0.6);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  animation: fadeInUp 0.5s var(--ease-out) 0.1s both;
+}
+
+.roleBannerIcon {
+  font-size: var(--font-size-base);
+  flex-shrink: 0;
+}
+
+.roleBannerText {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+/* ─── Confidence Badge ─── */
+.confidenceBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: var(--space-xs) var(--space-md);
+  margin-bottom: var(--space-lg);
+  background: hsla(45, 93%, 58%, 0.08);
+  border: 1px solid hsla(45, 93%, 58%, 0.2);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-xs);
+}
+
+.confidenceIcon {
+  font-size: var(--font-size-sm);
+}
+
+.confidenceText {
+  color: var(--color-yellow);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+/* ─── Bento Grid ─── */
+.grid {
+  display: grid;
+  gap: var(--space-md);
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.span2 {
+  grid-column: span 2;
+}
+
+/* ─── Readiness Card ─── */
+.readinessCard {
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-xl);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--duration-normal) var(--ease-out);
+}
+
+.readinessCard:hover {
+  border-color: var(--border-accent);
+  transform: translateY(-2px);
+}
+
+/* ─── Quick Stats Grid ─── */
+.statsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-md);
+}
+
+/* ─── Section Title ─── */
+.sectionTitle {
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-secondary);
+}
+
+/* ─── Sub-Scores Breakdown ─── */
+.subScoresCard {
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  animation: fadeInUp 0.6s var(--ease-out) 0.15s both;
+}
+
+.subScoresGrid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  margin-top: var(--space-md);
+}
+
+.subScoreItem {
+  display: grid;
+  grid-template-columns: 1.5rem 7rem 1fr 2.5rem;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.subScoreIcon {
+  font-size: var(--font-size-sm);
+}
+
+.subScoreLabel {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.subScoreBarTrack {
+  height: 6px;
+  background: var(--bg-elevated);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.subScoreBarFill {
+  height: 100%;
+  border-radius: var(--radius-full);
+  transition: width 1s var(--ease-out);
+}
+
+.subScoreValue {
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  color: var(--text-primary);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ─── Coach Card ─── */
+.coachCard {
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid hsla(152, 68%, 52%, 0.15);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  animation: fadeInUp 0.6s var(--ease-out) 0.2s both;
+}
+
+.coachHeader,
+.clinicalHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-md);
+}
+
+.coachIcon,
+.clinicalIcon {
+  font-size: var(--font-size-lg);
+}
+
+.coachContent,
+.clinicalContent {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-md);
+}
+
+.coachMetric,
+.clinicalMetric {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  padding: var(--space-md);
+  background: var(--bg-elevated);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-subtle);
+}
+
+.coachMetricLabel,
+.clinicalMetricLabel {
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.coachMetricValue,
+.clinicalMetricValue {
+  font-size: var(--font-size-xl);
+  font-weight: 800;
+  color: var(--text-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ─── Clinical / Doctor Card ─── */
+.clinicalCard {
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid hsla(200, 80%, 50%, 0.15);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  animation: fadeInUp 0.6s var(--ease-out) 0.2s both;
+}
+
+.clinicalNotes {
+  grid-column: 1 / -1;
+  padding: var(--space-md);
+  background: var(--bg-elevated);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-subtle);
+}
+
+.clinicalNotesTitle {
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  color: var(--text-secondary);
+  margin-bottom: var(--space-sm);
+}
+
+.clinicalNotesPlaceholder {
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+  font-style: italic;
+  line-height: 1.6;
+}
+
+/* ─── Highlighted section (coach training load) ─── */
+.highlighted {
+  outline: 2px solid hsla(152, 68%, 52%, 0.2);
+  outline-offset: 2px;
+  border-radius: var(--radius-lg);
+}
+
+/* ─── Loading State ─── */
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--border-subtle);
+  border-top-color: var(--accent);
+  border-radius: var(--radius-full);
+  animation: rotate 0.8s linear infinite;
+}
+
+.loadingText {
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+}
+
+/* ─── Error State ─── */
+.errorState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  gap: var(--space-lg);
+  text-align: center;
+  animation: fadeIn 0.5s var(--ease-out) both;
+}
+
+.errorIcon {
+  font-size: 3rem;
+}
+
+.errorTitle {
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+/* ─── Empty State ─── */
+.emptyState {
+  text-align: center;
+  padding: var(--space-3xl) var(--space-xl);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-lg);
+  animation: fadeInUp 0.6s var(--ease-out) 0.1s both;
+}
+
+.emptyStateIcon {
+  font-size: 4rem;
+  animation: float 3s ease-in-out infinite;
+}
+
+.emptyStateTitle {
+  font-size: var(--font-size-2xl);
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+}
+
+.emptyStateText {
+  color: var(--text-secondary);
+  max-width: 420px;
+  line-height: 1.6;
+  font-size: var(--font-size-sm);
+}
+
+/* ─── Disclaimer ─── */
+.disclaimer {
+  margin-top: var(--space-2xl);
+  padding: var(--space-md) var(--space-lg);
+  background: hsla(225, 15%, 10%, 0.5);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  animation: fadeIn 0.5s var(--ease-out) 0.3s both;
+}
+
+.disclaimer p {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  line-height: 1.6;
+  text-align: center;
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .subScoreItem {
+    grid-template-columns: 1.5rem 5.5rem 1fr 2.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .span2 {
+    grid-column: span 1;
+  }
+
+  .athleteName {
+    font-size: var(--font-size-2xl);
+  }
+
+  .headerRow {
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+
+  .subScoreItem {
+    grid-template-columns: 1.5rem 5rem 1fr 2rem;
+  }
+
+  .coachContent,
+  .clinicalContent {
+    grid-template-columns: 1fr;
+  }
+
+  .emptyState {
+    padding: var(--space-2xl) var(--space-md);
+  }
+}
+
+/* ─── Keyframes ─── */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}

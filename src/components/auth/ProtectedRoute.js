@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
 
-export default function ProtectedRoute({ children }) {
+export default function ProtectedRoute({ children, allowedRoles }) {
   const { user, profile, loading } = useAuth();
   const router = useRouter();
 
@@ -20,7 +20,16 @@ export default function ProtectedRoute({ children }) {
       router.replace('/onboarding');
       return;
     }
-  }, [user, profile, loading, router]);
+
+    // Role-based access control
+    if (allowedRoles && allowedRoles.length > 0) {
+      const userRole = profile.role || 'athlete';
+      if (!allowedRoles.includes(userRole)) {
+        router.replace('/dashboard');
+        return;
+      }
+    }
+  }, [user, profile, loading, router, allowedRoles]);
 
   if (loading) {
     return (
@@ -44,6 +53,12 @@ export default function ProtectedRoute({ children }) {
   }
 
   if (!user) return null;
+
+  // Block render if role not allowed
+  if (allowedRoles && allowedRoles.length > 0 && profile) {
+    const userRole = profile.role || 'athlete';
+    if (!allowedRoles.includes(userRole)) return null;
+  }
 
   return children;
 }

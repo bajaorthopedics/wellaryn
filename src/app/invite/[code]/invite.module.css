@@ -1,0 +1,427 @@
+/* Wellaryn — Invite Acceptance Page Styles */
+
+.invitePage {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-base);
+  padding: var(--space-lg);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Ambient glow background */
+.invitePage::before {
+  content: '';
+  position: absolute;
+  top: -30%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+  opacity: 0.3;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.inviteContainer {
+  width: 100%;
+  max-width: 480px;
+  position: relative;
+  z-index: 1;
+  animation: fadeInUp 0.7s var(--ease-out) both;
+}
+
+/* ── Logo ── */
+.logoSection {
+  text-align: center;
+  margin-bottom: var(--space-2xl);
+}
+
+.logoMark {
+  width: 48px;
+  height: 48px;
+  background: var(--accent);
+  border-radius: var(--radius-md);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--space-md);
+  box-shadow: var(--shadow-glow);
+  font-size: var(--font-size-xl);
+  font-weight: 800;
+  color: var(--text-inverse);
+}
+
+.logoText {
+  font-size: var(--font-size-2xl);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+}
+
+/* ── Glass Card ── */
+.inviteCard {
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-2xl);
+  box-shadow: var(--shadow-lg);
+  text-align: center;
+}
+
+/* ── Coach Avatar ── */
+.coachAvatar {
+  width: 72px;
+  height: 72px;
+  border-radius: var(--radius-full);
+  background: var(--bg-elevated);
+  border: 2px solid var(--border-accent);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--space-lg);
+  font-size: var(--font-size-3xl);
+  color: var(--accent);
+  box-shadow: 0 0 24px var(--accent-glow);
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+
+/* ── Typography ── */
+.inviteTitle {
+  font-size: var(--font-size-xl);
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: var(--space-xs);
+  line-height: 1.4;
+}
+
+.coachName {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.inviteSubtitle {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  margin-bottom: var(--space-xl);
+  line-height: 1.5;
+}
+
+/* ── Role Badge ── */
+.roleBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: 0.3rem 0.85rem;
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  border-radius: var(--radius-full);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  background: hsla(152, 68%, 52%, 0.12);
+  color: var(--accent);
+  border: 1px solid hsla(152, 68%, 52%, 0.25);
+  margin-bottom: var(--space-xl);
+}
+
+.roleBadgeIcon {
+  font-size: var(--font-size-sm);
+}
+
+/* ── Buttons ── */
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.acceptButton {
+  width: 100%;
+  padding: 0.875rem;
+  background: var(--accent);
+  color: var(--text-inverse);
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  border: none;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: all var(--duration-normal) var(--ease-out);
+  box-shadow: 0 0 20px var(--accent-glow);
+}
+
+.acceptButton:hover:not(:disabled) {
+  background: var(--accent-hover);
+  box-shadow: 0 0 30px var(--accent-glow), 0 4px 15px var(--accent-glow);
+  transform: translateY(-1px);
+}
+
+.acceptButton:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.acceptButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.declineButton {
+  width: 100%;
+  padding: 0.75rem;
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: all var(--duration-normal) var(--ease-out);
+}
+
+.declineButton:hover:not(:disabled) {
+  color: var(--color-red);
+  border-color: hsla(0, 72%, 56%, 0.4);
+  background: hsla(0, 72%, 56%, 0.06);
+}
+
+.declineButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ── Sign-in prompt ── */
+.signInPrompt {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-lg);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+}
+
+.signInText {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  text-align: center;
+  line-height: 1.5;
+}
+
+.signInLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  padding: 0.75rem 1.75rem;
+  background: var(--accent);
+  color: var(--text-inverse);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  border-radius: var(--radius-full);
+  text-decoration: none;
+  transition: all var(--duration-normal) var(--ease-out);
+  box-shadow: 0 0 20px var(--accent-glow);
+}
+
+.signInLink:hover {
+  background: var(--accent-hover);
+  box-shadow: 0 0 30px var(--accent-glow), 0 4px 15px var(--accent-glow);
+  transform: translateY(-1px);
+  color: var(--text-inverse);
+}
+
+/* ── Status Messages ── */
+.errorBox {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-sm);
+  padding: var(--space-md);
+  background: hsla(0, 72%, 56%, 0.1);
+  border: 1px solid hsla(0, 72%, 56%, 0.25);
+  border-radius: var(--radius-md);
+  color: var(--color-red);
+  font-size: var(--font-size-sm);
+  line-height: 1.5;
+  text-align: left;
+}
+
+.errorIcon {
+  flex-shrink: 0;
+  font-size: var(--font-size-base);
+  margin-top: 1px;
+}
+
+.successBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-xl);
+  text-align: center;
+}
+
+.successIcon {
+  width: 64px;
+  height: 64px;
+  border-radius: var(--radius-full);
+  background: hsla(152, 68%, 52%, 0.12);
+  border: 2px solid var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-size-2xl);
+  animation: scaleIn 0.5s var(--ease-spring) both;
+}
+
+.successTitle {
+  font-size: var(--font-size-xl);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.successMessage {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.declinedBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-xl);
+  text-align: center;
+}
+
+.declinedIcon {
+  width: 64px;
+  height: 64px;
+  border-radius: var(--radius-full);
+  background: hsla(0, 0%, 100%, 0.04);
+  border: 2px solid var(--border-default);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-size-2xl);
+}
+
+.declinedTitle {
+  font-size: var(--font-size-xl);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.declinedMessage {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+/* ── Redirect link ── */
+.redirectLink {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  margin-top: var(--space-sm);
+  color: var(--accent);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  text-decoration: none;
+  transition: color var(--duration-fast) var(--ease-out);
+}
+
+.redirectLink:hover {
+  color: var(--accent-hover);
+}
+
+/* ── Loading Spinner ── */
+.loadingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-lg);
+  padding: var(--space-2xl);
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--border-default);
+  border-top-color: var(--accent);
+  border-radius: var(--radius-full);
+  animation: rotate 0.8s linear infinite;
+}
+
+.loadingText {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+}
+
+/* ── Divider ── */
+.divider {
+  width: 48px;
+  height: 2px;
+  background: var(--border-default);
+  border-radius: var(--radius-full);
+  margin: 0 auto var(--space-lg);
+}
+
+/* ── Animations ── */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 20px var(--accent-glow); }
+  50% { box-shadow: 0 0 40px var(--accent-glow), 0 0 60px hsla(152, 68%, 52%, 0.15); }
+}
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* ── Responsive ── */
+@media (max-width: 480px) {
+  .inviteCard {
+    padding: var(--space-lg);
+  }
+
+  .logoSection {
+    margin-bottom: var(--space-xl);
+  }
+
+  .invitePage {
+    padding: var(--space-md);
+  }
+
+  .coachAvatar {
+    width: 60px;
+    height: 60px;
+    font-size: var(--font-size-2xl);
+  }
+}

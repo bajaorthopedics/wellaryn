@@ -201,3 +201,106 @@ export function metricsToChartData(metrics) {
 
   return { hrvChartData, sleepChartData, trainingChartData };
 }
+
+// ─── Coach/Doctor Functions ──────────────────────────────────
+
+export async function fetchCoachAthletes(coachId) {
+  const supabase = getSupabaseBrowser();
+  // Get all accepted athlete relationships with their profiles and latest metrics
+  const { data: relationships, error: relError } = await supabase
+    .from('coach_athletes')
+    .select('id, athlete_id, coach_role, status, created_at, accepted_at')
+    .eq('coach_id', coachId)
+    .order('created_at', { ascending: false });
+
+  if (relError) throw relError;
+  if (!relationships || relationships.length === 0) return [];
+
+  // For each accepted athlete, fetch their profile and latest metrics
+  const athletes = await Promise.all(
+    relationships.map(async (rel) => {
+      const [profileRes, metricsRes] = await Promise.all([
+        supabase.from('profiles').select('id, display_name, email, sport, age, role').eq('id', rel.athlete_id).maybeSingle(),
+        rel.status === 'accepted'
+          ? supabase.from('daily_metrics').select('*').eq('user_id', rel.athlete_id).order('date', { ascending: false }).limit(7)
+          : Promise.resolve({ data: [], error: null }),
+      ]);
+      return {
+        ...rel,
+        profile: profileRes.data,
+        recentMetrics: metricsRes.data || [],
+      };
+    })
+  );
+
+  return athletes;
+}
+
+export async function fetchPendingInvites(coachId) {
+  const supabase = getSupabaseBrowser();
+  const { data, error } = await supabase
+    .from('coach_athletes')
+    .select('id, athlete_id, invite_code, status, created_at')
+    .eq('coach_id', coachId)
+    .eq('status', 'pending');
+  if (error) throw error;
+  return data || [];
+}
+
+export async function inviteAthlete(coachId, coachRole) {
+  const supabase = getSupabaseBrowser();
+  const inviteCode = `WEL-${coachRole.toUpperCase().slice(0,1)}-${Date.now().toString(36).toUpperCase()}-${Math.random().toString(36).slice(2,6).toUpperCase()}`;
+  
+  const { data, error } = await supabase
+    .from('coach_athletes')
+    .insert({
+      coach_id: coachId,
+      athlete_id: coachId, // placeholder — will be updated when athlete accepts
+      coach_role: coachRole,
+      invite_code: inviteCode,
+      status: 'pending',
+    })
+    .select()
+    .single();
+  
+  if (error) throw error;
+  return data;
+}
+
+export async function fetchInviteByCode(code) {
+  const supabase = getSupabaseBrowser();
+  const { data, error } = await supabase
+    .from('coach_athletes')
+    .select('id, coach_id, coach_role, invite_code, status')
+    .eq('invite_code', code)
+    .eq('status', 'pending')
+    .maybeSingle();
+  if (error) throw error;
+  return data;
+}
+
+export async function acceptInvite(inviteId, athleteId) {
+  const supabase = getSupabaseBrowser();
+  const { data, error } = await supabase
+    .from('coach_athletes')
+    .update({
+      athlete_id: athleteId,
+      status: 'accepted',
+      accepted_at: new Date().toISOString(),
+    })
+    .eq('id', inviteId)
+    .select()
+    .single();
+  if (error) throw error;
+  return data;
+}
+
+export async function removeAthlete(coachId, relationshipId) {
+  const supabase = getSupabaseBrowser();
+  const { error } = await supabase
+    .from('coach_athletes')
+    .delete()
+    .eq('id', relationshipId)
+    .eq('coach_id', coachId);
+  if (error) throw error;
+}
