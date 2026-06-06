@@ -123,6 +123,10 @@ export default function Home() {
             </li>
           </ul>
 
+          <Link href="/auth/login" className={styles.navSignIn} id="nav-signin">
+            {lang === 'es' ? 'Iniciar Sesión' : 'Sign In'}
+          </Link>
+
           <button id="nav-cta" className={`btn btn-primary ${styles.navCta}`} onClick={() => router.push('/auth/register')}>
             {nav.getEarlyAccess}
           </button>
@@ -156,6 +160,7 @@ export default function Home() {
         <button className={styles.mobileNavLink} onClick={() => scrollTo('how-it-works')}>{nav.howItWorks}</button>
         <button className={styles.mobileNavLink} onClick={() => scrollTo('sports')}>{nav.sports}</button>
         <button className={styles.mobileNavLink} onClick={() => scrollTo('final-cta')}>{nav.pricing}</button>
+        <Link href="/auth/login" className={styles.mobileNavLink} onClick={() => setMenuOpen(false)}>{lang === 'es' ? 'Iniciar Sesión' : 'Sign In'}</Link>
         <button className="btn btn-primary btn-lg" onClick={() => router.push('/auth/register')}>{nav.getEarlyAccess}</button>
         <button className={styles.langToggle} onClick={toggleLang}>{t('langToggle', lang)}</button>
       </div>
