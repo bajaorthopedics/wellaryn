@@ -166,7 +166,7 @@ export default function DashboardPage() {
               user: { displayName: profile?.display_name || user.email?.split('@')[0] || 'Athlete' },
               today: {
                 hrv: { rmssd: todayMetric.hrv_rmssd },
-                rhr: { rhr: todayMetric.rhr },
+                rhr: todayMetric.rhr || 0,
                 sleep: { total: todayMetric.sleep_total },
                 steps: todayMetric.steps || 0,
                 calories: todayMetric.calories || 0,
@@ -201,9 +201,9 @@ export default function DashboardPage() {
       const rhrChartArr = mockUser.rhrChartData || [];
       const yesterdayRHR = rhrChartArr.length >= 2
         ? rhrChartArr[rhrChartArr.length - 2].rhr
-        : today.rhr.rhr;
+        : (typeof today.rhr === 'object' ? today.rhr?.rhr : today.rhr) || 0;
       const rhrChange = yesterdayRHR > 0
-        ? Math.round(((today.rhr.rhr - yesterdayRHR) / yesterdayRHR) * 100)
+        ? Math.round((((typeof today.rhr === 'object' ? today.rhr?.rhr : today.rhr) - yesterdayRHR) / yesterdayRHR) * 100)
         : 0;
 
       setData({
@@ -330,7 +330,7 @@ export default function DashboardPage() {
             <div className={styles.statsGrid}>
               <MetricCard
                 label={t('dashboard.metrics.rhr', lang)}
-                value={today.rhr?.rhr || today.rhr || 0}
+                value={typeof today.rhr === 'object' ? (today.rhr?.rhr || 0) : (today.rhr || 0)}
                 unit={t('dashboard.metrics.bpm', lang)}
                 trend={rhrChange > 0 ? 'up' : rhrChange < 0 ? 'down' : 'flat'}
                 change={rhrChange}
@@ -456,7 +456,7 @@ export default function DashboardPage() {
           <div className={styles.statsGrid}>
             <MetricCard
               label={t('dashboard.metrics.rhr', lang)}
-              value={today.rhr?.rhr || today.rhr || 0}
+              value={typeof today.rhr === 'object' ? (today.rhr?.rhr || 0) : (today.rhr || 0)}
               unit={t('dashboard.metrics.bpm', lang)}
               trend={rhrChange > 0 ? 'up' : rhrChange < 0 ? 'down' : 'flat'}
               change={rhrChange}
