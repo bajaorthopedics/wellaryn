@@ -6,6 +6,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { t } from '@/lib/i18n';
 import styles from './Sidebar.module.css';
+import NotificationBell from './NotificationBell';
 
 export default function Sidebar({ isOpen, onClose }) {
   const pathname = usePathname();
@@ -99,6 +100,7 @@ export default function Sidebar({ isOpen, onClose }) {
           <div className={styles.userName}>{displayName}</div>
           <div className={styles.userRole}>{roleName}</div>
         </div>
+        {isCoachOrDoctor && <NotificationBell />}
       </div>
 
       {/* Sign Out */}
