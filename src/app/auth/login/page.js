@@ -43,13 +43,19 @@ export default function LoginPage() {
     setLoading(true);
 
     try {
-      const result = await signIn(email, password);
+      // Wrap signIn with a 10-second timeout
+      const timeoutPromise = new Promise((_, reject) =>
+        setTimeout(() => reject(new Error(
+          lang === 'es'
+            ? 'Tiempo de espera agotado. Verifica tu conexión e intenta de nuevo.'
+            : 'Request timed out. Check your connection and try again.'
+        )), 10000)
+      );
 
-      // signIn succeeded — wait briefly for AuthContext to update profile
-      // then redirect based on onboarding status
-      setTimeout(() => {
-        router.replace('/dashboard');
-      }, 300);
+      await Promise.race([signIn(email, password), timeoutPromise]);
+
+      // signIn succeeded — redirect to dashboard
+      router.replace('/dashboard');
     } catch (err) {
       setError(err.message || t.invalidCredentials[lang]);
       setLoading(false);
