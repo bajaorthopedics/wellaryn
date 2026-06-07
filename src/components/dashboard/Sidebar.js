@@ -23,6 +23,7 @@ export default function Sidebar({ isOpen, onClose }) {
         { icon: '📊', label: t('dashboard.nav.overview', lang), href: '/dashboard' },
         { icon: '💬', label: t('dashboard.nav.chat', lang), href: '/dashboard/chat', hasBadge: true },
         { icon: '📋', label: t('dashboard.nav.reports', lang), href: '/dashboard/reports' },
+        { icon: '🎯', label: t('dashboard.nav.goals', lang), href: '/dashboard/goals' },
         { icon: '👤', label: t('dashboard.nav.profile', lang), href: '/dashboard/profile' },
       ]
     : [
@@ -32,6 +33,7 @@ export default function Sidebar({ isOpen, onClose }) {
         { icon: '🏋️', label: t('dashboard.nav.training', lang), href: '/dashboard/training' },
         { icon: '📈', label: t('dashboard.nav.history', lang), href: '/dashboard/history' },
         { icon: '📋', label: t('dashboard.nav.reports', lang), href: '/dashboard/reports' },
+        { icon: '🎯', label: t('dashboard.nav.goals', lang), href: '/dashboard/goals' },
         { icon: '👤', label: t('dashboard.nav.profile', lang), href: '/dashboard/profile' },
       ];
 

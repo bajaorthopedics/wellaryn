@@ -444,3 +444,66 @@ export async function fetchUnreadCount(userId) {
   if (error) throw error;
   return count || 0;
 }
+
+// ─── Goals & Objectives Functions ────────────────────────────
+
+/**
+ * Fetch goals for a user, optionally filtered by status.
+ */
+export async function fetchGoals(userId, status = null) {
+  const supabase = getSupabaseBrowser();
+  let query = supabase
+    .from('athlete_goals')
+    .select('*')
+    .eq('user_id', userId)
+    .order('created_at', { ascending: false });
+
+  if (status) {
+    query = query.eq('status', status);
+  }
+
+  const { data, error } = await query;
+  if (error) throw error;
+  return data || [];
+}
+
+/**
+ * Create a new goal.
+ */
+export async function createGoal(goalData) {
+  const supabase = getSupabaseBrowser();
+  const { data, error } = await supabase
+    .from('athlete_goals')
+    .insert(goalData)
+    .select()
+    .single();
+  if (error) throw error;
+  return data;
+}
+
+/**
+ * Update an existing goal.
+ */
+export async function updateGoal(goalId, updates) {
+  const supabase = getSupabaseBrowser();
+  const { data, error } = await supabase
+    .from('athlete_goals')
+    .update(updates)
+    .eq('id', goalId)
+    .select()
+    .single();
+  if (error) throw error;
+  return data;
+}
+
+/**
+ * Delete a goal by ID.
+ */
+export async function deleteGoal(goalId) {
+  const supabase = getSupabaseBrowser();
+  const { error } = await supabase
+    .from('athlete_goals')
+    .delete()
+    .eq('id', goalId);
+  if (error) throw error;
+}
