@@ -1,0 +1,479 @@
+/* ============================================
+   Reports Page — Weekly Performance Reports
+   ============================================ */
+
+.page {
+  padding: var(--space-lg);
+  max-width: var(--max-width);
+  margin: 0 auto;
+  animation: fadeInUp 0.6s var(--ease-out) both;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── Header ─────────────────────────────────── */
+
+.header {
+  margin-bottom: var(--space-xl);
+}
+
+.title {
+  font-size: var(--font-size-2xl);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  background: linear-gradient(135deg, var(--accent) 0%, hsl(180, 60%, 55%) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: var(--space-xs);
+}
+
+.subtitle {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+}
+
+.headerRow {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+}
+
+.emailNote {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: var(--space-xs) var(--space-md);
+  font-size: var(--font-size-xs);
+  color: var(--text-secondary);
+  background: var(--accent-subtle);
+  border: 1px solid var(--border-accent);
+  border-radius: var(--radius-full);
+  white-space: nowrap;
+}
+
+/* ─── Athlete Selector (Coach view) ────────── */
+
+.selectorRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  margin-bottom: var(--space-xl);
+}
+
+.athleteSelect {
+  padding: var(--space-sm) var(--space-md);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  font-size: var(--font-size-sm);
+  min-width: 200px;
+  cursor: pointer;
+  transition: border-color var(--duration-fast) var(--ease-out);
+}
+
+.athleteSelect:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+/* ─── Week Cards ─────────────────────────────── */
+
+.weeksList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.weekCard {
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: border-color var(--duration-normal) var(--ease-out),
+              box-shadow var(--duration-normal) var(--ease-out);
+  animation: fadeInUp 0.5s var(--ease-out) both;
+}
+
+.weekCard:nth-child(1) { animation-delay: 0ms; }
+.weekCard:nth-child(2) { animation-delay: 80ms; }
+.weekCard:nth-child(3) { animation-delay: 160ms; }
+.weekCard:nth-child(4) { animation-delay: 240ms; }
+
+.weekCard:hover {
+  border-color: var(--border-accent);
+  box-shadow: var(--shadow-md);
+}
+
+.weekHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-lg);
+  cursor: pointer;
+  user-select: none;
+  transition: background var(--duration-fast) var(--ease-out);
+}
+
+.weekHeader:hover {
+  background: hsla(0, 0%, 100%, 0.02);
+}
+
+.weekHeaderLeft {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.weekNumber {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-md);
+  background: var(--accent-subtle);
+  border: 1px solid var(--border-accent);
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.weekMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.weekLabel {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.weekDateRange {
+  font-size: var(--font-size-xs);
+  color: var(--text-secondary);
+}
+
+.weekHeaderRight {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.weekScore {
+  font-size: var(--font-size-xl);
+  font-weight: 800;
+  transition: color var(--duration-fast) var(--ease-out);
+}
+
+.weekTrend {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: 2px var(--space-sm);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+}
+
+.trendUp {
+  color: var(--color-green);
+  background: hsla(152, 68%, 52%, 0.1);
+}
+
+.trendDown {
+  color: var(--color-red);
+  background: hsla(0, 72%, 56%, 0.1);
+}
+
+.trendStable {
+  color: var(--color-yellow);
+  background: hsla(45, 93%, 58%, 0.1);
+}
+
+.chevron {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  transition: transform var(--duration-normal) var(--ease-out);
+}
+
+.chevronOpen {
+  transform: rotate(180deg);
+}
+
+/* ─── Week Body (Collapsible) ────────────────── */
+
+.weekBody {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows var(--duration-slow) var(--ease-out);
+}
+
+.weekBodyOpen {
+  grid-template-rows: 1fr;
+}
+
+.weekBodyInner {
+  overflow: hidden;
+}
+
+.weekContent {
+  padding: 0 var(--space-lg) var(--space-lg);
+  border-top: 1px solid var(--border-subtle);
+}
+
+/* ─── Stats Grid ─────────────────────────────── */
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: var(--space-sm);
+  margin-top: var(--space-md);
+}
+
+.statItem {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+  text-align: center;
+  transition: border-color var(--duration-fast) var(--ease-out),
+              transform var(--duration-fast) var(--ease-out);
+}
+
+.statItem:hover {
+  border-color: var(--border-default);
+  transform: translateY(-1px);
+}
+
+.statLabel {
+  font-size: var(--font-size-xs);
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 600;
+  margin-bottom: var(--space-xs);
+}
+
+.statValue {
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.statUnit {
+  font-size: var(--font-size-xs);
+  color: var(--text-secondary);
+  font-weight: 400;
+}
+
+.statDiff {
+  display: block;
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  margin-top: 2px;
+}
+
+/* ─── Best/Worst Row ─────────────────────────── */
+
+.bestWorstRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-sm);
+  margin-top: var(--space-sm);
+}
+
+.bestDay {
+  background: hsla(152, 68%, 52%, 0.06);
+  border: 1px solid hsla(152, 68%, 52%, 0.15);
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+}
+
+.worstDay {
+  background: hsla(0, 72%, 56%, 0.06);
+  border: 1px solid hsla(0, 72%, 56%, 0.15);
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+}
+
+.dayLabel {
+  font-size: var(--font-size-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+
+.dayLabelGreen { color: var(--color-green); }
+.dayLabelRed { color: var(--color-red); }
+
+.dayName {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.dayScore {
+  font-size: var(--font-size-xs);
+  color: var(--text-secondary);
+  margin-top: 2px;
+}
+
+/* ─── ACWR Badge ─────────────────────────────── */
+
+.acwrRow {
+  margin-top: var(--space-sm);
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.acwrBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: var(--space-xs) var(--space-md);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+}
+
+.acwrSafe {
+  background: hsla(152, 68%, 52%, 0.12);
+  color: var(--color-green);
+  border: 1px solid hsla(152, 68%, 52%, 0.25);
+}
+
+.acwrCaution {
+  background: hsla(45, 93%, 58%, 0.12);
+  color: var(--color-yellow);
+  border: 1px solid hsla(45, 93%, 58%, 0.25);
+}
+
+.acwrDanger {
+  background: hsla(0, 72%, 56%, 0.12);
+  color: var(--color-red);
+  border: 1px solid hsla(0, 72%, 56%, 0.25);
+}
+
+/* ─── Empty State ────────────────────────────── */
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4xl) var(--space-lg);
+  text-align: center;
+}
+
+.emptyIcon {
+  font-size: 3rem;
+  margin-bottom: var(--space-md);
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+.emptyTitle {
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: var(--space-sm);
+}
+
+.emptyText {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  max-width: 400px;
+}
+
+/* ─── Skeleton Loading ───────────────────────── */
+
+.skeletonList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.skeletonCard {
+  height: 80px;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(90deg, var(--bg-surface) 25%, var(--bg-elevated) 50%, var(--bg-surface) 75%);
+  background-size: 400% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ─── Responsive ─────────────────────────────── */
+
+@media (max-width: 768px) {
+  .page {
+    padding: var(--space-md);
+  }
+
+  .headerRow {
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+
+  .weekHeader {
+    padding: var(--space-md);
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+  }
+
+  .weekContent {
+    padding: 0 var(--space-md) var(--space-md);
+  }
+
+  .statsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .bestWorstRow {
+    grid-template-columns: 1fr;
+  }
+
+  .selectorRow {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .athleteSelect {
+    min-width: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .statsGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .weekHeaderLeft {
+    gap: var(--space-sm);
+  }
+
+  .weekScore {
+    font-size: var(--font-size-lg);
+  }
+}
