@@ -304,3 +304,143 @@ export async function removeAthlete(coachId, relationshipId) {
     .eq('coach_id', coachId);
   if (error) throw error;
 }
+
+// ─── Chat Functions ──────────────────────────────────────────
+
+/**
+ * Fetch all chat contacts for a user, with last message and unread count.
+ * - Coach/Doctor: all accepted athletes from coach_athletes
+ * - Athlete: all coaches/doctors where athlete_id = userId
+ */
+export async function fetchChatContacts(userId, userRole) {
+  const supabase = getSupabaseBrowser();
+
+  let contactIds = [];
+
+  if (userRole === 'coach' || userRole === 'doctor') {
+    // Coach/Doctor sees their connected athletes
+    const { data: rels, error: relErr } = await supabase
+      .from('coach_athletes')
+      .select('athlete_id')
+      .eq('coach_id', userId)
+      .eq('status', 'accepted');
+    if (relErr) throw relErr;
+    contactIds = (rels || []).map(r => r.athlete_id).filter(id => id !== userId);
+  } else {
+    // Athlete sees their coaches/doctors
+    const { data: rels, error: relErr } = await supabase
+      .from('coach_athletes')
+      .select('coach_id')
+      .eq('athlete_id', userId)
+      .eq('status', 'accepted');
+    if (relErr) throw relErr;
+    contactIds = (rels || []).map(r => r.coach_id);
+  }
+
+  if (contactIds.length === 0) return [];
+
+  // Deduplicate
+  contactIds = [...new Set(contactIds)];
+
+  // Fetch profiles for all contacts
+  const { data: profiles, error: profErr } = await supabase
+    .from('profiles')
+    .select('id, display_name, email, role, sport')
+    .in('id', contactIds);
+  if (profErr) throw profErr;
+
+  // For each contact, fetch last message and unread count
+  const contacts = await Promise.all(
+    (profiles || []).map(async (profile) => {
+      // Last message (either direction)
+      const { data: lastMsgs } = await supabase
+        .from('chat_messages')
+        .select('id, message, sender_id, created_at, read')
+        .or(`and(sender_id.eq.${userId},receiver_id.eq.${profile.id}),and(sender_id.eq.${profile.id},receiver_id.eq.${userId})`)
+        .order('created_at', { ascending: false })
+        .limit(1);
+
+      // Unread count (messages FROM this contact TO current user)
+      const { data: unreadData } = await supabase
+        .from('chat_messages')
+        .select('id', { count: 'exact', head: true })
+        .eq('sender_id', profile.id)
+        .eq('receiver_id', userId)
+        .eq('read', false);
+
+      const lastMessage = lastMsgs?.[0] || null;
+
+      return {
+        ...profile,
+        lastMessage,
+        unreadCount: unreadData?.length ?? 0,
+      };
+    })
+  );
+
+  // Sort by most recent message, contacts with no messages go last
+  contacts.sort((a, b) => {
+    const aTime = a.lastMessage?.created_at || '1970-01-01';
+    const bTime = b.lastMessage?.created_at || '1970-01-01';
+    return new Date(bTime) - new Date(aTime);
+  });
+
+  return contacts;
+}
+
+/**
+ * Fetch messages between two users, ordered by created_at ASC
+ */
+export async function fetchMessages(userId, contactId, limit = 50) {
+  const supabase = getSupabaseBrowser();
+  const { data, error } = await supabase
+    .from('chat_messages')
+    .select('*')
+    .or(`and(sender_id.eq.${userId},receiver_id.eq.${contactId}),and(sender_id.eq.${contactId},receiver_id.eq.${userId})`)
+    .order('created_at', { ascending: true })
+    .limit(limit);
+  if (error) throw error;
+  return data || [];
+}
+
+/**
+ * Send a message from sender to receiver
+ */
+export async function sendMessage(senderId, receiverId, message) {
+  const supabase = getSupabaseBrowser();
+  const { data, error } = await supabase
+    .from('chat_messages')
+    .insert({ sender_id: senderId, receiver_id: receiverId, message })
+    .select()
+    .single();
+  if (error) throw error;
+  return data;
+}
+
+/**
+ * Mark all messages from senderId to userId as read
+ */
+export async function markMessagesRead(userId, senderId) {
+  const supabase = getSupabaseBrowser();
+  const { error } = await supabase
+    .from('chat_messages')
+    .update({ read: true })
+    .eq('sender_id', senderId)
+    .eq('receiver_id', userId)
+    .eq('read', false);
+  if (error) throw error;
+}
+
+/**
+ * Count total unread messages for a user
+ */
+export async function fetchUnreadCount(userId) {
+  const supabase = getSupabaseBrowser();
+  const { count, error } = await supabase
+    .from('chat_messages')
+    .select('id', { count: 'exact', head: true })
+    .eq('receiver_id', userId)
+    .eq('read', false);
+  if (error) throw error;
+  return count || 0;
+}

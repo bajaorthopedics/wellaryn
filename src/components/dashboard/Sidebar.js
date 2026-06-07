@@ -7,6 +7,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { t } from '@/lib/i18n';
 import styles from './Sidebar.module.css';
 import NotificationBell from './NotificationBell';
+import ChatBadge from './ChatBadge';
 
 export default function Sidebar({ isOpen, onClose }) {
   const pathname = usePathname();
@@ -20,12 +21,14 @@ export default function Sidebar({ isOpen, onClose }) {
     ? [
         { icon: '👥', label: t('dashboard.nav.team', lang), href: '/dashboard/team' },
         { icon: '📊', label: t('dashboard.nav.overview', lang), href: '/dashboard' },
+        { icon: '💬', label: t('dashboard.nav.chat', lang), href: '/dashboard/chat', hasBadge: true },
         { icon: '📋', label: t('dashboard.nav.reports', lang), href: '/dashboard/reports' },
         { icon: '👤', label: t('dashboard.nav.profile', lang), href: '/dashboard/profile' },
       ]
     : [
         { icon: '📊', label: t('dashboard.nav.overview', lang), href: '/dashboard' },
         { icon: '💪', label: t('dashboard.nav.readiness', lang), href: '/dashboard/readiness' },
+        { icon: '💬', label: t('dashboard.nav.chat', lang), href: '/dashboard/chat', hasBadge: true },
         { icon: '🏋️', label: t('dashboard.nav.training', lang), href: '/dashboard/training' },
         { icon: '📈', label: t('dashboard.nav.history', lang), href: '/dashboard/history' },
         { icon: '📋', label: t('dashboard.nav.reports', lang), href: '/dashboard/reports' },
@@ -79,7 +82,7 @@ export default function Sidebar({ isOpen, onClose }) {
                   id={`nav-${item.href.split('/').pop() || 'overview'}`}
                 >
                   <span className={styles.navIcon} aria-hidden="true">{item.icon}</span>
-                  <span className={styles.navLabel}>{item.label}</span>
+                  <span className={styles.navLabel}>{item.label}{item.hasBadge && <ChatBadge />}</span>
                 </Link>
               </li>
             );
