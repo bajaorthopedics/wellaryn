@@ -21,6 +21,21 @@ const WhoopConnect = dynamic(
   { ssr: false, loading: () => <div style={{ padding: '1rem', color: 'var(--text-muted)', fontSize: '0.875rem' }}>Loading…</div> }
 );
 
+const GarminConnect = dynamic(
+  () => import('@/components/dashboard/GarminConnect'),
+  { ssr: false, loading: () => <div style={{ padding: '1rem', color: 'var(--text-muted)', fontSize: '0.875rem' }}>Loading…</div> }
+);
+
+const FitbitConnect = dynamic(
+  () => import('@/components/dashboard/FitbitConnect'),
+  { ssr: false, loading: () => <div style={{ padding: '1rem', color: 'var(--text-muted)', fontSize: '0.875rem' }}>Loading…</div> }
+);
+
+const AppleHealthConnect = dynamic(
+  () => import('@/components/dashboard/AppleHealthConnect'),
+  { ssr: false, loading: () => <div style={{ padding: '1rem', color: 'var(--text-muted)', fontSize: '0.875rem' }}>Loading…</div> }
+);
+
 const labels = {
   title:          { en: 'Profile & Settings',      es: 'Perfil y Configuración' },
   subtitle:       { en: 'Manage your account',      es: 'Administra tu cuenta' },
@@ -55,6 +70,7 @@ const labels = {
   cm:             { en: 'cm',                       es: 'cm' },
   years:          { en: 'years',                    es: 'años' },
   notAvailable:   { en: 'N/A',                      es: 'N/D' },
+  subscriptionSuccess: { en: '✓ Subscription activated successfully!', es: '✓ ¡Suscripción activada exitosamente!' },
 };
 
 const sportOptions = [
@@ -83,6 +99,7 @@ export default function ProfilePage() {
 
   const [saving, setSaving] = useState(false);
   const [showToast, setShowToast] = useState(false);
+  const [managingPortal, setManagingPortal] = useState(false);
 
   // Export state
   const today = new Date().toISOString().split('T')[0];
@@ -102,6 +119,18 @@ export default function ProfilePage() {
 
   const L = (key) => labels[key]?.[lang] || labels[key]?.en || key;
   const E = (key) => t(`dashboard.export.${key}`, lang);
+  const S = (key) => t(`subscription.${key}`, lang);
+
+  // Check for subscription success query param
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('subscription') === 'success') {
+      setShowToast(true);
+      setTimeout(() => setShowToast(false), 4000);
+      // Clean up URL
+      window.history.replaceState({}, '', '/dashboard/profile');
+    }
+  }, []);
 
   // Pre-fill from profile
   useEffect(() => {
@@ -164,6 +193,25 @@ export default function ProfilePage() {
       console.error('Error signing out:', err);
     }
   }, [signOut, router]);
+
+  // Manage subscription handler
+  const handleManageSubscription = useCallback(async () => {
+    setManagingPortal(true);
+    try {
+      const res = await fetch('/api/stripe/portal', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+      });
+      const data = await res.json();
+      if (data.url) {
+        window.location.href = data.url;
+      }
+    } catch (err) {
+      console.error('Portal error:', err);
+    } finally {
+      setManagingPortal(false);
+    }
+  }, []);
 
   // Export handler
   const handleExport = useCallback(async () => {
@@ -375,7 +423,12 @@ export default function ProfilePage() {
       <div className={styles.profileCard}>
         <div className={styles.avatar}>{initials}</div>
         <div className={styles.profileInfo}>
-          <div className={styles.profileName}>{displayName || user?.email?.split('@')[0] || 'Athlete'}</div>
+          <div className={styles.profileNameRow}>
+            <div className={styles.profileName}>{displayName || user?.email?.split('@')[0] || 'Athlete'}</div>
+            <span className={`${styles.planBadge} ${profile?.plan === 'pro' ? styles.planBadgePro : profile?.plan === 'team' ? styles.planBadgeTeam : styles.planBadgeFree}`}>
+              {S(profile?.plan || 'free')}
+            </span>
+          </div>
           <div className={styles.profileEmail}>{user?.email || ''}</div>
           <span className={styles.roleBadge}>
             {roleOptions.find(r => r.value === role)?.[lang] || role}
@@ -505,6 +558,53 @@ export default function ProfilePage() {
         </div>
         <OuraConnect lang={lang} />
         <WhoopConnect lang={lang} />
+        <GarminConnect lang={lang} />
+        <FitbitConnect lang={lang} />
+        <AppleHealthConnect lang={lang} />
+      </div>
+
+      {/* Subscription */}
+      <div className={styles.section}>
+        <div className={styles.sectionTitle}>
+          <span className={styles.sectionIcon}>💳</span>
+          {S('title')}
+        </div>
+        <div className={styles.infoRow}>
+          <span className={styles.infoLabel}>{S('currentPlan')}</span>
+          <span className={`${styles.infoValue} ${styles.planValue}`}>
+            {S(profile?.plan || 'free')}
+          </span>
+        </div>
+        {profile?.plan !== 'free' && (
+          <div className={styles.infoRow}>
+            <span className={styles.infoLabel}>{S('status')}</span>
+            <span className={`${styles.subscriptionStatus} ${styles[`status_${profile?.subscription_status || 'active'}`]}`}>
+              {S(profile?.subscription_status || 'active')}
+            </span>
+          </div>
+        )}
+        {profile?.trial_ends_at && new Date(profile.trial_ends_at) > new Date() && (
+          <div className={styles.trialBanner}>
+            ⏳ {S('trialEnds')} {new Date(profile.trial_ends_at).toLocaleDateString(lang === 'es' ? 'es-MX' : 'en-US', { month: 'short', day: 'numeric' })}
+            {' — '}
+            {Math.max(0, Math.ceil((new Date(profile.trial_ends_at) - new Date()) / 86400000))} {S('daysLeft')}
+          </div>
+        )}
+        <div className={styles.subscriptionActions}>
+          {profile?.plan === 'free' ? (
+            <Link href="/pricing" className={styles.upgradeBtn}>
+              ⚡ {S('upgrade')}
+            </Link>
+          ) : (
+            <button
+              className={styles.manageBtn}
+              onClick={handleManageSubscription}
+              disabled={managingPortal}
+            >
+              {managingPortal ? '…' : `⚙️ ${S('manage')}`}
+            </button>
+          )}
+        </div>
       </div>
 
       {/* Account Info */}

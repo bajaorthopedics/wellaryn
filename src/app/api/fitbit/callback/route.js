@@ -1,0 +1,79 @@
+import { createServerClient } from '@supabase/ssr';
+import { cookies } from 'next/headers';
+import { NextResponse } from 'next/server';
+
+export async function GET(request) {
+  const { searchParams } = new URL(request.url);
+  const code = searchParams.get('code');
+  const error = searchParams.get('error');
+
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || `https://${request.headers.get('host')}`;
+
+  if (error || !code) {
+    return NextResponse.redirect(`${siteUrl}/dashboard/profile?fitbit=error`);
+  }
+
+  const clientId = process.env.FITBIT_CLIENT_ID;
+  const clientSecret = process.env.FITBIT_CLIENT_SECRET;
+  const redirectUri = `${siteUrl}/api/fitbit/callback`;
+
+  try {
+    // Fitbit uses Basic auth for token exchange
+    const basicAuth = Buffer.from(`${clientId}:${clientSecret}`).toString('base64');
+
+    const tokenRes = await fetch('https://api.fitbit.com/oauth2/token', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        Authorization: `Basic ${basicAuth}`,
+      },
+      body: new URLSearchParams({
+        grant_type: 'authorization_code',
+        code,
+        redirect_uri: redirectUri,
+      }),
+    });
+
+    if (!tokenRes.ok) {
+      console.error('Fitbit token exchange failed:', await tokenRes.text());
+      return NextResponse.redirect(`${siteUrl}/dashboard/profile?fitbit=error`);
+    }
+
+    const tokens = await tokenRes.json();
+
+    // Create Supabase server client to verify auth and store tokens
+    const cookieStore = await cookies();
+    const supabase = createServerClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+      {
+        cookies: {
+          getAll() { return cookieStore.getAll(); },
+          setAll(c) { c.forEach(({ name, value, options }) => cookieStore.set(name, value, options)); },
+        },
+      }
+    );
+
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session) {
+      return NextResponse.redirect(`${siteUrl}/dashboard/profile?fitbit=error`);
+    }
+
+    const expiresAt = new Date(Date.now() + (tokens.expires_in || 28800) * 1000).toISOString();
+
+    await supabase.from('wearable_connections').upsert({
+      user_id: session.user.id,
+      provider: 'fitbit',
+      access_token: tokens.access_token,
+      refresh_token: tokens.refresh_token || null,
+      token_expires_at: expiresAt,
+      scopes: 'activity heartrate sleep profile',
+      connected_at: new Date().toISOString(),
+    }, { onConflict: 'user_id,provider' });
+
+    return NextResponse.redirect(`${siteUrl}/dashboard/profile?fitbit=connected`);
+  } catch (err) {
+    console.error('Fitbit callback error:', err);
+    return NextResponse.redirect(`${siteUrl}/dashboard/profile?fitbit=error`);
+  }
+}

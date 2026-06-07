@@ -603,6 +603,118 @@ const translations = {
     notNow: { en: 'Not now', es: 'Ahora no' },
   },
 
+  // ===================== PRICING =====================
+  pricing: {
+    tag: { en: 'Simple Pricing', es: 'Precios Simples' },
+    title: { en: 'Train smarter at every level', es: 'Entrena más inteligente en cada nivel' },
+    subtitle: { en: 'Start free. Upgrade when you need more. Cancel anytime.', es: 'Empieza gratis. Mejora cuando necesites más. Cancela cuando quieras.' },
+    monthly: { en: 'Monthly', es: 'Mensual' },
+    annual: { en: 'Annual', es: 'Anual' },
+    save20: { en: 'Save 20%', es: 'Ahorra 20%' },
+    perMonth: { en: 'mo', es: 'mes' },
+    billedAnnually: { en: 'Billed annually', es: 'Facturado anualmente' },
+    year: { en: 'yr', es: 'año' },
+    mostPopular: { en: 'Most Popular', es: 'Más Popular' },
+    redirecting: { en: 'Redirecting…', es: 'Redirigiendo…' },
+    plans: {
+      free: {
+        name: { en: 'Free', es: 'Gratis' },
+        desc: { en: 'Get started with the basics', es: 'Empieza con lo básico' },
+        cta: { en: 'Get Started', es: 'Comenzar' },
+      },
+      pro: {
+        name: { en: 'Pro', es: 'Pro' },
+        desc: { en: 'Full power for serious athletes', es: 'Todo el poder para atletas serios' },
+        cta: { en: 'Start Free Trial', es: 'Iniciar Prueba Gratis' },
+      },
+      team: {
+        name: { en: 'Team', es: 'Equipo' },
+        desc: { en: 'For coaches and sports teams', es: 'Para coaches y equipos deportivos' },
+        cta: { en: 'Start Free Trial', es: 'Iniciar Prueba Gratis' },
+      },
+    },
+    features: {
+      dashboard: { en: 'Wellaryn Dashboard', es: 'Panel Wellaryn' },
+      history7: { en: '7-day history', es: 'Historial de 7 días' },
+      wearable1: { en: '1 wearable connection', es: '1 conexión de wearable' },
+      basicScore: { en: 'Basic readiness score', es: 'Score de preparación básico' },
+      fullHistory: { en: 'Full performance history', es: 'Historial completo de rendimiento' },
+      allWearables: { en: 'All wearable connections', es: 'Todas las conexiones de wearables' },
+      advancedScore: { en: 'Advanced Wellaryn Score', es: 'Score Wellaryn Avanzado' },
+      goals: { en: 'Goals & objectives', es: 'Metas y objetivos' },
+      export: { en: 'Data export (CSV/JSON)', es: 'Exportación de datos (CSV/JSON)' },
+      chat: { en: 'Team messaging', es: 'Mensajería de equipo' },
+      reports: { en: 'Weekly reports', es: 'Reportes semanales' },
+      injuryLog: { en: 'Injury log & RTP tracking', es: 'Registro de lesiones y seguimiento RTP' },
+      athletes: { en: 'Multi-athlete management', es: 'Gestión multi-atleta' },
+      athletes10: { en: 'Up to 10 athletes', es: 'Hasta 10 atletas' },
+      teamAnalytics: { en: 'Team analytics & reports', es: 'Analítica y reportes de equipo' },
+    },
+    faqTitle: { en: 'Frequently Asked Questions', es: 'Preguntas Frecuentes' },
+    faq: {
+      trial: {
+        q: { en: 'Is there a free trial?', es: '¿Hay una prueba gratis?' },
+        a: { en: 'Yes! Both Pro and Team plans come with a 14-day free trial. No credit card required to start. You can cancel anytime during the trial and you won\'t be charged.', es: '¡Sí! Los planes Pro y Equipo incluyen 14 días de prueba gratis. No se requiere tarjeta de crédito para empezar. Puedes cancelar en cualquier momento durante la prueba sin cargos.' },
+      },
+      cancel: {
+        q: { en: 'Can I cancel anytime?', es: '¿Puedo cancelar en cualquier momento?' },
+        a: { en: 'Absolutely. You can cancel your subscription at any time from your profile settings. You\'ll retain access to your plan features until the end of your current billing period.', es: 'Por supuesto. Puedes cancelar tu suscripción en cualquier momento desde la configuración de tu perfil. Mantendrás acceso a las funciones de tu plan hasta el final del período de facturación actual.' },
+      },
+      switch: {
+        q: { en: 'Can I switch plans?', es: '¿Puedo cambiar de plan?' },
+        a: { en: 'Yes. You can upgrade or downgrade at any time. When upgrading, you\'ll get immediate access to new features. When downgrading, changes take effect at the end of your billing period.', es: 'Sí. Puedes subir o bajar de plan en cualquier momento. Al subir, obtendrás acceso inmediato a nuevas funciones. Al bajar, los cambios se aplican al final de tu período de facturación.' },
+      },
+      payment: {
+        q: { en: 'What payment methods do you accept?', es: '¿Qué métodos de pago aceptan?' },
+        a: { en: 'We accept all major credit and debit cards (Visa, Mastercard, American Express) through our secure payment partner Stripe. All payments are encrypted and PCI-compliant.', es: 'Aceptamos todas las tarjetas de crédito y débito principales (Visa, Mastercard, American Express) a través de nuestro socio de pagos seguro Stripe. Todos los pagos están encriptados y cumplen con PCI.' },
+      },
+      refund: {
+        q: { en: 'What is your refund policy?', es: '¿Cuál es su política de reembolso?' },
+        a: { en: 'If you\'re not satisfied within the first 30 days, contact us and we\'ll issue a full refund. After 30 days, unused portions of the current billing period are not refundable, but you won\'t be charged again.', es: 'Si no estás satisfecho en los primeros 30 días, contáctanos y te haremos un reembolso completo. Después de 30 días, las porciones no usadas del período actual no son reembolsables, pero no se te cobrará de nuevo.' },
+      },
+    },
+    bottomCtaTitle: { en: 'Ready to train smarter?', es: '¿Listo para entrenar más inteligente?' },
+    bottomCtaSubtitle: { en: 'Join thousands of athletes who trust Wellaryn to prevent injuries.', es: 'Únete a miles de atletas que confían en Wellaryn para prevenir lesiones.' },
+    bottomCtaButton: { en: 'Get Started for Free', es: 'Empieza Gratis' },
+  },
+
+  // ===================== UPGRADE PROMPT =====================
+  upgrade: {
+    title: { en: 'Upgrade to', es: 'Mejora a' },
+    featurePrefix: { en: 'The', es: 'La función' },
+    featureSuffix: { en: 'feature requires', es: 'requiere' },
+    upgradeNow: { en: 'Upgrade Now', es: 'Mejorar Ahora' },
+    learnMore: { en: 'Learn More', es: 'Más Información' },
+    features: {
+      goals: { en: 'Goals & Objectives', es: 'Metas y Objetivos' },
+      chat: { en: 'Team Messaging', es: 'Mensajería de Equipo' },
+      export: { en: 'Data Export', es: 'Exportación de Datos' },
+      reports: { en: 'Weekly Reports', es: 'Reportes Semanales' },
+      injuries: { en: 'Injury Log', es: 'Registro de Lesiones' },
+      analytics: { en: 'Team Analytics', es: 'Analítica de Equipo' },
+      maxAthletes: { en: 'Multi-Athlete Management', es: 'Gestión Multi-Atleta' },
+    },
+  },
+
+  // ===================== SUBSCRIPTION (Profile) =====================
+  subscription: {
+    title: { en: 'Subscription', es: 'Suscripción' },
+    currentPlan: { en: 'Current Plan', es: 'Plan Actual' },
+    status: { en: 'Status', es: 'Estado' },
+    manage: { en: 'Manage Subscription', es: 'Administrar Suscripción' },
+    upgrade: { en: 'Upgrade Plan', es: 'Mejorar Plan' },
+    trial: { en: 'Trial', es: 'Prueba' },
+    trialEnds: { en: 'Trial ends', es: 'La prueba termina' },
+    daysLeft: { en: 'days left', es: 'días restantes' },
+    active: { en: 'Active', es: 'Activa' },
+    canceled: { en: 'Canceled', es: 'Cancelada' },
+    past_due: { en: 'Past Due', es: 'Atrasada' },
+    canceling: { en: 'Canceling', es: 'Cancelando' },
+    free: { en: 'Free', es: 'Gratis' },
+    pro: { en: 'Pro', es: 'Pro' },
+    team: { en: 'Team', es: 'Equipo' },
+  },
+
   // ===================== LANGUAGE TOGGLE =====================
   langToggle: {
     en: 'ES',  // Shows "ES" when in English (to switch to Spanish)

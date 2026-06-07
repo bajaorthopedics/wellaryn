@@ -692,6 +692,149 @@
   }
 }
 
+/* ─── Profile Name Row ──────────────────────────── */
+
+.profileNameRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-bottom: 2px;
+}
+
+/* ─── Plan Badge ──────────────────────────────────── */
+
+.planBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: 0.15rem 0.55rem;
+  font-size: 10px;
+  font-weight: 700;
+  border-radius: var(--radius-full);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.planBadgeFree {
+  background: hsla(225, 10%, 55%, 0.12);
+  color: var(--text-secondary);
+  border: 1px solid hsla(225, 10%, 55%, 0.2);
+}
+
+.planBadgePro {
+  background: hsla(152, 68%, 52%, 0.12);
+  color: var(--color-green);
+  border: 1px solid hsla(152, 68%, 52%, 0.25);
+}
+
+.planBadgeTeam {
+  background: hsla(45, 93%, 58%, 0.12);
+  color: var(--color-yellow);
+  border: 1px solid hsla(45, 93%, 58%, 0.25);
+}
+
+/* ─── Subscription Section ────────────────────────── */
+
+.planValue {
+  font-weight: 700;
+  color: var(--accent);
+  text-transform: capitalize;
+}
+
+.subscriptionStatus {
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  padding: 0.15rem 0.5rem;
+  border-radius: var(--radius-full);
+}
+
+.status_active {
+  background: hsla(152, 68%, 52%, 0.1);
+  color: var(--color-green);
+  border: 1px solid hsla(152, 68%, 52%, 0.2);
+}
+
+.status_past_due {
+  background: hsla(0, 72%, 56%, 0.1);
+  color: var(--color-red);
+  border: 1px solid hsla(0, 72%, 56%, 0.2);
+}
+
+.status_canceled,
+.status_canceling {
+  background: hsla(45, 93%, 58%, 0.1);
+  color: var(--color-yellow);
+  border: 1px solid hsla(45, 93%, 58%, 0.2);
+}
+
+.trialBanner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  margin-top: var(--space-sm);
+  background: hsla(200, 60%, 50%, 0.08);
+  border: 1px solid hsla(200, 60%, 50%, 0.2);
+  color: hsl(200, 60%, 65%);
+}
+
+.subscriptionActions {
+  margin-top: var(--space-lg);
+}
+
+.upgradeBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  padding: 0.75rem 1.75rem;
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  color: var(--text-inverse);
+  background: linear-gradient(135deg, var(--accent) 0%, hsl(180, 60%, 50%) 100%);
+  border: none;
+  border-radius: var(--radius-full);
+  box-shadow: 0 0 20px var(--accent-glow);
+  text-decoration: none;
+  transition: all var(--duration-normal) var(--ease-out);
+}
+
+.upgradeBtn:hover {
+  box-shadow: 0 0 30px var(--accent-glow), 0 4px 15px var(--accent-glow);
+  transform: translateY(-1px);
+  color: var(--text-inverse);
+}
+
+.manageBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  padding: 0.75rem 1.75rem;
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--text-primary);
+  background: transparent;
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: all var(--duration-normal) var(--ease-out);
+}
+
+.manageBtn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-subtle);
+}
+
+.manageBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .title {
@@ -701,6 +844,10 @@
   .profileCard {
     flex-direction: column;
     text-align: center;
+  }
+
+  .profileNameRow {
+    justify-content: center;
   }
 
   .fieldGrid {
