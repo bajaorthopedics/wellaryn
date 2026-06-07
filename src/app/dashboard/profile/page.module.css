@@ -425,6 +425,273 @@
   color: var(--text-muted);
 }
 
+/* ─── Export Section ──────────────────────────────────── */
+
+.exportSubtitle {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  margin-bottom: var(--space-lg);
+}
+
+.exportFieldGroup {
+  margin-bottom: var(--space-lg);
+}
+
+.exportFieldLabel {
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: var(--space-sm);
+  display: block;
+}
+
+.dateRangeRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.dateRangeRow .dateField {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.dateInput {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  padding: var(--space-sm) var(--space-md);
+  font-size: var(--font-size-sm);
+  color: var(--text-primary);
+  width: 100%;
+  transition: border-color var(--duration-fast) var(--ease-out),
+              box-shadow var(--duration-fast) var(--ease-out);
+}
+
+.dateInput:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+.dateInput::-webkit-calendar-picker-indicator {
+  filter: invert(1) brightness(0.7);
+  cursor: pointer;
+}
+
+.dateSeparator {
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+  padding-top: 1.25rem;
+}
+
+.formatRow {
+  display: flex;
+  gap: var(--space-md);
+}
+
+.formatOption {
+  flex: 1;
+  position: relative;
+}
+
+.formatRadio {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.formatLabel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all var(--duration-normal) var(--ease-out);
+}
+
+.formatLabel:hover {
+  border-color: var(--accent);
+  color: var(--text-primary);
+}
+
+.formatRadio:checked + .formatLabel {
+  background: var(--accent-subtle);
+  border-color: var(--accent);
+  color: var(--accent);
+  font-weight: 600;
+  box-shadow: 0 0 12px var(--accent-glow);
+}
+
+.dataCheckboxes {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.checkboxOption {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--ease-out);
+}
+
+.checkboxOption:hover {
+  border-color: var(--border-default);
+  background: var(--bg-elevated);
+}
+
+.exportCheckbox {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--border-default);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  cursor: pointer;
+  flex-shrink: 0;
+  position: relative;
+  transition: all var(--duration-fast) var(--ease-out);
+}
+
+.exportCheckbox:checked {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.exportCheckbox:checked::after {
+  content: '✓';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: var(--text-inverse);
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.checkboxLabel {
+  font-size: var(--font-size-sm);
+  color: var(--text-primary);
+  cursor: pointer;
+  flex: 1;
+}
+
+.checkboxDesc {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+}
+
+.athleteSelect {
+  width: 100%;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  padding: var(--space-sm) var(--space-md);
+  font-size: var(--font-size-sm);
+  color: var(--text-primary);
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M3 5l3 3 3-3' stroke='%2388889a' fill='none' stroke-width='1.5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 36px;
+  transition: border-color var(--duration-fast) var(--ease-out),
+              box-shadow var(--duration-fast) var(--ease-out);
+}
+
+.athleteSelect:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+.exportBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  width: 100%;
+  padding: 0.875rem 2rem;
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  color: var(--text-inverse);
+  background: linear-gradient(135deg, var(--accent) 0%, hsl(180, 60%, 50%) 100%);
+  border: none;
+  border-radius: var(--radius-full);
+  box-shadow: 0 0 20px var(--accent-glow);
+  cursor: pointer;
+  transition: all var(--duration-normal) var(--ease-out);
+  margin-top: var(--space-sm);
+}
+
+.exportBtn:hover:not(:disabled) {
+  box-shadow: 0 0 30px var(--accent-glow), 0 4px 15px var(--accent-glow);
+  transform: translateY(-2px);
+}
+
+.exportBtn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.exportBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.exportToast {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  margin-top: var(--space-md);
+  animation: fadeInUp 0.3s var(--ease-out) both;
+}
+
+.exportSuccess {
+  background: hsla(152, 68%, 52%, 0.08);
+  border: 1px solid hsla(152, 68%, 52%, 0.2);
+  color: var(--color-green);
+}
+
+.exportError {
+  background: hsla(0, 72%, 56%, 0.08);
+  border: 1px solid hsla(0, 72%, 56%, 0.2);
+  color: var(--color-red);
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .title {
@@ -444,6 +711,14 @@
     flex-direction: column;
     align-items: flex-start;
     gap: 2px;
+  }
+
+  .dateRangeRow {
+    flex-direction: column;
+  }
+
+  .dateSeparator {
+    padding-top: 0;
   }
 }
 

@@ -20,6 +20,7 @@ export default function Sidebar({ isOpen, onClose }) {
   const navItems = isCoachOrDoctor
     ? [
         { icon: '👥', label: t('dashboard.nav.team', lang), href: '/dashboard/team' },
+        { icon: '📈', label: t('dashboard.nav.analytics', lang), href: '/dashboard/analytics' },
         { icon: '📊', label: t('dashboard.nav.overview', lang), href: '/dashboard' },
         { icon: '💬', label: t('dashboard.nav.chat', lang), href: '/dashboard/chat', hasBadge: true },
         { icon: '📋', label: t('dashboard.nav.reports', lang), href: '/dashboard/reports' },
