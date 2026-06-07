@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Sidebar from '@/components/dashboard/Sidebar';
 import Disclaimer from '@/components/ui/Disclaimer';
 import ProtectedRoute from '@/components/auth/ProtectedRoute';
+import PWAInstallPrompt from '@/components/ui/PWAInstallPrompt';
 import styles from './layout.module.css';
 
 export default function DashboardLayout({ children }) {
@@ -38,6 +39,7 @@ export default function DashboardLayout({ children }) {
         <main className={styles.mainContent}>
           {children}
           <Disclaimer />
+          <PWAInstallPrompt />
         </main>
       </div>
     </ProtectedRoute>

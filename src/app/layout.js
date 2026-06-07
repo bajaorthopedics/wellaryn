@@ -1,6 +1,7 @@
 import "./globals.css";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import { AuthProvider } from "@/contexts/AuthContext";
+import ServiceWorkerRegistration from "@/components/ui/ServiceWorkerRegistration";
 
 export const metadata = {
   title: "Wellaryn — Train Smarter. Prevent Injuries.",
@@ -14,6 +15,16 @@ export const metadata = {
     "HRV",
     "training load",
   ],
+  manifest: "/manifest.json",
+  themeColor: "#00C896",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: "Wellaryn",
+  },
+  icons: {
+    apple: "/icons/icon.svg",
+  },
   openGraph: {
     title: "Wellaryn — Train Smarter. Prevent Injuries.",
     description:
@@ -29,6 +40,7 @@ export default function RootLayout({ children }) {
         <LanguageProvider>
           <AuthProvider>{children}</AuthProvider>
         </LanguageProvider>
+        <ServiceWorkerRegistration />
       </body>
     </html>
   );

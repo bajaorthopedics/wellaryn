@@ -556,6 +556,17 @@ const translations = {
     loginRequired: { en: 'Please sign in to accept this invitation.', es: 'Inicia sesión para aceptar esta invitación.' },
   },
 
+  // ===================== PWA =====================
+  pwa: {
+    installTitle: { en: 'Install Wellaryn', es: 'Instalar Wellaryn' },
+    installSubtitle: {
+      en: 'Add to your home screen for the best experience',
+      es: 'Agrega a tu pantalla de inicio para la mejor experiencia',
+    },
+    install: { en: 'Install', es: 'Instalar' },
+    notNow: { en: 'Not now', es: 'Ahora no' },
+  },
+
   // ===================== LANGUAGE TOGGLE =====================
   langToggle: {
     en: 'ES',  // Shows "ES" when in English (to switch to Spanish)
