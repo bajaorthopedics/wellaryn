@@ -1,0 +1,1516 @@
+/* ============================================
+   Injury Log & Return-to-Play — Premium Dark Theme
+   ============================================ */
+
+.page {
+  padding: var(--space-lg);
+  max-width: var(--max-width);
+  margin: 0 auto;
+  animation: fadeInUp 0.6s var(--ease-out) both;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── Header ─────────────────────────────────── */
+
+.header {
+  margin-bottom: var(--space-xl);
+}
+
+.headerRow {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+}
+
+.title {
+  font-size: var(--font-size-2xl);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  background: linear-gradient(135deg, var(--color-red) 0%, hsl(20, 100%, 60%) 50%, var(--color-yellow) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: var(--space-xs);
+}
+
+.subtitle {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+}
+
+/* ─── Add Injury Button ──────────────────────── */
+
+.addBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: 0.65rem 1.5rem;
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  border-radius: var(--radius-full);
+  background: var(--color-red);
+  color: #fff;
+  box-shadow: 0 0 20px var(--color-red-glow);
+  transition: all var(--duration-normal) var(--ease-out);
+  white-space: nowrap;
+}
+
+.addBtn:hover {
+  background: hsl(0, 72%, 48%);
+  box-shadow: 0 0 30px var(--color-red-glow), 0 4px 15px var(--color-red-glow);
+  transform: translateY(-1px);
+}
+
+.addBtn:active {
+  transform: translateY(0);
+}
+
+/* ─── Top Layout (Body Map + List) ───────────── */
+
+.topLayout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: var(--space-lg);
+  margin-bottom: var(--space-lg);
+}
+
+/* ─── Body Map ───────────────────────────────── */
+
+.bodyMapCard {
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  position: sticky;
+  top: var(--space-lg);
+}
+
+.bodyMapTitle {
+  font-size: var(--font-size-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: var(--space-md);
+  text-align: center;
+}
+
+.bodyMapSvg {
+  display: block;
+  margin: 0 auto;
+  width: 180px;
+  height: auto;
+}
+
+.bodyMapSvg .bodyPart {
+  fill: hsla(0, 0%, 100%, 0.06);
+  stroke: hsla(0, 0%, 100%, 0.12);
+  stroke-width: 1;
+  cursor: pointer;
+  transition: fill var(--duration-fast) var(--ease-out),
+              stroke var(--duration-fast) var(--ease-out);
+}
+
+.bodyMapSvg .bodyPart:hover {
+  fill: hsla(0, 0%, 100%, 0.12);
+  stroke: hsla(0, 0%, 100%, 0.3);
+}
+
+.bodyPartActive {
+  fill: hsla(0, 72%, 56%, 0.35) !important;
+  stroke: var(--color-red) !important;
+  stroke-width: 1.5 !important;
+}
+
+.bodyPartRecovering {
+  fill: hsla(45, 93%, 58%, 0.3) !important;
+  stroke: var(--color-yellow) !important;
+  stroke-width: 1.5 !important;
+}
+
+.bodyPartCleared {
+  fill: hsla(152, 68%, 52%, 0.2) !important;
+  stroke: var(--color-green) !important;
+  stroke-width: 1.5 !important;
+}
+
+.bodyPartSelected {
+  stroke-width: 2.5 !important;
+  filter: drop-shadow(0 0 6px currentColor);
+}
+
+.bodyMapLegend {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-md);
+  margin-top: var(--space-md);
+  flex-wrap: wrap;
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.65rem;
+  color: var(--text-secondary);
+}
+
+.legendDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.legendDotActive {
+  background: var(--color-red);
+  box-shadow: 0 0 6px var(--color-red-glow);
+}
+
+.legendDotRecovering {
+  background: var(--color-yellow);
+  box-shadow: 0 0 6px var(--color-yellow-glow);
+}
+
+.legendDotCleared {
+  background: var(--color-green);
+  box-shadow: 0 0 6px var(--color-green-glow);
+}
+
+.bodyMapReset {
+  display: block;
+  margin: var(--space-sm) auto 0;
+  padding: 4px var(--space-sm);
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: color var(--duration-fast) var(--ease-out);
+  background: none;
+  border: none;
+}
+
+.bodyMapReset:hover {
+  color: var(--text-secondary);
+}
+
+/* ─── Filter Tabs ────────────────────────────── */
+
+.filterRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-lg);
+  flex-wrap: wrap;
+}
+
+.filterTab {
+  padding: var(--space-xs) var(--space-md);
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border-default);
+  background: transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--ease-out);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.filterTab:hover {
+  background: var(--bg-elevated);
+  color: var(--text-primary);
+  border-color: var(--accent);
+}
+
+.filterTabActive {
+  background: var(--accent-subtle);
+  color: var(--accent);
+  border-color: var(--border-accent);
+}
+
+.filterCount {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  margin-left: 4px;
+}
+
+/* ─── Athlete Selector (Coach view) ────────── */
+
+.selectorRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  margin-bottom: var(--space-lg);
+}
+
+.selectorLabel {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
+.athleteSelect {
+  padding: var(--space-sm) var(--space-md);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  font-size: var(--font-size-sm);
+  min-width: 200px;
+  cursor: pointer;
+  transition: border-color var(--duration-fast) var(--ease-out);
+}
+
+.athleteSelect:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+/* ─── Injury Cards Grid ──────────────────────── */
+
+.injuriesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: var(--space-md);
+}
+
+/* ─── Injury Card ────────────────────────────── */
+
+.injuryCard {
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  position: relative;
+  cursor: pointer;
+  transition: transform var(--duration-normal) var(--ease-out),
+              border-color var(--duration-normal) var(--ease-out),
+              box-shadow var(--duration-normal) var(--ease-out);
+  animation: fadeInUp 0.5s var(--ease-out) both;
+}
+
+.injuryCard:nth-child(1) { animation-delay: 0ms; }
+.injuryCard:nth-child(2) { animation-delay: 60ms; }
+.injuryCard:nth-child(3) { animation-delay: 120ms; }
+.injuryCard:nth-child(4) { animation-delay: 180ms; }
+.injuryCard:nth-child(5) { animation-delay: 240ms; }
+.injuryCard:nth-child(6) { animation-delay: 300ms; }
+
+.injuryCard:hover {
+  transform: translateY(-3px);
+  border-color: var(--border-accent);
+  box-shadow: var(--shadow-md);
+}
+
+.injuryCardActive {
+  border-left: 3px solid var(--color-red);
+}
+
+.injuryCardRecovering {
+  border-left: 3px solid var(--color-yellow);
+}
+
+.injuryCardCleared {
+  border-left: 3px solid var(--color-green);
+  opacity: 0.8;
+}
+
+.injuryCardRecurring {
+  border-left: 3px solid hsl(280, 60%, 60%);
+}
+
+/* Card Header */
+
+.cardHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: var(--space-sm);
+  gap: var(--space-sm);
+}
+
+.cardHeaderLeft {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  flex: 1;
+  min-width: 0;
+}
+
+.bodyPartIcon {
+  font-size: 1.4rem;
+  flex-shrink: 0;
+}
+
+.bodyPartLabel {
+  font-size: var(--font-size-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+/* Badges */
+
+.badgeRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  flex-wrap: wrap;
+  margin-bottom: var(--space-sm);
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: 2px var(--space-sm);
+  font-size: 0.65rem;
+  font-weight: 700;
+  border-radius: var(--radius-full);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  flex-shrink: 0;
+}
+
+.severityMild {
+  background: hsla(45, 93%, 58%, 0.12);
+  color: var(--color-yellow);
+  border: 1px solid hsla(45, 93%, 58%, 0.25);
+}
+
+.severityModerate {
+  background: hsla(20, 100%, 60%, 0.12);
+  color: hsl(20, 100%, 60%);
+  border: 1px solid hsla(20, 100%, 60%, 0.25);
+}
+
+.severitySevere {
+  background: hsla(0, 72%, 56%, 0.12);
+  color: var(--color-red);
+  border: 1px solid hsla(0, 72%, 56%, 0.25);
+}
+
+.typeBadge {
+  background: hsla(200, 80%, 55%, 0.12);
+  color: hsl(200, 80%, 55%);
+  border: 1px solid hsla(200, 80%, 55%, 0.25);
+}
+
+.statusActive {
+  background: hsla(0, 72%, 56%, 0.12);
+  color: var(--color-red);
+  border: 1px solid hsla(0, 72%, 56%, 0.25);
+}
+
+.statusRecovering {
+  background: hsla(45, 93%, 58%, 0.12);
+  color: var(--color-yellow);
+  border: 1px solid hsla(45, 93%, 58%, 0.25);
+}
+
+.statusCleared {
+  background: hsla(152, 68%, 52%, 0.12);
+  color: var(--color-green);
+  border: 1px solid hsla(152, 68%, 52%, 0.25);
+}
+
+.statusRecurring {
+  background: hsla(280, 60%, 60%, 0.12);
+  color: hsl(280, 60%, 60%);
+  border: 1px solid hsla(280, 60%, 60%, 0.25);
+}
+
+/* Title + Description */
+
+.injuryTitle {
+  font-size: var(--font-size-base);
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: var(--space-xs);
+  line-height: 1.3;
+}
+
+.injuryDesc {
+  font-size: var(--font-size-xs);
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin-bottom: var(--space-md);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ─── Recovery Progress Bar ──────────────────── */
+
+.recoveryProgress {
+  margin-bottom: var(--space-md);
+}
+
+.progressLabel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: var(--font-size-xs);
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+}
+
+.progressBarBg {
+  width: 100%;
+  height: 6px;
+  background: var(--border-subtle);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.progressBarFill {
+  height: 100%;
+  border-radius: var(--radius-full);
+  transition: width 1s var(--ease-out);
+  background: linear-gradient(90deg, var(--color-red), var(--color-yellow), var(--color-green));
+}
+
+/* ─── RTP Phase Indicator ────────────────────── */
+
+.rtpPhase {
+  margin-bottom: var(--space-md);
+}
+
+.rtpLabel {
+  font-size: var(--font-size-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+}
+
+.rtpDots {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.rtpDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--border-subtle);
+  transition: all var(--duration-normal) var(--ease-out);
+  position: relative;
+}
+
+.rtpDotCompleted {
+  background: var(--color-green);
+  box-shadow: 0 0 6px var(--color-green-glow);
+}
+
+.rtpDotCurrent {
+  background: var(--color-yellow);
+  box-shadow: 0 0 8px var(--color-yellow-glow);
+  animation: rtpPulse 2s ease-in-out infinite;
+}
+
+@keyframes rtpPulse {
+  0%, 100% { box-shadow: 0 0 6px var(--color-yellow-glow); }
+  50% { box-shadow: 0 0 14px var(--color-yellow-glow); }
+}
+
+.rtpDotConnector {
+  width: 12px;
+  height: 2px;
+  background: var(--border-subtle);
+  flex-shrink: 0;
+}
+
+.rtpDotConnectorCompleted {
+  background: var(--color-green);
+}
+
+.rtpCurrentLabel {
+  font-size: var(--font-size-xs);
+  color: var(--color-yellow);
+  font-weight: 600;
+  margin-top: 6px;
+}
+
+/* ─── Card Footer ────────────────────────────── */
+
+.cardFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: var(--space-sm);
+  border-top: 1px solid var(--border-subtle);
+}
+
+.daysSince {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  font-size: var(--font-size-xs);
+  color: var(--text-secondary);
+}
+
+.daysSinceValue {
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.menuBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-md);
+  color: var(--text-muted);
+  font-size: var(--font-size-lg);
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--ease-out);
+  position: relative;
+}
+
+.menuBtn:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+.menuDropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  z-index: 20;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  padding: var(--space-xs);
+  min-width: 180px;
+  box-shadow: var(--shadow-lg);
+  animation: menuIn 0.2s var(--ease-out) both;
+}
+
+@keyframes menuIn {
+  from { opacity: 0; transform: translateY(-4px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.menuItem {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  width: 100%;
+  padding: var(--space-sm) var(--space-md);
+  font-size: var(--font-size-xs);
+  font-weight: 500;
+  color: var(--text-primary);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background var(--duration-fast) var(--ease-out);
+  background: none;
+  border: none;
+  text-align: left;
+}
+
+.menuItem:hover {
+  background: var(--bg-hover);
+}
+
+.menuItemDanger {
+  color: var(--color-red);
+}
+
+.menuItemDanger:hover {
+  background: hsla(0, 72%, 56%, 0.08);
+}
+
+/* ─── Expanded Injury Detail / Timeline ──────── */
+
+.detailOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: hsla(0, 0%, 0%, 0.6);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  z-index: 100;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: var(--space-xl);
+  padding-top: 5vh;
+  overflow-y: auto;
+  animation: overlayIn 0.25s var(--ease-out) both;
+}
+
+@keyframes overlayIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.detailPanel {
+  width: 100%;
+  max-width: 640px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-xl);
+  padding: var(--space-xl);
+  box-shadow: var(--shadow-lg);
+  animation: modalIn 0.35s var(--ease-spring) both;
+}
+
+@keyframes modalIn {
+  from { opacity: 0; transform: translateY(20px) scale(0.96); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.detailHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: var(--space-lg);
+}
+
+.detailTitleArea {
+  flex: 1;
+}
+
+.detailTitle {
+  font-size: var(--font-size-xl);
+  font-weight: 800;
+  color: var(--text-primary);
+  margin-bottom: var(--space-xs);
+}
+
+.detailBodyPart {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+}
+
+.detailCloseBtn {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-size-lg);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--ease-out);
+  flex-shrink: 0;
+  background: none;
+  border: none;
+}
+
+.detailCloseBtn:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+/* Detail Info Grid */
+
+.detailInfo {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-md);
+  margin-bottom: var(--space-lg);
+  padding: var(--space-md);
+  background: var(--bg-elevated);
+  border-radius: var(--radius-md);
+}
+
+.detailInfoItem {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.detailInfoLabel {
+  font-size: var(--font-size-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.detailInfoValue {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* ─── RTP Phase Control (Detail) ─────────────── */
+
+.rtpSection {
+  margin-bottom: var(--space-lg);
+}
+
+.rtpSectionTitle {
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: var(--space-md);
+}
+
+.rtpPhases {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.rtpPhaseRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-sm) var(--space-md);
+  background: var(--bg-elevated);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-subtle);
+  transition: all var(--duration-fast) var(--ease-out);
+}
+
+.rtpPhaseRowActive {
+  border-color: var(--color-yellow);
+  background: hsla(45, 93%, 58%, 0.06);
+}
+
+.rtpPhaseRowCompleted {
+  border-color: hsla(152, 68%, 52%, 0.2);
+  background: hsla(152, 68%, 52%, 0.04);
+}
+
+.rtpPhaseIcon {
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.rtpPhaseInfo {
+  flex: 1;
+}
+
+.rtpPhaseName {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.rtpPhaseDesc {
+  font-size: var(--font-size-xs);
+  color: var(--text-secondary);
+}
+
+.rtpAdvanceBtn {
+  padding: 4px var(--space-md);
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  border-radius: var(--radius-full);
+  background: var(--accent);
+  color: var(--text-inverse);
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--ease-out);
+  white-space: nowrap;
+  border: none;
+}
+
+.rtpAdvanceBtn:hover {
+  background: var(--accent-hover);
+  transform: translateY(-1px);
+}
+
+.rtpCheckmark {
+  color: var(--color-green);
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+}
+
+/* ─── Timeline ───────────────────────────────── */
+
+.timelineSection {
+  margin-bottom: var(--space-lg);
+}
+
+.timelineTitle {
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: var(--space-md);
+}
+
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  position: relative;
+}
+
+.timelineItem {
+  display: flex;
+  gap: var(--space-md);
+  padding-bottom: var(--space-md);
+  position: relative;
+}
+
+.timelineDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--border-default);
+  flex-shrink: 0;
+  margin-top: 4px;
+  position: relative;
+  z-index: 1;
+}
+
+.timelineDotNote {
+  background: hsl(200, 80%, 55%);
+}
+
+.timelineDotPhase {
+  background: var(--color-yellow);
+}
+
+.timelineDotSeverity {
+  background: hsl(20, 100%, 60%);
+}
+
+.timelineDotStatus {
+  background: var(--color-green);
+}
+
+.timelineLine {
+  position: absolute;
+  left: 4px;
+  top: 14px;
+  bottom: 0;
+  width: 2px;
+  background: var(--border-subtle);
+}
+
+.timelineItem:last-child .timelineLine {
+  display: none;
+}
+
+.timelineContent {
+  flex: 1;
+  min-width: 0;
+}
+
+.timelineAuthor {
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 2px;
+}
+
+.timelineDate {
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+
+.timelineText {
+  font-size: var(--font-size-sm);
+  color: var(--text-primary);
+  line-height: 1.4;
+}
+
+.timelineChange {
+  font-size: var(--font-size-xs);
+  padding: 4px var(--space-sm);
+  background: var(--bg-elevated);
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  display: inline-block;
+  margin-bottom: 4px;
+}
+
+.timelineEmpty {
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+  padding: var(--space-md);
+  text-align: center;
+}
+
+/* Add Note */
+
+.addNoteArea {
+  display: flex;
+  gap: var(--space-sm);
+  margin-top: var(--space-md);
+}
+
+.addNoteInput {
+  flex: 1;
+  padding: var(--space-sm) var(--space-md);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  font-size: var(--font-size-sm);
+  transition: border-color var(--duration-fast) var(--ease-out);
+}
+
+.addNoteInput:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+.addNoteBtn {
+  padding: var(--space-sm) var(--space-md);
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  border-radius: var(--radius-md);
+  background: var(--accent);
+  color: var(--text-inverse);
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--ease-out);
+  white-space: nowrap;
+  border: none;
+}
+
+.addNoteBtn:hover {
+  background: var(--accent-hover);
+}
+
+.addNoteBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ─── Doctor Controls ────────────────────────── */
+
+.doctorControls {
+  margin-bottom: var(--space-lg);
+  padding: var(--space-md);
+  background: hsla(200, 80%, 55%, 0.06);
+  border: 1px solid hsla(200, 80%, 55%, 0.2);
+  border-radius: var(--radius-md);
+}
+
+.doctorControlsTitle {
+  font-size: var(--font-size-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 600;
+  color: hsl(200, 80%, 55%);
+  margin-bottom: var(--space-md);
+}
+
+.doctorRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-md);
+  margin-bottom: var(--space-sm);
+}
+
+.doctorField {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.doctorLabel {
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.doctorSelect {
+  padding: var(--space-sm) var(--space-md);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  font-size: var(--font-size-sm);
+  cursor: pointer;
+  transition: border-color var(--duration-fast) var(--ease-out);
+}
+
+.doctorSelect:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+/* ─── RTP Advance Modal (Note Required) ──────── */
+
+.noteModal {
+  width: 100%;
+  max-width: 400px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-xl);
+  padding: var(--space-xl);
+  box-shadow: var(--shadow-lg);
+  animation: modalIn 0.35s var(--ease-spring) both;
+}
+
+.noteModalTitle {
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: var(--space-sm);
+}
+
+.noteModalDesc {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  margin-bottom: var(--space-md);
+}
+
+.noteModalTextarea {
+  width: 100%;
+  padding: var(--space-sm) var(--space-md);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  font-size: var(--font-size-sm);
+  resize: vertical;
+  min-height: 80px;
+  margin-bottom: var(--space-md);
+  transition: border-color var(--duration-fast) var(--ease-out);
+}
+
+.noteModalTextarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+/* ─── Add Injury Modal ───────────────────────── */
+
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: hsla(0, 0%, 0%, 0.6);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-lg);
+  animation: overlayIn 0.25s var(--ease-out) both;
+}
+
+.modal {
+  width: 100%;
+  max-width: 560px;
+  max-height: 90vh;
+  overflow-y: auto;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-xl);
+  padding: var(--space-xl);
+  box-shadow: var(--shadow-lg);
+  animation: modalIn 0.35s var(--ease-spring) both;
+}
+
+.modalTitle {
+  font-size: var(--font-size-xl);
+  font-weight: 800;
+  color: var(--text-primary);
+  margin-bottom: var(--space-lg);
+}
+
+/* Body Part Selector Grid */
+
+.bodyPartGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-sm);
+  margin-bottom: var(--space-lg);
+}
+
+.bodyPartOption {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: var(--space-sm) var(--space-xs);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--ease-out);
+  font-size: var(--font-size-xs);
+  color: var(--text-secondary);
+  text-align: center;
+}
+
+.bodyPartOption:hover {
+  border-color: var(--border-default);
+  transform: translateY(-1px);
+}
+
+.bodyPartOptionActive {
+  border-color: var(--border-accent);
+  background: var(--accent-subtle);
+  color: var(--accent);
+  box-shadow: 0 0 12px var(--accent-glow);
+}
+
+.bodyPartOptionIcon {
+  font-size: 1.3rem;
+}
+
+/* Injury Type Selector */
+
+.typeGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-sm);
+  margin-bottom: var(--space-lg);
+}
+
+.typeOption {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: var(--space-sm);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--ease-out);
+  font-size: var(--font-size-xs);
+  color: var(--text-secondary);
+  text-align: center;
+}
+
+.typeOption:hover {
+  border-color: var(--border-default);
+}
+
+.typeOptionActive {
+  border-color: var(--border-accent);
+  background: var(--accent-subtle);
+  color: var(--accent);
+}
+
+/* Severity Selector */
+
+.severityGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-sm);
+  margin-bottom: var(--space-lg);
+}
+
+.severityOption {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: var(--space-sm);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--ease-out);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  text-align: center;
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-elevated);
+  color: var(--text-secondary);
+}
+
+.severityOption:hover {
+  border-color: var(--border-default);
+}
+
+.severityOptionActive {
+  box-shadow: 0 0 12px currentColor;
+}
+
+.severityMildOption {
+  border-color: hsla(45, 93%, 58%, 0.4);
+  background: hsla(45, 93%, 58%, 0.08);
+  color: var(--color-yellow);
+}
+
+.severityModerateOption {
+  border-color: hsla(20, 100%, 60%, 0.4);
+  background: hsla(20, 100%, 60%, 0.08);
+  color: hsl(20, 100%, 60%);
+}
+
+.severitySevereOption {
+  border-color: hsla(0, 72%, 56%, 0.4);
+  background: hsla(0, 72%, 56%, 0.08);
+  color: var(--color-red);
+}
+
+/* Form Fields */
+
+.formGroup {
+  margin-bottom: var(--space-md);
+}
+
+.formLabel {
+  display: block;
+  font-size: var(--font-size-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: var(--space-xs);
+}
+
+.formInput {
+  width: 100%;
+  padding: var(--space-sm) var(--space-md);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  font-size: var(--font-size-sm);
+  transition: border-color var(--duration-fast) var(--ease-out),
+              box-shadow var(--duration-fast) var(--ease-out);
+}
+
+.formInput:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+.formRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-md);
+}
+
+.formTextarea {
+  width: 100%;
+  padding: var(--space-sm) var(--space-md);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  font-size: var(--font-size-sm);
+  resize: vertical;
+  min-height: 80px;
+  transition: border-color var(--duration-fast) var(--ease-out),
+              box-shadow var(--duration-fast) var(--ease-out);
+}
+
+.formTextarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+/* Modal Actions */
+
+.modalActions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-sm);
+  margin-top: var(--space-lg);
+}
+
+.cancelBtn {
+  padding: 0.6rem 1.25rem;
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border-default);
+  color: var(--text-secondary);
+  background: transparent;
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--ease-out);
+}
+
+.cancelBtn:hover {
+  background: var(--bg-elevated);
+  color: var(--text-primary);
+  border-color: var(--accent);
+}
+
+.saveBtn {
+  padding: 0.6rem 1.5rem;
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  border-radius: var(--radius-full);
+  background: var(--color-red);
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 0 0 16px var(--color-red-glow);
+  transition: all var(--duration-normal) var(--ease-out);
+  border: none;
+}
+
+.saveBtn:hover {
+  background: hsl(0, 72%, 48%);
+  box-shadow: 0 0 24px var(--color-red-glow);
+  transform: translateY(-1px);
+}
+
+.saveBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ─── Empty State ────────────────────────────── */
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4xl) var(--space-lg);
+  text-align: center;
+}
+
+.emptyIcon {
+  font-size: 3rem;
+  margin-bottom: var(--space-md);
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+.emptyTitle {
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: var(--space-sm);
+}
+
+.emptyText {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  max-width: 400px;
+}
+
+/* ─── Skeleton Loading ───────────────────────── */
+
+.skeletonGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: var(--space-md);
+}
+
+.skeletonCard {
+  height: 260px;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(90deg, var(--bg-surface) 25%, var(--bg-elevated) 50%, var(--bg-surface) 75%);
+  background-size: 400% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ─── Responsive ─────────────────────────────── */
+
+@media (max-width: 900px) {
+  .topLayout {
+    grid-template-columns: 1fr;
+  }
+
+  .bodyMapCard {
+    position: static;
+  }
+}
+
+@media (max-width: 768px) {
+  .page {
+    padding: var(--space-md);
+  }
+
+  .headerRow {
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+
+  .injuriesGrid,
+  .skeletonGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .bodyPartGrid,
+  .typeGrid,
+  .severityGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .formRow {
+    grid-template-columns: 1fr;
+  }
+
+  .filterRow {
+    gap: var(--space-xs);
+  }
+
+  .selectorRow {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .athleteSelect {
+    min-width: auto;
+  }
+
+  .modal {
+    padding: var(--space-lg);
+    margin: var(--space-sm);
+  }
+
+  .detailPanel {
+    padding: var(--space-lg);
+  }
+
+  .detailInfo {
+    grid-template-columns: 1fr;
+  }
+
+  .doctorRow {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .bodyPartGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .modalActions {
+    flex-direction: column-reverse;
+  }
+
+  .cancelBtn,
+  .saveBtn {
+    width: 100%;
+    text-align: center;
+  }
+}

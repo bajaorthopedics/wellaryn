@@ -507,3 +507,94 @@ export async function deleteGoal(goalId) {
     .eq('id', goalId);
   if (error) throw error;
 }
+
+// ─── Injury Log Functions ────────────────────────────────────
+
+/**
+ * Fetch injuries for a user, optionally filtered by status.
+ */
+export async function fetchInjuries(userId, status = null) {
+  const supabase = getSupabaseBrowser();
+  let query = supabase
+    .from('injury_log')
+    .select('*')
+    .eq('user_id', userId)
+    .order('created_at', { ascending: false });
+
+  if (status) {
+    query = query.eq('status', status);
+  }
+
+  const { data, error } = await query;
+  if (error) throw error;
+  return data || [];
+}
+
+/**
+ * Create a new injury.
+ */
+export async function createInjury(injuryData) {
+  const supabase = getSupabaseBrowser();
+  const { data, error } = await supabase
+    .from('injury_log')
+    .insert(injuryData)
+    .select()
+    .single();
+  if (error) throw error;
+  return data;
+}
+
+/**
+ * Update an existing injury.
+ */
+export async function updateInjury(injuryId, updates) {
+  const supabase = getSupabaseBrowser();
+  const { data, error } = await supabase
+    .from('injury_log')
+    .update(updates)
+    .eq('id', injuryId)
+    .select()
+    .single();
+  if (error) throw error;
+  return data;
+}
+
+/**
+ * Delete an injury by ID.
+ */
+export async function deleteInjury(injuryId) {
+  const supabase = getSupabaseBrowser();
+  const { error } = await supabase
+    .from('injury_log')
+    .delete()
+    .eq('id', injuryId);
+  if (error) throw error;
+}
+
+/**
+ * Fetch updates for a specific injury, ordered chronologically.
+ */
+export async function fetchInjuryUpdates(injuryId) {
+  const supabase = getSupabaseBrowser();
+  const { data, error } = await supabase
+    .from('injury_updates')
+    .select('*')
+    .eq('injury_id', injuryId)
+    .order('created_at', { ascending: false });
+  if (error) throw error;
+  return data || [];
+}
+
+/**
+ * Add an update entry to an injury (note, phase change, etc).
+ */
+export async function addInjuryUpdate(updateData) {
+  const supabase = getSupabaseBrowser();
+  const { data, error } = await supabase
+    .from('injury_updates')
+    .insert(updateData)
+    .select()
+    .single();
+  if (error) throw error;
+  return data;
+}
