@@ -280,6 +280,52 @@
   animation: fadeInUp 0.7s var(--ease-out) 0.3s both;
 }
 
+/* Hero Badge Bar — Scrolling wearable logos */
+.heroBadgeBar {
+  margin-top: var(--space-2xl);
+  overflow: hidden;
+  mask-image: linear-gradient(90deg, transparent, black 10%, black 90%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, transparent, black 10%, black 90%, transparent);
+  animation: fadeInUp 0.7s var(--ease-out) 0.5s both;
+}
+
+.heroBadgeTrack {
+  display: flex;
+  gap: var(--space-lg);
+  animation: scrollBadges 20s linear infinite;
+  width: max-content;
+}
+
+.heroBadge {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: 0.4rem 1rem;
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-full);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.heroBadgeIcon {
+  font-size: 1rem;
+}
+
+.heroBadgeName {
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  color: var(--text-secondary);
+  letter-spacing: 0.02em;
+}
+
+@keyframes scrollBadges {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
 .heroVisual {
   display: flex;
   align-items: center;
@@ -518,10 +564,75 @@
   font-size: var(--font-size-base);
 }
 
+/* --- Features Grid (NEW — 10 features) --- */
+.featuresSection {
+  padding: var(--space-4xl) 0;
+  background: var(--bg-surface);
+  position: relative;
+}
+
+.featuresGrid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: var(--space-md);
+}
+
+.featureCard {
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-xl);
+  transition: all var(--duration-normal) var(--ease-out);
+  position: relative;
+  overflow: hidden;
+}
+
+.featureCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  opacity: 0;
+  transition: opacity var(--duration-normal) var(--ease-out);
+}
+
+.featureCard:hover {
+  border-color: var(--border-accent);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px hsla(152, 68%, 52%, 0.08);
+}
+
+.featureCard:hover::before {
+  opacity: 1;
+}
+
+.featureIcon {
+  font-size: 2rem;
+  display: block;
+  margin-bottom: var(--space-md);
+}
+
+.featureTitle {
+  font-size: var(--font-size-base);
+  font-weight: 700;
+  margin-bottom: var(--space-xs);
+  color: var(--text-primary);
+}
+
+.featureDesc {
+  font-size: var(--font-size-xs);
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
 /* --- How It Works --- */
 .howItWorks {
   padding: var(--space-4xl) 0;
-  background: var(--bg-surface);
 }
 
 .stepsGrid {
@@ -796,6 +907,153 @@
   flex-shrink: 0;
 }
 
+/* --- Coach/Doctor Section (NEW) --- */
+.coachSection {
+  padding: var(--space-4xl) 0;
+  background: var(--bg-surface);
+  position: relative;
+  overflow: hidden;
+}
+
+.coachSection::before {
+  content: '';
+  position: absolute;
+  top: -200px;
+  right: -200px;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, hsla(152, 68%, 52%, 0.05) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.coachGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-lg);
+}
+
+.coachCard {
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-2xl);
+  transition: all var(--duration-normal) var(--ease-out);
+  position: relative;
+  overflow: hidden;
+}
+
+.coachCard::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  opacity: 0;
+  transition: opacity var(--duration-normal) var(--ease-out);
+}
+
+.coachCard:hover {
+  border-color: var(--border-accent);
+  transform: translateY(-6px);
+  box-shadow: 0 16px 48px hsla(0, 0%, 0%, 0.3);
+}
+
+.coachCard:hover::after {
+  opacity: 1;
+}
+
+.coachCardIcon {
+  font-size: 2.5rem;
+  margin-bottom: var(--space-lg);
+  display: block;
+}
+
+.coachCardTitle {
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+  margin-bottom: var(--space-sm);
+  color: var(--text-primary);
+}
+
+.coachCardDesc {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.coachCta {
+  text-align: center;
+  margin-top: var(--space-2xl);
+}
+
+/* --- Integrations Section (NEW) --- */
+.integrationsSection {
+  padding: var(--space-4xl) 0;
+  position: relative;
+}
+
+.integrationsGrid {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-xl);
+  flex-wrap: wrap;
+}
+
+.integrationCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-2xl) var(--space-xl);
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-xl);
+  min-width: 160px;
+  transition: all var(--duration-normal) var(--ease-out);
+}
+
+.integrationCard:hover {
+  border-color: var(--border-accent);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px hsla(152, 68%, 52%, 0.1);
+}
+
+.integrationComingSoon {
+  opacity: 0.6;
+}
+
+.integrationLogo {
+  font-size: 3rem;
+  display: block;
+}
+
+.integrationName {
+  font-size: var(--font-size-base);
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.integrationStatus {
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  color: var(--accent);
+  padding: 0.2rem 0.6rem;
+  background: hsla(152, 68%, 52%, 0.1);
+  border-radius: var(--radius-full);
+}
+
+.integrationStatusSoon {
+  color: var(--text-muted);
+  background: var(--bg-elevated);
+}
+
 /* --- Sports Grid --- */
 .sports {
   padding: var(--space-4xl) 0;
@@ -904,10 +1162,91 @@
   flex-shrink: 0;
 }
 
+/* --- Testimonials (NEW) --- */
+.testimonialsSection {
+  padding: var(--space-4xl) 0;
+  background: var(--bg-surface);
+}
+
+.testimonialsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-xl);
+}
+
+.testimonialCard {
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-2xl);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--space-xl);
+  transition: all var(--duration-normal) var(--ease-out);
+}
+
+.testimonialCard:hover {
+  border-color: var(--border-accent);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px hsla(0, 0%, 0%, 0.3);
+}
+
+.testimonialQuote {
+  font-size: var(--font-size-base);
+  color: var(--text-secondary);
+  line-height: 1.7;
+  font-style: italic;
+  position: relative;
+}
+
+.testimonialQuoteMark {
+  font-size: 3rem;
+  color: var(--accent);
+  opacity: 0.4;
+  line-height: 0;
+  position: absolute;
+  top: -0.5rem;
+  left: -0.25rem;
+  font-style: normal;
+}
+
+.testimonialAuthor {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.testimonialAvatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent) 0%, hsl(180, 60%, 55%) 100%);
+  color: var(--text-inverse);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: var(--font-size-lg);
+  flex-shrink: 0;
+}
+
+.testimonialName {
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.testimonialRole {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+}
+
 /* --- Stats Section --- */
 .stats {
   padding: var(--space-4xl) 0;
-  background: var(--bg-surface);
 }
 
 .statsGrid {
@@ -956,6 +1295,109 @@
   opacity: 0.7;
 }
 
+/* --- Pricing Preview (NEW) --- */
+.pricingPreview {
+  padding: var(--space-4xl) 0;
+  background: var(--bg-surface);
+  position: relative;
+}
+
+.pricingGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-xl);
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.pricingCard {
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-2xl);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-lg);
+  transition: all var(--duration-normal) var(--ease-out);
+  position: relative;
+}
+
+.pricingCard:hover {
+  border-color: var(--border-accent);
+  transform: translateY(-4px);
+}
+
+.pricingCardPopular {
+  border-color: var(--accent);
+  box-shadow: 0 0 40px var(--accent-glow);
+  transform: scale(1.04);
+}
+
+.pricingCardPopular:hover {
+  transform: scale(1.04) translateY(-4px);
+}
+
+.pricingPopularBadge {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 0.25rem 1rem;
+  background: var(--accent);
+  color: var(--text-inverse);
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  border-radius: var(--radius-full);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+
+.pricingCardHeader {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.pricingPlanName {
+  font-size: var(--font-size-xl);
+  font-weight: 800;
+  color: var(--text-primary);
+}
+
+.pricingPlanDesc {
+  font-size: var(--font-size-xs);
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.pricingPrice {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+
+.pricingAmount {
+  font-size: var(--font-size-4xl);
+  font-weight: 800;
+  color: var(--text-primary);
+  letter-spacing: -0.03em;
+}
+
+.pricingPeriod {
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+}
+
+.pricingViewAll {
+  text-align: center;
+  margin-top: var(--space-2xl);
+}
+
 /* --- Final CTA --- */
 .finalCta {
   padding: var(--space-4xl) 0;
@@ -994,6 +1436,14 @@
   color: var(--text-secondary);
   margin-bottom: var(--space-2xl);
   font-size: var(--font-size-lg);
+}
+
+.ctaButtons {
+  display: flex;
+  gap: var(--space-md);
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: var(--space-md);
 }
 
 .ctaForm {
@@ -1122,13 +1572,25 @@
     justify-content: center;
   }
 
+  .heroBadgeBar {
+    max-width: 100%;
+  }
+
   .gaugeContainer {
     width: 260px;
     height: 260px;
   }
 
+  .featuresGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
   .stepsGrid {
     gap: var(--space-xl);
+  }
+
+  .coachGrid {
+    grid-template-columns: repeat(2, 1fr);
   }
 
   .profilesGrid {
@@ -1136,6 +1598,28 @@
     max-width: 480px;
     margin-left: auto;
     margin-right: auto;
+  }
+
+  .testimonialsGrid {
+    grid-template-columns: 1fr;
+    max-width: 540px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .pricingGrid {
+    grid-template-columns: 1fr;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .pricingCardPopular {
+    transform: scale(1);
+  }
+
+  .pricingCardPopular:hover {
+    transform: translateY(-4px);
   }
 }
 
@@ -1156,6 +1640,10 @@
     grid-template-columns: repeat(2, 1fr);
   }
 
+  .featuresGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
   .stepsGrid {
     grid-template-columns: 1fr;
     max-width: 320px;
@@ -1167,8 +1655,24 @@
     display: none;
   }
 
+  .coachGrid {
+    grid-template-columns: 1fr;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
   .sportsGrid {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  .integrationsGrid {
+    gap: var(--space-md);
+  }
+
+  .integrationCard {
+    min-width: 140px;
+    padding: var(--space-lg) var(--space-md);
   }
 
   .statsGrid {
@@ -1183,6 +1687,11 @@
 
   .ctaForm {
     flex-direction: column;
+  }
+
+  .ctaButtons {
+    flex-direction: column;
+    align-items: center;
   }
 
   .footerInner {
@@ -1211,6 +1720,10 @@
     grid-template-columns: 1fr;
   }
 
+  .featuresGrid {
+    grid-template-columns: 1fr;
+  }
+
   .sportsGrid {
     grid-template-columns: repeat(2, 1fr);
     gap: var(--space-sm);
@@ -1219,5 +1732,18 @@
   .heroCtas {
     flex-direction: column;
     align-items: center;
+  }
+
+  .integrationsGrid {
+    gap: var(--space-sm);
+  }
+
+  .integrationCard {
+    min-width: 120px;
+    padding: var(--space-md);
+  }
+
+  .integrationLogo {
+    font-size: 2rem;
   }
 }

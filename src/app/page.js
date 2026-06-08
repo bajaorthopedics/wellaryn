@@ -87,6 +87,15 @@ export default function Home() {
   const statsSection = getSection('stats', lang);
   const finalCta = getSection('finalCta', lang);
   const footer = getSection('footer', lang);
+  const featuresGrid = getSection('featuresGrid', lang);
+  const coachSection = getSection('coachSection', lang);
+  const integrations = getSection('integrations', lang);
+  const testimonials = getSection('testimonials', lang);
+  const pricingPreview = getSection('pricingPreview', lang);
+
+  // Wearable brand names for the hero marquee
+  const wearableBrands = ['Oura Ring', 'WHOOP', 'Garmin', 'Fitbit', 'Apple Health'];
+  const wearableEmojis = ['💍', '🟢', '⌚', '⌚', '🍎'];
 
   return (
     <>
@@ -191,9 +200,21 @@ export default function Home() {
                 <button id="hero-cta-primary" className="btn btn-primary btn-lg" onClick={() => router.push('/auth/register')}>
                   {hero.ctaPrimary}
                 </button>
-                <button id="hero-cta-secondary" className="btn btn-secondary btn-lg" onClick={() => scrollTo('how-it-works')}>
+                <button id="hero-cta-secondary" className="btn btn-secondary btn-lg" onClick={() => router.push('/pricing')}>
                   {hero.ctaSecondary}
                 </button>
+              </div>
+
+              {/* Scrolling Wearable Badge Bar */}
+              <div className={styles.heroBadgeBar}>
+                <div className={styles.heroBadgeTrack}>
+                  {[...wearableBrands, ...wearableBrands].map((brand, i) => (
+                    <div key={`${brand}-${i}`} className={styles.heroBadge}>
+                      <span className={styles.heroBadgeIcon}>{wearableEmojis[i % wearableEmojis.length]}</span>
+                      <span className={styles.heroBadgeName}>{brand}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
 
@@ -248,6 +269,27 @@ export default function Home() {
                 Wellar<span className={styles.logoAccent}>y</span>n
               </div>
               <p className={styles.solutionDesc}>{problem.solution}</p>
+            </div>
+          </div>
+        </section>
+
+        {/* ===================== FEATURES GRID (NEW — 10 features) ===================== */}
+        <section id="all-features" className={styles.featuresSection}>
+          <div className="container">
+            <div className={`${styles.sectionHeading} reveal`}>
+              <span className={styles.sectionTag}>{featuresGrid.tag}</span>
+              <h2>{featuresGrid.title}</h2>
+              <p>{featuresGrid.subtitle}</p>
+            </div>
+
+            <div className={`${styles.featuresGrid} reveal`}>
+              {featuresGrid.items.map((feat, i) => (
+                <div key={i} className={styles.featureCard}>
+                  <span className={styles.featureIcon}>{feat.icon}</span>
+                  <h3 className={styles.featureTitle}>{feat.title}</h3>
+                  <p className={styles.featureDesc}>{feat.desc}</p>
+                </div>
+              ))}
             </div>
           </div>
         </section>
@@ -346,6 +388,56 @@ export default function Home() {
           </div>
         </section>
 
+        {/* ===================== COACH/DOCTOR SECTION (NEW) ===================== */}
+        <section id="for-coaches" className={styles.coachSection}>
+          <div className="container">
+            <div className={`${styles.sectionHeading} reveal`}>
+              <span className={styles.sectionTag}>{coachSection.tag}</span>
+              <h2>{coachSection.title}</h2>
+              <p>{coachSection.subtitle}</p>
+            </div>
+
+            <div className={`${styles.coachGrid} reveal`}>
+              {coachSection.cards.map((card, i) => (
+                <div key={i} className={styles.coachCard}>
+                  <div className={styles.coachCardIcon}>{card.icon}</div>
+                  <h3 className={styles.coachCardTitle}>{card.title}</h3>
+                  <p className={styles.coachCardDesc}>{card.desc}</p>
+                </div>
+              ))}
+            </div>
+
+            <div className={`${styles.coachCta} reveal`}>
+              <button className="btn btn-secondary btn-lg" onClick={() => router.push('/auth/register')}>
+                {lang === 'es' ? 'Crear Cuenta de Coach' : 'Create Coach Account'}
+              </button>
+            </div>
+          </div>
+        </section>
+
+        {/* ===================== INTEGRATIONS (NEW) ===================== */}
+        <section id="integrations" className={`${styles.integrationsSection} section`}>
+          <div className="container">
+            <div className={`${styles.sectionHeading} reveal`}>
+              <span className={styles.sectionTag}>{integrations.tag}</span>
+              <h2>{integrations.title}</h2>
+              <p>{integrations.subtitle}</p>
+            </div>
+
+            <div className={`${styles.integrationsGrid} reveal`}>
+              {integrations.devices.map((device, i) => (
+                <div key={i} className={`${styles.integrationCard} ${device.name === 'Apple Health' ? styles.integrationComingSoon : ''}`}>
+                  <span className={styles.integrationLogo}>{wearableEmojis[i]}</span>
+                  <span className={styles.integrationName}>{device.name}</span>
+                  <span className={`${styles.integrationStatus} ${device.name === 'Apple Health' ? styles.integrationStatusSoon : ''}`}>
+                    {device.status}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
         {/* ===================== SPORTS ===================== */}
         <section id="sports" className={styles.sports}>
           <div className="container">
@@ -395,6 +487,36 @@ export default function Home() {
           </div>
         </section>
 
+        {/* ===================== TESTIMONIALS (NEW) ===================== */}
+        <section id="testimonials" className={styles.testimonialsSection}>
+          <div className="container">
+            <div className={`${styles.sectionHeading} reveal`}>
+              <span className={styles.sectionTag}>{testimonials.tag}</span>
+              <h2>{testimonials.title}</h2>
+            </div>
+
+            <div className={`${styles.testimonialsGrid} reveal`}>
+              {testimonials.items.map((item, i) => (
+                <div key={i} className={styles.testimonialCard}>
+                  <div className={styles.testimonialQuote}>
+                    <span className={styles.testimonialQuoteMark}>&ldquo;</span>
+                    {item.quote}
+                  </div>
+                  <div className={styles.testimonialAuthor}>
+                    <div className={styles.testimonialAvatar}>
+                      {item.author.charAt(0)}
+                    </div>
+                    <div>
+                      <div className={styles.testimonialName}>{item.author}</div>
+                      <div className={styles.testimonialRole}>{item.role}</div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
         {/* ===================== STATS ===================== */}
         <section id="stats" className={styles.stats}>
           <div className="container">
@@ -414,6 +536,70 @@ export default function Home() {
           </div>
         </section>
 
+        {/* ===================== PRICING PREVIEW (NEW) ===================== */}
+        <section id="pricing-preview" className={`${styles.pricingPreview} section`}>
+          <div className="container">
+            <div className={`${styles.sectionHeading} reveal`}>
+              <span className={styles.sectionTag}>{pricingPreview.tag}</span>
+              <h2>{pricingPreview.title}</h2>
+              <p>{pricingPreview.subtitle}</p>
+            </div>
+
+            <div className={`${styles.pricingGrid} reveal`}>
+              {/* Free */}
+              <div className={styles.pricingCard}>
+                <div className={styles.pricingCardHeader}>
+                  <h3 className={styles.pricingPlanName}>{pricingPreview.free}</h3>
+                  <p className={styles.pricingPlanDesc}>{pricingPreview.freeDesc}</p>
+                </div>
+                <div className={styles.pricingPrice}>
+                  <span className={styles.pricingAmount}>{pricingPreview.freePrice}</span>
+                </div>
+                <button className="btn btn-secondary" onClick={() => router.push('/auth/register')}>
+                  {pricingPreview.getStarted}
+                </button>
+              </div>
+
+              {/* Pro — highlighted */}
+              <div className={`${styles.pricingCard} ${styles.pricingCardPopular}`}>
+                <div className={styles.pricingPopularBadge}>{pricingPreview.popular}</div>
+                <div className={styles.pricingCardHeader}>
+                  <h3 className={styles.pricingPlanName}>{pricingPreview.pro}</h3>
+                  <p className={styles.pricingPlanDesc}>{pricingPreview.proDesc}</p>
+                </div>
+                <div className={styles.pricingPrice}>
+                  <span className={styles.pricingAmount}>{pricingPreview.proPrice}</span>
+                  <span className={styles.pricingPeriod}>{pricingPreview.perMonth}</span>
+                </div>
+                <button className="btn btn-primary" onClick={() => router.push('/auth/register')}>
+                  {pricingPreview.getStarted}
+                </button>
+              </div>
+
+              {/* Team */}
+              <div className={styles.pricingCard}>
+                <div className={styles.pricingCardHeader}>
+                  <h3 className={styles.pricingPlanName}>{pricingPreview.team}</h3>
+                  <p className={styles.pricingPlanDesc}>{pricingPreview.teamDesc}</p>
+                </div>
+                <div className={styles.pricingPrice}>
+                  <span className={styles.pricingAmount}>{pricingPreview.teamPrice}</span>
+                  <span className={styles.pricingPeriod}>{pricingPreview.perMonth}</span>
+                </div>
+                <button className="btn btn-secondary" onClick={() => router.push('/auth/register')}>
+                  {pricingPreview.getStarted}
+                </button>
+              </div>
+            </div>
+
+            <div className={`${styles.pricingViewAll} reveal`}>
+              <Link href="/pricing" className="btn btn-ghost">
+                {pricingPreview.viewAll} →
+              </Link>
+            </div>
+          </div>
+        </section>
+
         {/* ===================== FINAL CTA ===================== */}
         <section id="final-cta" className={`${styles.finalCta} section`}>
           <div className={styles.finalCtaBg} aria-hidden="true" />
@@ -426,15 +612,17 @@ export default function Home() {
               </h2>
               <p>{finalCta.subtitle}</p>
 
-              <div className={styles.ctaForm}>
+              <div className={styles.ctaButtons}>
                 <button
                   id="submit-btn"
                   className="btn btn-primary btn-lg"
                   onClick={() => router.push('/auth/register')}
-                  style={{ width: '100%', maxWidth: '400px', padding: '1rem 2rem', fontSize: '1.125rem' }}
                 >
                   {finalCta.joinWaitlist}
                 </button>
+                <Link href="/pricing" className="btn btn-secondary btn-lg">
+                  {hero.ctaSecondary}
+                </Link>
               </div>
 
               <p className={styles.ctaPrivacy}>{finalCta.privacy}</p>

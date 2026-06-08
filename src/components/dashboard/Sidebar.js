@@ -16,8 +16,9 @@ export default function Sidebar({ isOpen, onClose }) {
   const { profile, signOut } = useAuth();
 
   const isCoachOrDoctor = profile?.role === 'coach' || profile?.role === 'doctor';
+  const isAdmin = profile?.role === 'admin';
 
-  const navItems = isCoachOrDoctor
+  const baseNavItems = isCoachOrDoctor
     ? [
         { icon: '👥', label: t('dashboard.nav.team', lang), href: '/dashboard/team' },
         { icon: '📈', label: t('dashboard.nav.analytics', lang), href: '/dashboard/analytics' },
@@ -39,6 +40,11 @@ export default function Sidebar({ isOpen, onClose }) {
         { icon: '🦴', label: t('dashboard.nav.injuries', lang), href: '/dashboard/injuries' },
         { icon: '👤', label: t('dashboard.nav.profile', lang), href: '/dashboard/profile' },
       ];
+
+  // Add admin nav item only for admin users
+  const navItems = isAdmin
+    ? [...baseNavItems, { icon: '👑', label: t('dashboard.nav.admin', lang), href: '/dashboard/admin' }]
+    : baseNavItems;
 
   // Compute avatar initials from display name
   const displayName = profile?.display_name || 'User';
