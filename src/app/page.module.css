@@ -1570,6 +1570,17 @@
     gap: var(--space-xl);
   }
 
+  /* Force hero content visible — iOS Safari may not fire fadeInUp */
+  .heroTag,
+  .heroTitle,
+  .heroSubtitle,
+  .heroCtas,
+  .heroBadgeBar {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
   .heroSubtitle {
     margin-left: auto;
     margin-right: auto;
