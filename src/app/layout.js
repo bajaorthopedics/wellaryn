@@ -2,6 +2,8 @@ import "./globals.css";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import { AuthProvider } from "@/contexts/AuthContext";
 import ServiceWorkerRegistration from "@/components/ui/ServiceWorkerRegistration";
+import Analytics from "@/components/ui/Analytics";
+import CookieConsent from "@/components/ui/CookieConsent";
 
 export const metadata = {
   title: "Wellaryn — Train Smarter. Prevent Injuries.",
@@ -41,7 +43,10 @@ export default function RootLayout({ children }) {
           <AuthProvider>{children}</AuthProvider>
         </LanguageProvider>
         <ServiceWorkerRegistration />
+        <Analytics />
+        <CookieConsent />
       </body>
     </html>
   );
 }
+

@@ -49,5 +49,18 @@ const nextConfig = {
   },
 };
 
-export default nextConfig;
+// Wrap with Sentry only if @sentry/nextjs is installed
+let exportedConfig = nextConfig;
+try {
+  const { withSentryConfig } = await import('@sentry/nextjs');
+  exportedConfig = withSentryConfig(nextConfig, {
+    org: 'wellaryn',
+    project: 'wellaryn-web',
+    silent: true,
+    hideSourceMaps: true,
+  });
+} catch {
+  // @sentry/nextjs not installed — skip Sentry wrapping
+}
 
+export default exportedConfig;
