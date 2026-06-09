@@ -2,35 +2,18 @@ import React from 'react';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Text, View, StyleSheet } from 'react-native';
+import { Text, View } from 'react-native';
 import { AuthProvider, useAuth } from './src/contexts/AuthContext';
 import LoginScreen from './src/screens/LoginScreen';
 import DashboardScreen from './src/screens/DashboardScreen';
+import HistoryScreen from './src/screens/HistoryScreen';
+import ChatScreen from './src/screens/ChatScreen';
+import ProfileScreen from './src/screens/ProfileScreen';
+import GoalsScreen from './src/screens/GoalsScreen';
 import { colors } from './src/theme';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
-
-// Placeholder screens
-function PlaceholderScreen({ title, icon }) {
-  return (
-    <View style={ph.container}>
-      <Text style={ph.icon}>{icon}</Text>
-      <Text style={ph.title}>{title}</Text>
-      <Text style={ph.sub}>Próximamente</Text>
-    </View>
-  );
-}
-const ph = StyleSheet.create({
-  container: { flex: 1, backgroundColor: colors.bg, alignItems: 'center', justifyContent: 'center' },
-  icon: { fontSize: 48, marginBottom: 12 },
-  title: { fontSize: 20, fontWeight: '700', color: colors.textPrimary },
-  sub: { fontSize: 14, color: colors.textMuted, marginTop: 4 },
-});
-
-function HistoryScreen() { return <PlaceholderScreen title="Historial" icon="📈" />; }
-function ChatScreen() { return <PlaceholderScreen title="Mensajes" icon="💬" />; }
-function ProfileScreen() { return <PlaceholderScreen title="Perfil" icon="👤" />; }
 
 // Main tab navigator
 function MainTabs() {
@@ -48,7 +31,7 @@ function MainTabs() {
         },
         tabBarActiveTintColor: colors.accent,
         tabBarInactiveTintColor: colors.textMuted,
-        tabBarLabelStyle: { fontSize: 11, fontWeight: '600' },
+        tabBarLabelStyle: { fontSize: 10, fontWeight: '600' },
       }}
     >
       <Tab.Screen
@@ -65,6 +48,14 @@ function MainTabs() {
         options={{
           tabBarLabel: 'Historial',
           tabBarIcon: ({ color }) => <Text style={{ fontSize: 22, color }}>📈</Text>,
+        }}
+      />
+      <Tab.Screen
+        name="Goals"
+        component={GoalsScreen}
+        options={{
+          tabBarLabel: 'Metas',
+          tabBarIcon: ({ color }) => <Text style={{ fontSize: 22, color }}>🎯</Text>,
         }}
       />
       <Tab.Screen
