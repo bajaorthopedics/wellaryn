@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+Disallow: /dashboard/
+Disallow: /api/
+Disallow: /onboarding
+Disallow: /auth/
+
+Sitemap: https://wellaryn.com/sitemap.xml
