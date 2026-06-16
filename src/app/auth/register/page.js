@@ -77,11 +77,11 @@ export default function RegisterPage() {
     e.preventDefault();
     setError('');
 
-    // Validate
-    if (!invitationCode.trim()) {
-      setError(t.errCodeRequired[lang]);
-      return;
-    }
+    // Invitation code is optional (for tracking only)
+    // if (!invitationCode.trim()) {
+    //   setError(t.errCodeRequired[lang]);
+    //   return;
+    // }
     if (password.length < 8) {
       setError(t.errPasswordShort[lang]);
       return;
@@ -102,12 +102,11 @@ export default function RegisterPage() {
     setLoading(true);
 
     try {
-      // Validate invitation code
-      const codeData = await validateInvitationCode(invitationCode);
-      if (!codeData) {
-        setError(t.errInvalidCode[lang]);
-        setLoading(false);
-        return;
+      // Validate invitation code (optional — skip if empty)
+      let codeData = null;
+      if (invitationCode.trim()) {
+        codeData = await validateInvitationCode(invitationCode);
+        // Don't block registration if code is invalid — just ignore
       }
 
       // Create the account (also creates profile row)
@@ -127,11 +126,13 @@ export default function RegisterPage() {
           console.error('Profile update error (non-blocking):', profileErr);
         }
 
-        // Increment invitation code usage
-        try {
-          await incrementInvitationUses(codeData.id, codeData.current_uses);
-        } catch (codeErr) {
-          console.error('Code increment error (non-blocking):', codeErr);
+        // Increment invitation code usage (if code was provided and valid)
+        if (codeData) {
+          try {
+            await incrementInvitationUses(codeData.id, codeData.current_uses);
+          } catch (codeErr) {
+            console.error('Code increment error (non-blocking):', codeErr);
+          }
         }
       }
 
@@ -235,10 +236,10 @@ export default function RegisterPage() {
               </div>
             </div>
 
-            {/* Invitation Code */}
+            {/* Invitation Code (Optional) */}
             <div className={styles.fieldGroup}>
               <label className={styles.label} htmlFor="invitationCode">
-                {t.invitationCode[lang]}
+                {t.invitationCode[lang]} <span style={{color: 'var(--text-muted)', fontWeight: 400, fontSize: '0.85em'}}>({lang === 'es' ? 'opcional' : 'optional'})</span>
               </label>
               <input
                 id="invitationCode"
@@ -247,7 +248,6 @@ export default function RegisterPage() {
                 placeholder={t.invitationCodePlaceholder[lang]}
                 value={invitationCode}
                 onChange={(e) => setInvitationCode(e.target.value)}
-                required
               />
             </div>
 
