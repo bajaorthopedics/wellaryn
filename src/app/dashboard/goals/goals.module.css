@@ -513,9 +513,10 @@
   -webkit-backdrop-filter: blur(6px);
   z-index: 100;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
-  padding: var(--space-lg);
+  padding: var(--space-xl) var(--space-lg);
+  overflow-y: auto;
   animation: overlayIn 0.25s var(--ease-out) both;
 }
 
@@ -527,7 +528,7 @@
 .modal {
   width: 100%;
   max-width: 560px;
-  max-height: 90vh;
+  margin: auto 0;
   overflow-y: auto;
   background: var(--bg-surface);
   border: 1px solid var(--border-default);
