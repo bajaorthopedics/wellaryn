@@ -185,10 +185,14 @@ function FitbitConnectInner({ lang = 'en' }) {
 
       {status === 'disconnected' && (
         <div className={styles.disconnectedState}>
-          <p className={styles.description}>{L('disconnected')}</p>
-          <button className={styles.connectBtn} onClick={handleConnect}
-                  style={{ background: '#00B0B9', boxShadow: '0 0 20px hsla(183, 100%, 36%, 0.3)' }}>
-            {L('connectBtn')}
+          <p className={styles.description}>
+            {lang === 'es'
+              ? '🚀 Integración con Fitbit próximamente. Estamos trabajando para habilitarla.'
+              : '🚀 Fitbit integration coming soon. We\'re working to enable it.'}
+          </p>
+          <button className={styles.connectBtn} disabled
+                  style={{ background: 'hsla(0, 0%, 100%, 0.1)', cursor: 'not-allowed', opacity: 0.6 }}>
+            {lang === 'es' ? 'Próximamente' : 'Coming Soon'}
           </button>
         </div>
       )}

@@ -186,10 +186,14 @@ function GarminConnectInner({ lang = 'en' }) {
 
       {status === 'disconnected' && (
         <div className={styles.disconnectedState}>
-          <p className={styles.description}>{L('disconnected')}</p>
-          <button className={styles.connectBtn} onClick={handleConnect}
-                  style={{ background: '#00D632', boxShadow: '0 0 20px hsla(136, 100%, 42%, 0.3)' }}>
-            {L('connectBtn')}
+          <p className={styles.description}>
+            {lang === 'es'
+              ? '🚀 Integración con Garmin próximamente. Estamos trabajando para habilitarla.'
+              : '🚀 Garmin integration coming soon. We\'re working to enable it.'}
+          </p>
+          <button className={styles.connectBtn} disabled
+                  style={{ background: 'hsla(0, 0%, 100%, 0.1)', cursor: 'not-allowed', opacity: 0.6 }}>
+            {lang === 'es' ? 'Próximamente' : 'Coming Soon'}
           </button>
         </div>
       )}
