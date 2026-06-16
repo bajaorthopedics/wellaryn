@@ -12,13 +12,16 @@
       "resizeMode": "contain",
       "backgroundColor": "#0a0a0f"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.wellaryn.app",
+      "bundleIdentifier": "com.wellaryn.Wellaryn",
       "infoPlist": {
         "NSHealthShareUsageDescription": "Wellaryn reads your health data to calculate your readiness score.",
-        "NSHealthUpdateUsageDescription": "Wellaryn syncs your training data."
+        "NSHealthUpdateUsageDescription": "Wellaryn syncs your training data.",
+        "ITSAppUsesNonExemptEncryption": false
       }
     },
     "android": {
@@ -27,20 +30,20 @@
         "backgroundColor": "#0a0a0f"
       },
       "package": "com.wellaryn.app",
-      "permissions": ["ACTIVITY_RECOGNITION"]
+      "permissions": [
+        "ACTIVITY_RECOGNITION"
+      ]
     },
     "plugins": [
-      "expo-router",
-      "expo-secure-store",
-      "expo-haptics",
-      "expo-notifications"
+      "expo-secure-store"
     ],
     "extra": {
-      "eas": {
-        "projectId": "your-eas-project-id"
-      },
       "supabaseUrl": "https://bahdtqwqwkyrpchftemh.supabase.co",
-      "supabaseAnonKey": "your-anon-key"
-    }
+      "supabaseAnonKey": "your-anon-key",
+      "eas": {
+        "projectId": "0c92f42a-95d8-49eb-9aab-1df4a8fb4dd0"
+      }
+    },
+    "owner": "jumarca"
   }
 }

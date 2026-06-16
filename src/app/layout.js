@@ -32,6 +32,22 @@ export const metadata = {
     description:
       "The AI that prevents injuries before they happen. Connect your wearables, get real-time readiness insights.",
     type: "website",
+    url: "https://wellaryn.com",
+    images: [
+      {
+        url: "https://wellaryn.com/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Wellaryn — AI-powered fitness platform with readiness score gauge",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Wellaryn — Train Smarter. Prevent Injuries.",
+    description:
+      "The AI that prevents injuries before they happen. Connect your wearables, get real-time readiness insights.",
+    images: ["https://wellaryn.com/og-image.png"],
   },
 };
 

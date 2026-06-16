@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { t, getSection } from '@/lib/i18n';
+import { getSupabaseBrowser } from '@/lib/supabase/client';
 import styles from './page.module.css';
 
 /* ============================================
@@ -71,9 +72,18 @@ export default function Home() {
   }, []);
 
   /* --- Early access form --- */
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (email.trim()) setSubmitted(true);
+    if (!email.trim()) return;
+    setSubmitted(true);
+    try {
+      const supabase = getSupabaseBrowser();
+      await supabase
+        .from('early_access_signups')
+        .upsert({ email: email.trim() }, { onConflict: 'email' });
+    } catch (_err) {
+      // Don't block UI — signup confirmation already shown
+    }
   };
 
   // Get translated sections

@@ -12,6 +12,7 @@ import {
   markMessagesRead,
 } from '@/lib/supabase/data-service';
 import styles from './chat.module.css';
+import UpgradeGate from '@/components/dashboard/UpgradeGate';
 
 // ─── Helpers ─────────────────────────────────────────────────
 
@@ -347,6 +348,7 @@ export default function ChatPage() {
   const groupedMessages = groupMessagesByDate(messages);
 
   return (
+    <UpgradeGate feature="chat">
     <div className={styles.page}>
       <div className={styles.header}>
         <h1 className={styles.title}>{t('dashboard.chat.title', lang)}</h1>
@@ -575,5 +577,6 @@ export default function ChatPage() {
         </div>
       </div>
     </div>
+    </UpgradeGate>
   );
 }

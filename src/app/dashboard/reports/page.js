@@ -7,6 +7,7 @@ import { t } from '@/lib/i18n';
 import { calculateWellarynScore } from '@/lib/wellaryn-score';
 import { fetchDailyMetrics, metricsToWellarynInput, fetchCoachAthletes } from '@/lib/supabase/data-service';
 import styles from './reports.module.css';
+import UpgradeGate from '@/components/dashboard/UpgradeGate';
 
 // ─── Constants ────────────────────────────────────────────────
 
@@ -299,6 +300,7 @@ export default function ReportsPage() {
 
   // ─── Render ─────────────────────────────────────────────────
   return (
+    <UpgradeGate feature="reports">
     <div className={styles.page}>
       {/* Header */}
       <header className={styles.header}>
@@ -472,6 +474,7 @@ export default function ReportsPage() {
         })}
       </div>
     </div>
+    </UpgradeGate>
   );
 }
 

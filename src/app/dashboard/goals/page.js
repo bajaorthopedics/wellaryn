@@ -12,6 +12,7 @@ import {
   fetchCoachAthletes,
 } from '@/lib/supabase/data-service';
 import styles from './goals.module.css';
+import UpgradeGate from '@/components/dashboard/UpgradeGate';
 
 // ─── Constants ────────────────────────────────────────────────
 
@@ -591,6 +592,7 @@ export default function GoalsPage() {
 
   // ─── Render ─────────────────────────────────────────────────
   return (
+    <UpgradeGate feature="goals">
     <div className={styles.page}>
       {/* Header */}
       <header className={styles.header}>
@@ -724,5 +726,6 @@ export default function GoalsPage() {
         selectedAthlete={selectedAthlete}
       />
     </div>
+    </UpgradeGate>
   );
 }

@@ -18,6 +18,7 @@ import {
 } from '@/lib/supabase/data-service';
 import ProtectedRoute from '@/components/auth/ProtectedRoute';
 import styles from './analytics.module.css';
+import UpgradeGate from '@/components/dashboard/UpgradeGate';
 
 // ─── Constants ──────────────────────────────────────────────────
 const RANGES = [
@@ -778,8 +779,10 @@ function TeamAnalyticsPage() {
 // Wrap with ProtectedRoute
 export default function AnalyticsPageWrapper() {
   return (
+    <UpgradeGate feature="analytics">
     <ProtectedRoute allowedRoles={['coach', 'doctor']}>
       <TeamAnalyticsPage />
     </ProtectedRoute>
+    </UpgradeGate>
   );
 }
