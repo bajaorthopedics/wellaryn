@@ -133,7 +133,7 @@ function InviteModal({ isOpen, onClose, userId, role, lang }) {
     setCopied(false);
     try {
       const result = await inviteAthlete(userId, role);
-      setInviteCode(result.code);
+      setInviteCode(result.invite_code);
       // Refresh pending list
       const data = await fetchPendingInvites(userId);
       setPending(data || []);
@@ -225,7 +225,7 @@ function InviteModal({ isOpen, onClose, userId, role, lang }) {
             <div className={styles.pendingList}>
               {pending.map((inv, i) => (
                 <div key={inv.code || i} className={styles.pendingItem}>
-                  <span className={styles.pendingCode}>{inv.code}</span>
+                  <span className={styles.pendingCode}>{inv.invite_code || inv.code}</span>
                   <span className={styles.pendingDate}>
                     {inv.created_at
                       ? new Date(inv.created_at).toLocaleDateString(

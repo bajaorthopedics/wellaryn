@@ -249,7 +249,8 @@ export async function fetchPendingInvites(coachId) {
 
 export async function inviteAthlete(coachId, coachRole) {
   const supabase = getSupabaseBrowser();
-  const inviteCode = `WEL-${coachRole.toUpperCase().slice(0,1)}-${Date.now().toString(36).toUpperCase()}-${Math.random().toString(36).slice(2,6).toUpperCase()}`;
+  const rolePrefix = (coachRole || 'C').toUpperCase().slice(0, 1);
+  const inviteCode = `WEL-${rolePrefix}-${Date.now().toString(36).toUpperCase()}-${Math.random().toString(36).slice(2,6).toUpperCase()}`;
   
   const { data, error } = await supabase
     .from('coach_athletes')
