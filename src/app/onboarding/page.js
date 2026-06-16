@@ -38,6 +38,9 @@ const t = {
   swimming: { en: 'Swimming', es: 'Natación' },
   triathlon: { en: 'Triathlon', es: 'Triatlón' },
   crossfit: { en: 'CrossFit', es: 'CrossFit' },
+  weightlifting: { en: 'Weightlifting', es: 'Pesas' },
+  tennis: { en: 'Tennis', es: 'Tenis' },
+  pilates: { en: 'Pilates', es: 'Pilates' },
   other: { en: 'Other', es: 'Otro' },
   comingSoon: { en: 'Soon', es: 'Pronto' },
 
@@ -167,11 +170,14 @@ const t = {
 
 const SPORTS = [
   { id: 'running', icon: '🏃', available: true },
-  { id: 'cycling', icon: '🚴', available: false },
-  { id: 'swimming', icon: '🏊', available: false },
-  { id: 'triathlon', icon: '🏅', available: false },
-  { id: 'crossfit', icon: '🏋️', available: false },
-  { id: 'other', icon: '⚡', available: false },
+  { id: 'cycling', icon: '🚴', available: true },
+  { id: 'swimming', icon: '🏊', available: true },
+  { id: 'triathlon', icon: '🏅', available: true },
+  { id: 'crossfit', icon: '🏋️', available: true },
+  { id: 'weightlifting', icon: '🏋️‍♂️', available: true },
+  { id: 'tennis', icon: '🎾', available: true },
+  { id: 'pilates', icon: '🧘', available: true },
+  { id: 'other', icon: '⚡', available: true },
 ];
 
 const ROLES = [

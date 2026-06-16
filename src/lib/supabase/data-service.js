@@ -318,7 +318,49 @@ export async function fetchChatContacts(userId, userRole) {
 
   let contactIds = [];
 
-  if (userRole === 'coach' || userRole === 'doctor' || userRole === 'admin') {
+  if (userRole === 'admin') {
+    // Admin sees ALL users
+    const { data: allProfiles, error: profErr } = await supabase
+      .from('profiles')
+      .select('id, display_name, email, role, sport')
+      .neq('id', userId);
+    if (profErr) throw profErr;
+
+    // For each contact, fetch last message and unread count
+    const contacts = await Promise.all(
+      (allProfiles || []).map(async (profile) => {
+        const { data: lastMsgs } = await supabase
+          .from('chat_messages')
+          .select('id, message, sender_id, created_at, read')
+          .or(`and(sender_id.eq.${userId},receiver_id.eq.${profile.id}),and(sender_id.eq.${profile.id},receiver_id.eq.${userId})`)
+          .order('created_at', { ascending: false })
+          .limit(1);
+
+        const { data: unreadData } = await supabase
+          .from('chat_messages')
+          .select('id', { count: 'exact', head: true })
+          .eq('sender_id', profile.id)
+          .eq('receiver_id', userId)
+          .eq('read', false);
+
+        return {
+          ...profile,
+          lastMessage: lastMsgs?.[0] || null,
+          unreadCount: unreadData?.length ?? 0,
+        };
+      })
+    );
+
+    contacts.sort((a, b) => {
+      const aTime = a.lastMessage?.created_at || '1970-01-01';
+      const bTime = b.lastMessage?.created_at || '1970-01-01';
+      return new Date(bTime) - new Date(aTime);
+    });
+
+    return contacts;
+  }
+
+  if (userRole === 'coach' || userRole === 'doctor') {
     // Coach/Doctor sees their connected athletes
     const { data: rels, error: relErr } = await supabase
       .from('coach_athletes')
