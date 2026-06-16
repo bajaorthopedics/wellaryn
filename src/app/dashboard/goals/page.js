@@ -473,7 +473,7 @@ export default function GoalsPage() {
   const [coachAthletes, setCoachAthletes] = useState([]);
   const [selectedAthlete, setSelectedAthlete] = useState(null);
 
-  const isCoachOrDoctor = profile?.role === 'coach' || profile?.role === 'doctor';
+  const isCoachOrDoctor = profile?.role === 'coach' || profile?.role === 'doctor' || profile?.role === 'admin';
 
   // ─── Load Goals ─────────────────────────────────────────────
   const loadGoals = useCallback(async () => {

@@ -42,9 +42,10 @@ export default function UpgradeGate({ feature, children }) {
   const { profile } = useAuth();
   const { lang } = useLanguage();
   const plan = profile?.plan || 'free';
+  const role = profile?.role;
 
-  // If user has access, render children
-  if (canAccess(plan, feature)) {
+  // If user has access (admin always does), render children
+  if (canAccess(plan, feature, role)) {
     return <>{children}</>;
   }
 

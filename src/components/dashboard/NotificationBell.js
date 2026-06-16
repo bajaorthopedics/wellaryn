@@ -49,7 +49,7 @@ export default function NotificationBell() {
   const [unreadCount, setUnreadCount] = useState(0);
   const dropdownRef = useRef(null);
 
-  const isCoachOrDoctor = profile?.role === 'coach' || profile?.role === 'doctor';
+  const isCoachOrDoctor = profile?.role === 'coach' || profile?.role === 'doctor' || profile?.role === 'admin';
 
   // Fetch notifications from Supabase
   const fetchNotifications = useCallback(async () => {

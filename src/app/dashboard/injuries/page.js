@@ -836,8 +836,9 @@ export default function InjuriesPage() {
   const [coachAthletes, setCoachAthletes] = useState([]);
   const [selectedAthlete, setSelectedAthlete] = useState(null);
 
-  const isCoachOrDoctor = profile?.role === 'coach' || profile?.role === 'doctor';
-  const isDoctor = profile?.role === 'doctor';
+  const isAdmin = profile?.role === 'admin';
+  const isCoachOrDoctor = profile?.role === 'coach' || profile?.role === 'doctor' || isAdmin;
+  const isDoctor = profile?.role === 'doctor' || isAdmin;
 
   // ─── Load Injuries ─────────────────────────────────────────
   const loadInjuries = useCallback(async () => {

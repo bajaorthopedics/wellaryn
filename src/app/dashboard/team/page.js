@@ -260,8 +260,9 @@ export default function TeamPage() {
   const [showInvite, setShowInvite] = useState(false);
   const [lastRefresh, setLastRefresh] = useState(null);
 
-  const isDoctor = profile?.role === 'doctor';
-  const isCoach = profile?.role === 'coach';
+  const isAdmin = profile?.role === 'admin';
+  const isDoctor = profile?.role === 'doctor' || isAdmin;
+  const isCoach = profile?.role === 'coach' || isAdmin;
 
   // ─── Fetch athletes ─────────────────────────────────────────
   const loadAthletes = useCallback(async () => {

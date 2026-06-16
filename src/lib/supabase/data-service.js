@@ -317,7 +317,7 @@ export async function fetchChatContacts(userId, userRole) {
 
   let contactIds = [];
 
-  if (userRole === 'coach' || userRole === 'doctor') {
+  if (userRole === 'coach' || userRole === 'doctor' || userRole === 'admin') {
     // Coach/Doctor sees their connected athletes
     const { data: rels, error: relErr } = await supabase
       .from('coach_athletes')

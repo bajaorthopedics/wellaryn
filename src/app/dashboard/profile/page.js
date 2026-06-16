@@ -149,7 +149,7 @@ export default function ProfilePage() {
 
   // Fetch coach athletes if coach/doctor
   useEffect(() => {
-    if (profile && (profile.role === 'coach' || profile.role === 'doctor') && user) {
+    if (profile && (profile.role === 'coach' || profile.role === 'doctor' || profile.role === 'admin') && user) {
       fetchCoachAthletes(user.id)
         .then((athletes) => {
           const accepted = athletes.filter(a => a.status === 'accepted' && a.profile);
@@ -220,7 +220,7 @@ export default function ProfilePage() {
     setExportMsg(null);
 
     try {
-      const targetUserId = (role === 'coach' || role === 'doctor') && selectedAthleteId
+      const targetUserId = (role === 'coach' || role === 'doctor' || role === 'admin') && selectedAthleteId
         ? selectedAthleteId
         : user.id;
 
@@ -658,7 +658,7 @@ export default function ProfilePage() {
         <p className={styles.exportSubtitle}>{E('subtitle')}</p>
 
         {/* Coach/Doctor: athlete selector */}
-        {(role === 'coach' || role === 'doctor') && coachAthletes.length > 0 && (
+        {(role === 'coach' || role === 'doctor' || role === 'admin') && coachAthletes.length > 0 && (
           <div className={styles.exportFieldGroup}>
             <label className={styles.exportFieldLabel}>{E('selectAthlete')}</label>
             <select

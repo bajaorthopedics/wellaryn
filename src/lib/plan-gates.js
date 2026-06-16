@@ -45,7 +45,9 @@ export const PLAN_FEATURES = {
  * @param {string} feature - Feature key from PLAN_FEATURES
  * @returns {boolean}
  */
-export function canAccess(plan, feature) {
+export function canAccess(plan, feature, role) {
+  // Admin bypasses all plan restrictions
+  if (role === 'admin') return true;
   return PLAN_FEATURES[plan || 'free'][feature] ?? false;
 }
 
@@ -55,7 +57,9 @@ export function canAccess(plan, feature) {
  * @param {string} feature - Feature key from PLAN_FEATURES
  * @returns {*}
  */
-export function getLimit(plan, feature) {
+export function getLimit(plan, feature, role) {
+  // Admin gets team-level limits
+  if (role === 'admin') return PLAN_FEATURES.team[feature];
   return PLAN_FEATURES[plan || 'free'][feature];
 }
 

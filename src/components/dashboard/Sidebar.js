@@ -18,7 +18,8 @@ export default function Sidebar({ isOpen, onClose }) {
   const isCoachOrDoctor = profile?.role === 'coach' || profile?.role === 'doctor';
   const isAdmin = profile?.role === 'admin';
 
-  const baseNavItems = isCoachOrDoctor
+  // Admin gets everything: team management + athlete features + admin panel
+  const baseNavItems = (isAdmin || isCoachOrDoctor)
     ? [
         { icon: '👥', label: t('dashboard.nav.team', lang), href: '/dashboard/team' },
         { icon: '📈', label: t('dashboard.nav.analytics', lang), href: '/dashboard/analytics' },
@@ -27,6 +28,7 @@ export default function Sidebar({ isOpen, onClose }) {
         { icon: '📋', label: t('dashboard.nav.reports', lang), href: '/dashboard/reports' },
         { icon: '🎯', label: t('dashboard.nav.goals', lang), href: '/dashboard/goals' },
         { icon: '🦴', label: t('dashboard.nav.injuries', lang), href: '/dashboard/injuries' },
+        { icon: '📈', label: t('dashboard.nav.history', lang), href: '/dashboard/history' },
         { icon: '👤', label: t('dashboard.nav.profile', lang), href: '/dashboard/profile' },
       ]
     : [

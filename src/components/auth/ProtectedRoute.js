@@ -21,10 +21,10 @@ export default function ProtectedRoute({ children, allowedRoles }) {
       return;
     }
 
-    // Role-based access control
+    // Role-based access control (admin bypasses all)
     if (allowedRoles && allowedRoles.length > 0) {
       const userRole = profile.role || 'athlete';
-      if (!allowedRoles.includes(userRole)) {
+      if (userRole !== 'admin' && !allowedRoles.includes(userRole)) {
         router.replace('/dashboard');
         return;
       }
@@ -54,10 +54,10 @@ export default function ProtectedRoute({ children, allowedRoles }) {
 
   if (!user) return null;
 
-  // Block render if role not allowed
+  // Block render if role not allowed (admin bypasses all)
   if (allowedRoles && allowedRoles.length > 0 && profile) {
     const userRole = profile.role || 'athlete';
-    if (!allowedRoles.includes(userRole)) return null;
+    if (userRole !== 'admin' && !allowedRoles.includes(userRole)) return null;
   }
 
   return children;
