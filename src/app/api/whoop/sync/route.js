@@ -1,6 +1,7 @@
 import { createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
+import { userSyncLimiter, checkLimit, rateLimitHeaders } from '@/lib/rate-limit';
 
 // Convert milliseconds to hours (rounded to 1 decimal)
 function msToHrs(ms) {
@@ -47,6 +48,15 @@ export async function POST(request) {
     }
 
     const userId = session.user.id;
+
+    // Rate limit por usuario (sync es caro: API externa + escritura BD)
+    const _rl = await checkLimit(userSyncLimiter, userId);
+    if (!_rl.success) {
+      return NextResponse.json(
+        { error: 'Demasiadas sincronizaciones. Espera un momento.' },
+        { status: 429, headers: rateLimitHeaders(_rl) }
+      );
+    }
 
     // Get WHOOP tokens
     const { data: conn, error: connErr } = await supabase
