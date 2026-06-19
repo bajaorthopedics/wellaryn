@@ -2,6 +2,7 @@ import { createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
+import { validateBody, stripeCheckoutSchema } from '@/lib/validate';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -34,15 +35,9 @@ export async function POST(request) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const body = await request.json();
-    const { planId, interval } = body;
-
-    if (!planId || !['pro', 'team'].includes(planId)) {
-      return NextResponse.json({ error: 'Invalid plan' }, { status: 400 });
-    }
-    if (!interval || !['month', 'year'].includes(interval)) {
-      return NextResponse.json({ error: 'Invalid interval' }, { status: 400 });
-    }
+    const parsed = await validateBody(request, stripeCheckoutSchema);
+    if (!parsed.success) return parsed.response;
+    const { planId, interval } = parsed.data;
 
     const priceKey = `${planId}_${interval}`;
     const priceId = PRICE_MAP[priceKey];

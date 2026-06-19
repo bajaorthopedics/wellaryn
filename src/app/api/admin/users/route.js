@@ -1,6 +1,7 @@
 import { createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
+import { validateBody, adminUsersSchema } from '@/lib/validate';
 
 // ─── Supabase service client (bypasses RLS) ───────────────────
 
@@ -137,12 +138,9 @@ export async function PATCH(request) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
-    const body = await request.json();
-    const { userId, action, value } = body;
-
-    if (!userId || !action) {
-      return NextResponse.json({ error: 'Missing userId or action' }, { status: 400 });
-    }
+    const parsed = await validateBody(request, adminUsersSchema);
+    if (!parsed.success) return parsed.response;
+    const { userId, action, value } = parsed.data;
 
     // Don't allow admins to modify themselves
     if (userId === user.id) {
