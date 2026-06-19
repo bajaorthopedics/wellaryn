@@ -1,6 +1,7 @@
 import { createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
+import { validateBody, notificationsReadSchema } from '@/lib/validate';
 
 export async function POST(request) {
   try {
@@ -22,7 +23,10 @@ export async function POST(request) {
     }
 
     const userId = session.user.id;
-    const body = await request.json();
+
+    const parsed = await validateBody(request, notificationsReadSchema);
+    if (!parsed.success) return parsed.response;
+    const body = parsed.data;
 
     if (body.all === true) {
       // Mark all unread notifications as read for this coach

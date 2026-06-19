@@ -2,6 +2,7 @@ import { createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
 import { userSyncLimiter, checkLimit, rateLimitHeaders } from '@/lib/rate-limit';
+import { validateBody, syncSchema } from '@/lib/validate';
 
 // Convert milliseconds to hours (rounded to 1 decimal)
 function msToHrs(ms) {
@@ -106,8 +107,9 @@ export async function POST(request) {
     }
 
     // Determine sync window (last 7 days by default)
-    const body = await request.json().catch(() => ({}));
-    const days = body.days || 7;
+    const parsed = await validateBody(request, syncSchema);
+    if (!parsed.success) return parsed.response;
+    const { days } = parsed.data;
     const startDate = new Date();
     startDate.setDate(startDate.getDate() - days);
     const start = startDate.toISOString().split('T')[0];

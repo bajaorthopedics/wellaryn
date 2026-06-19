@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { validateBody, emailSchema } from '@/lib/validate';
 import {
   welcomeEmail,
   weeklyReportEmail,
@@ -33,16 +34,9 @@ export async function POST(request) {
   }
 
   try {
-    const body = await request.json();
-    const { to, template, data } = body;
-
-    // 2. Validate required fields
-    if (!to || !template) {
-      return NextResponse.json(
-        { error: 'Missing required fields: "to" and "template"' },
-        { status: 400 }
-      );
-    }
+    const parsed = await validateBody(request, emailSchema);
+    if (!parsed.success) return parsed.response;
+    const { to, template, data } = parsed.data;
 
     // 3. Resolve template
     const templateFn = TEMPLATES[template];
